@@ -1,0 +1,10 @@
+
+
+
+redux react-redux redux-thunk
+
+action - create update
+reducers - 
+store
+
+component -> dispatch(action) -> reducer -> component
