@@ -1,8 +1,8 @@
-const Project = (props) => {
+const ProjectData = (props) => {
     return (<div>
         project information
     </div>);
 
 }
 
-export default Project;
+export default ProjectData;

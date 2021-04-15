@@ -1,21 +1,20 @@
 import { React, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../../actions/projectSet';
+import * as actions from '../../actions/user';
 import { Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles } from "@material-ui/core";
 import { Button , Alert} from 'reactstrap';
 
-const ProjectSetList = (props) => {
+const UserList = (props) => {
 
     useEffect(() => {
-        props.fetchAllProjectSet()
+        props.fetchAllUser()
     }, [])//componentDidMount
 
     return (
         <Grid container>
             <Grid item xs={6}>
                 <div>
-                    <Button color="primary">primary</Button>{' '}
-                    <Button color="secondary">secondary</Button>{' '}
+                    USERLIST COMPONENT
                     something
                 </div>
             </Grid>
@@ -30,12 +29,12 @@ const ProjectSetList = (props) => {
 }
 
 const mapStateToProps = state => ({
-    projectSetList: state.projectSet.list
+    userList: state.user.list
 })
 
 const mapActionToProps = {
-    fetchAllProjectSet: actions.fetchAll,
+    fetchAllUser: actions.fetchAll,
     //deleteProjectSet: actions.Delete
 }
 
-export default connect(mapStateToProps, mapActionToProps)(ProjectSetList);
+export default connect(mapStateToProps, mapActionToProps)(UserList);

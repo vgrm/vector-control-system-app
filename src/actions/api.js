@@ -12,10 +12,13 @@ export const ENDPIONTS = {
     USER: 'User'
 }
 
-
+//let headers = { "Content-type": "application/json"}
 export const createAPIEndpoint = endpoint => {
 
     let url = BASE_URL + endpoint + '/';
+    
+    //let headers = { "Content-type": "multipart/form-data"}
+    
     return {
         fetchAll: () => axios.get(url),
         fetchById: id => axios.get(url + id),
