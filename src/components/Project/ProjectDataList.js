@@ -30,22 +30,26 @@ const ProjectDataList = ({ classes, ...props }) => {
     //toast msg.
     const { addToast } = useToasts()
 
-    const onDelete = id => {
+    const onDelete = (id) => {
         if (window.confirm('Are you sure to delete this record?'))
-            props.deleteDCandidate(id, () => addToast("Deleted successfully", { appearance: 'info' }))
+            props.deleteProjectData(id, () => addToast("Deleted successfully", { appearance: 'success', placement: 'bottom-right' }))
     }
 
 
-    const onDelete1 = id => {
-        //if (window.confirm('Are you sure to delete this record?'))
-        //    props.deleteDCandidate(id, () => addToast("Deleted successfully", { appearance: 'info' }))
+
+    const onUpdate = (record) => {
+        setCurrentId(record.id); 
+        if (window.confirm('Are you sure to update this record?')) {
+
+            props.updateProjectData(record.id, record, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
+        }
     }
 
     return (
         <Grid container>
-            <Grid item xs={6}>
+            <Grid item xs={3}>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={8}>
                 <TableContainer>
                     <Table>
                         <TableHead>
@@ -54,6 +58,8 @@ const ProjectDataList = ({ classes, ...props }) => {
                                 <TableCell>Owner</TableCell>
                                 <TableCell>Identity Score</TableCell>
                                 <TableCell>Date</TableCell>
+                                <TableCell>Status</TableCell>
+                                <TableCell>CorrectnessScore</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -64,10 +70,12 @@ const ProjectDataList = ({ classes, ...props }) => {
                                         <TableCell>{record.owner}</TableCell>
                                         <TableCell>{record.identityScore}</TableCell>
                                         <TableCell>{record.date}</TableCell>
+                                        <TableCell>{record.status}</TableCell>
+                                        <TableCell>{record.correctnessscore}</TableCell>
                                         <TableCell>
                                             <ButtonGroup variant="text">
                                                 <Button><EditIcon color="primary"
-                                                    onClick={() => { setCurrentId(record.id) }} /></Button>
+                                                    onClick={() => { onUpdate(record) }} /></Button>
                                                 <Button><DeleteIcon color="secondary"
                                                     onClick={() => onDelete(record.id)} /></Button>
                                             </ButtonGroup>
@@ -90,7 +98,8 @@ const mapStateToProps = state => ({
 
 const mapActionToProps = {
     fetchAllProjectData: actions.fetchAll,
-    //deleteProjectSet: actions.Delete
+    deleteProjectData: actions.Delete,
+    updateProjectData: actions.update
 }
 
 export default connect(mapStateToProps, mapActionToProps)(ProjectDataList);

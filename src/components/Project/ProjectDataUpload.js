@@ -22,6 +22,11 @@ const ProjectDataUpload = ({ classes, ...props }) => {
     const [values, setValues] = useState(initialValues)
     const [file, setFile] = useState(undefined);
     const { addToast } = useToasts()
+
+    useEffect(() => {
+        console.log('USEEFEKT: ',file);
+    }, [file])//componentDidMount
+
     /*
     constructor(props) {
         super(props);
@@ -52,12 +57,14 @@ const ProjectDataUpload = ({ classes, ...props }) => {
     const fileChange = (e) => {
         //setValues.selectedFiles();
         setFile(e.target.files);
+        e.preventDefault();
+
         //console.log(file);
         //console.log(file[0]);
-        console.log(file[0].name);
-        console.log("FILE ",file[0]);
-        console.log(file[0]);
-        console.log("FILE CHANGED: ",file[0].name);
+        //console.log(file[0].name);
+        //console.log("FILE ",file[0]);
+        //console.log(file[0]);
+        //console.log("FILE CHANGED: ",file[0].name);
         //let formData = new FormData();
         //formData.append('name', file[0].name)
         //formData.append('fileData', file[0])

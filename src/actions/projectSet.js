@@ -17,3 +17,43 @@ export const fetchAll = () => dispatch => {
         })
         .catch(err => console.log(err))
 }
+export const create = (data, onSuccess) => dispatch => {
+    //data = formateData(data)
+    console.log("create set");
+    createAPIEndpoint(ENDPIONTS.PROJECTSET).create(data)
+        .then(res => {
+            console.log(res.data);
+            console.log(data);
+            dispatch({
+                type: ACTION_TYPES.CREATE_PROJECTSET,
+                payload: res.data
+            })
+            onSuccess()
+        })
+        .catch(err => console.log(err))
+}
+
+export const update = (id, data, onSuccess) => dispatch => {
+    //data = formateData(data)
+    createAPIEndpoint(ENDPIONTS.PROJECTSET).update(id, data)
+        .then(res => {
+            dispatch({
+                type: ACTION_TYPES.UPDATE_PROJECTSET,
+                payload: { id, ...data }
+            })
+            onSuccess()
+        })
+        .catch(err => console.log(err))
+}
+
+export const Delete = (id, onSuccess) => dispatch => {
+    createAPIEndpoint(ENDPIONTS.PROJECTSET).delete(id)
+        .then(res => {
+            dispatch({
+                type: ACTION_TYPES.DELETE_PROJECTSET,
+                payload: id
+            })
+            onSuccess()
+        })
+        .catch(err => console.log(err))
+}
