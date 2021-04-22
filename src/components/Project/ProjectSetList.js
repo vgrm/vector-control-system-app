@@ -1,14 +1,14 @@
 import { React, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/projectSet';
-import { Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup,Button } from "@material-ui/core";
+import { Container, Box, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
 //import { Button , Alert} from 'reactstrap';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useToasts } from "react-toast-notifications";
 import ProjectSetForm from './ProjectSetForm';
 
-import {Link, withRouter, useHistory } from 'react-router-dom';
+import { Link, withRouter, useHistory } from 'react-router-dom';
 
 const styles = theme => ({
     root: {
@@ -30,47 +30,52 @@ const ProjectSetList = ({ classes, ...props }) => {
     }, [])//componentDidMount
 
     const history = useHistory();
-        //toast msg.
-        const { addToast } = useToasts()
+    //toast msg.
+    const { addToast } = useToasts()
 
-        const onDelete = (id) => {
-            if (window.confirm('Are you sure to delete this record?'))
-                props.deleteProjectSet(id, () => addToast("Deleted successfully", { appearance: 'success', placement: 'bottom-right' }))
-        }
-    
-        const onUpdate = (set) => {
-            setCurrentId(set.id); 
-            props.setCurrentProjectId(2);
-            if (window.confirm('Are you sure to update this set?')) {
-    
-                //props.updateProjectData(set.id, set, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
-                console.log("PROPS IN SET LIST",props);
-            }
-        }
+    const onDelete = (id) => {
+        if (window.confirm('Are you sure to delete this record?'))
+            props.deleteProjectSet(id, () => addToast("Deleted successfully", { appearance: 'success', placement: 'bottom-right' }))
+    }
 
-        const onSelect = (set) => {
-            setCurrentId(set.id); 
-            //props.setCurrentProjectId(2);
-            if(currentId!=0)
+    const onUpdate = (set) => {
+        setCurrentId(set.id);
+        props.setCurrentProjectId(2);
+        if (window.confirm('Are you sure to update this set?')) {
+
+            //props.updateProjectData(set.id, set, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
+            console.log("PROPS IN SET LIST", props);
+        }
+    }
+
+    const onSelect = (set) => {
+        setCurrentId(set.id);
+        //props.setCurrentProjectId(2);
+        if (currentId != 0)
             nextPath('/projectset/' + currentId);
-            /*
-            if (window.confirm('Are you sure to update this set?')) {
-    
-                //props.updateProjectData(set.id, set, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
-                console.log("PROPS IN SET LIST",props);
-            }*/
-        }
+        /*
+        if (window.confirm('Are you sure to update this set?')) {
+ 
+            //props.updateProjectData(set.id, set, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
+            console.log("PROPS IN SET LIST",props);
+        }*/
+    }
 
     const nextPath = (path) => {
         history.push(path);
     }
 
     return (
-        <Grid container>
-        <Grid item xs={6}>
+        <Container>
+        <Container>
+            <Box p={5}>
+            <Paper>
             <ProjectSetForm {...({ currentId, setCurrentId})}/>
-        </Grid>
-        <Grid item xs={8}>
+            </Paper>
+</Box>
+</Container>
+
+            <Container>
             <TableContainer>
                 <Table>
                     <TableHead>
@@ -101,8 +106,8 @@ const ProjectSetList = ({ classes, ...props }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </Grid>
-    </Grid >
+        </Container>
+        </Container>
     );
 }
 

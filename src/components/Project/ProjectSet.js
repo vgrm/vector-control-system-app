@@ -1,7 +1,7 @@
 import { React, useState, useEffect, Component } from 'react';
 import { connect, useSelector } from 'react-redux';
 import * as actions from '../../actions/projectSet';
-import { Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button, Typography } from "@material-ui/core";
+import { Box, Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button, Typography } from "@material-ui/core";
 import { Input } from 'reactstrap';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -60,38 +60,43 @@ const ProjectSet = ({ classes, ...props }) => {
 
     return (
         <Container>
+            <Box p={5}>
+            <Paper>
             <Container>
-            <Typography variant="caption">
-                Project Set Name
+                <Typography variant="caption">
+                    Project Set Name
                     </Typography>
-            <Typography variant="h6">
-                {props.projectSet.name}
-            </Typography>
+                <Typography variant="h6">
+                    {props.projectSet.name}
+                </Typography>
 
-            <Typography variant="caption">
-                Description
+                <Typography variant="caption">
+                    Description
                     </Typography>
-            <Typography variant="h6">
-                {props.projectSet.description}
-            </Typography>
+                <Typography variant="h6">
+                    {props.projectSet.description}
+                </Typography>
 
-            <Typography variant="caption">
-                Status
+                <Typography variant="caption">
+                    Status
                     </Typography>
-            <Typography variant="h6">
-                {props.projectSet.status}
-            </Typography>
+                <Typography variant="h6">
+                    {props.projectSet.status}
+                </Typography>
 
-            <Typography variant="caption">
-                Owner
+                <Typography variant="caption">
+                    Owner
                     </Typography>
-            <Typography variant="h6">
-                {props.projectSet.ownerId}
-            </Typography>
+                <Typography variant="h6">
+                    {props.projectSet.ownerId}
+                </Typography>
             </Container>
+            </Paper>
+            </Box>
 
-            <Container><ProjectDataUpload {...props} /></Container>
-            <Container><ProjectDataList {...props} /></Container>
+                <Box p={5}><Container><ProjectDataUpload {...props} /></Container></Box>
+                <Container><ProjectDataList {...props} /></Container>
+
         </Container>
     );
 

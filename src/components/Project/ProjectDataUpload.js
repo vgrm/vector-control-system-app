@@ -54,12 +54,6 @@ const ProjectDataUpload = ({ classes, ...props }) => {
     }
 
     const handleUpload = () => {
-
-
-
-        const onSuccess = () => {
-            addToast("Submitted successfully", { appearance: 'success' })
-        }
         let formData = new FormData();
         formData.append('name', file[0].name);
         formData.append('file', file[0]);
