@@ -8,6 +8,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { useToasts } from "react-toast-notifications";
 import ProjectSetForm from './ProjectSetForm';
 
+import {Link, withRouter, useHistory } from 'react-router-dom';
+
 const styles = theme => ({
     root: {
         "& .MuiTableCell-head": {
@@ -27,28 +29,46 @@ const ProjectSetList = ({ classes, ...props }) => {
         props.fetchAllProjectSet()
     }, [])//componentDidMount
 
+    const history = useHistory();
         //toast msg.
         const { addToast } = useToasts()
 
         const onDelete = (id) => {
             if (window.confirm('Are you sure to delete this record?'))
-                props.deleteProjectData(id, () => addToast("Deleted successfully", { appearance: 'success', placement: 'bottom-right' }))
+                props.deleteProjectSet(id, () => addToast("Deleted successfully", { appearance: 'success', placement: 'bottom-right' }))
         }
     
         const onUpdate = (set) => {
             setCurrentId(set.id); 
+            props.setCurrentProjectId(2);
             if (window.confirm('Are you sure to update this set?')) {
     
                 //props.updateProjectData(set.id, set, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
-                console.log("PROPS IN SET LIST",currentId);
-                console.log("STATE IN SET LIST",this.state);
+                console.log("PROPS IN SET LIST",props);
             }
         }
+
+        const onSelect = (set) => {
+            setCurrentId(set.id); 
+            //props.setCurrentProjectId(2);
+            if(currentId!=0)
+            nextPath('/projectset/' + currentId);
+            /*
+            if (window.confirm('Are you sure to update this set?')) {
+    
+                //props.updateProjectData(set.id, set, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
+                console.log("PROPS IN SET LIST",props);
+            }*/
+        }
+
+    const nextPath = (path) => {
+        history.push(path);
+    }
 
     return (
         <Grid container>
         <Grid item xs={6}>
-            <ProjectSetForm></ProjectSetForm>
+            <ProjectSetForm {...({ currentId, setCurrentId})}/>
         </Grid>
         <Grid item xs={8}>
             <TableContainer>
@@ -63,7 +83,7 @@ const ProjectSetList = ({ classes, ...props }) => {
                     <TableBody>
                         {
                             props.projectSetList.map((set, index) => {
-                                return (<TableRow key={index} hover>
+                                return (<TableRow key={index} hover onClick={() => onSelect(set)}>
                                     <TableCell>{set.name}</TableCell>
                                     <TableCell>{set.ownerId}</TableCell>
                                     <TableCell>{set.status}</TableCell>

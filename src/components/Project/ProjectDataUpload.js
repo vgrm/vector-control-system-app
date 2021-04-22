@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions/projectData';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { Box, Typography, ListItem, Input, Button, FormGroup,CustomInput } from 'reactstrap';
-import { Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles } from "@material-ui/core";
+import { Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles } from "@material-ui/core";
 import UploadFile from './UploadFile';
 import { useToasts } from "react-toast-notifications";
 
@@ -26,23 +26,6 @@ const ProjectDataUpload = ({ classes, ...props }) => {
     useEffect(() => {
         console.log('USEEFEKT: ',file);
     }, [file])//componentDidMount
-
-    /*
-    constructor(props) {
-        super(props);
-        this.selectFile = this.selectFile.bind(this);
-        this.upload = this.upload.bind(this);
-
-        this.state = {
-            selectedFiles: undefined,
-            currentFile: undefined,
-            progress: 0,
-            message: "",
-            isError: false,
-            fileInfos: [],
-        };
-    }
-*/
 
     const {
         selectedFiles,
@@ -71,27 +54,39 @@ const ProjectDataUpload = ({ classes, ...props }) => {
     }
 
     const handleUpload = () => {
+
+
+
         const onSuccess = () => {
             addToast("Submitted successfully", { appearance: 'success' })
         }
         let formData = new FormData();
-        formData.append('name', file[0].name)
-        formData.append('file', file[0])
+        formData.append('name', file[0].name);
+        formData.append('file', file[0]);
+        formData.append('projectsetId', props.projectSet.id);
         console.log(file);
         console.log(file[0].name);
         
         console.log(formData);
         console.log("FORMDATANAME",formData.name);
-        props.createProjectData(formData);
+        console.log(props);
+
+        if (window.confirm('Are you sure you want to upload this project?')) {
+
+            props.createProjectData(formData, () => addToast("Submitted successfully", { appearance: 'success', placement: 'bottom-right' }))
+        }
+
+        //props.createProjectData(formData);
         
     }
 
     return (
         <Grid>
+            <Container>
             <Input type="file" name="file" id="exampleFile" onChange={fileChange} />
                 
             <Button variant="contained" onClick={() => { handleUpload() }} >BUTTON TO SUBMIT FILE</Button>
-
+            </Container>
         </Grid>
 
     );

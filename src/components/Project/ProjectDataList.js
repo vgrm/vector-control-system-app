@@ -1,11 +1,16 @@
 import { React, useState, useEffect, Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/projectData';
-import { Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
+import {Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
 import { Input } from 'reactstrap';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import StarIcon from '@material-ui/icons/Star';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+
 import { useToasts } from "react-toast-notifications";
+
+import {Link, withRouter, useHistory, useParams } from 'react-router-dom';
 
 const styles = theme => ({
     root: {
@@ -16,15 +21,29 @@ const styles = theme => ({
     paper: {
         margin: theme.spacing(2),
         padding: theme.spacing(2)
-    }
+    },
+    starIcon1:{color:'gold'},
+    starIcon2:{color:'gray'}
 })
 
 const ProjectDataList = ({ classes, ...props }) => {
     const [currentId, setCurrentId] = useState(0)
 
+    //const history = useHistory();
+    const params = useParams();
+
     useEffect(() => {
-        props.fetchAllProjectData()
-    }, [])//componentDidMount
+        props.setCurrentProjectId(0)
+        props.fetchProjects(params.projectsetId)
+    }, [props.currentProjectId])//componentDidMount
+
+    useEffect(() => {
+        if (props.currentProjectId != 0) {
+            console.log("YES");
+            props.fetchProjects(params.projectsetId)
+            //props.projectDataList.find(x => x.id == props.currentProjectId)
+        }
+    }, [props.currentProjectId])
 
 
     //toast msg.
@@ -35,31 +54,49 @@ const ProjectDataList = ({ classes, ...props }) => {
             props.deleteProjectData(id, () => addToast("Deleted successfully", { appearance: 'success', placement: 'bottom-right' }))
     }
 
-
-
     const onUpdate = (record) => {
-        setCurrentId(record.id); 
+        
+        console.log(props);
+        console.log(props.currentProjectId);
+        //let formData = new FormData();
+        //formData.append('status', "tesUPt");
         if (window.confirm('Are you sure to update this record?')) {
-
+            //props.patchProjectData(record.id, formData, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
             props.updateProjectData(record.id, record, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
         }
+        props.setCurrentProjectId(record.id);
+        //props.setCurrentProjectId(0);
+    }
+
+    const onSetOriginal = (record) => {
+        //setCurrentId(record.id);
+        let formData = new FormData();
+        formData.append('status', "testOR");
+        formData.append('command',"ChangeOriginal");
+        if (window.confirm('Are you sure to update this record?')) {
+            props.patchProjectData(record.id, formData, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
+            props.setCurrentProjectId(0);
+            //props.updateProjectData(record.id, formData, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
+        }
+        //if (window.confirm('Are you sure to set this project as ORIGINAL?')) {
+            //props.updateProjectData(record.id, record, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
+        //}
     }
 
     return (
-        <Grid container>
-            <Grid item xs={3}>
-            </Grid>
-            <Grid item xs={8}>
+        <Container>
                 <TableContainer>
                     <Table>
                         <TableHead>
                             <TableRow>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Owner</TableCell>
+                                <TableCell>Original</TableCell>
                                 <TableCell>Identity Score</TableCell>
                                 <TableCell>Date</TableCell>
                                 <TableCell>Status</TableCell>
                                 <TableCell>CorrectnessScore</TableCell>
+                                <TableCell>PROJECTSET</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -67,15 +104,19 @@ const ProjectDataList = ({ classes, ...props }) => {
                                 props.projectDataList.map((record, index) => {
                                     return (<TableRow key={index} hover>
                                         <TableCell>{record.name}</TableCell>
-                                        <TableCell>{record.owner}</TableCell>
-                                        <TableCell>{record.identityScore}</TableCell>
+                                        <TableCell>{record.ownerId}</TableCell>
+                                        <TableCell>{record.original}</TableCell>
+                                        <TableCell>{record.scoreIdentity}</TableCell>
                                         <TableCell>{record.date}</TableCell>
                                         <TableCell>{record.status}</TableCell>
-                                        <TableCell>{record.correctnessscore}</TableCell>
+                                        <TableCell>{record.scoreCorrectness}</TableCell>
+                                        <TableCell>{record.projectSetId}</TableCell>
                                         <TableCell>
                                             <ButtonGroup variant="text">
+                                            <Button><StarIcon className={ record.original ? classes.starIcon1 : classes.starIcon2} color="primary"
+                                                    onClick={() => { onSetOriginal(record); props.setCurrentProjectId(record.id)}} /></Button>
                                                 <Button><EditIcon color="primary"
-                                                    onClick={() => { onUpdate(record) }} /></Button>
+                                                    onClick={() => { onUpdate(record); props.setCurrentProjectId(record.id)}} /></Button>
                                                 <Button><DeleteIcon color="secondary"
                                                     onClick={() => onDelete(record.id)} /></Button>
                                             </ButtonGroup>
@@ -86,8 +127,7 @@ const ProjectDataList = ({ classes, ...props }) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </Grid>
-        </Grid >
+        </Container>
     );
 
 }
@@ -97,9 +137,11 @@ const mapStateToProps = state => ({
 })
 
 const mapActionToProps = {
+    fetchProjects: actions.fetchProjects,
     fetchAllProjectData: actions.fetchAll,
     deleteProjectData: actions.Delete,
-    updateProjectData: actions.update
+    updateProjectData: actions.update,
+    patchProjectData: actions.patch
 }
 
-export default connect(mapStateToProps, mapActionToProps)(ProjectDataList);
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(ProjectDataList));

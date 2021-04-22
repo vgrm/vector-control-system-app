@@ -5,9 +5,8 @@ const ProjectSetListPage = (props) => {
 
     return (
         <div>
-
-            <ProjectSetList />
-        ProjectSetListPage page
+        list
+            <ProjectSetList {...props}/>
         </div>
     );
 

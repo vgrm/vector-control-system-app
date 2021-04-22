@@ -26,7 +26,7 @@ const initialFieldValues = {
     name: '',
     description: '',
     status: '',
-    ownerId: 3
+    ownerId: 0
 }
 
 const ProjectSetForm = ({ classes, ...props }) => {
@@ -76,12 +76,12 @@ const ProjectSetForm = ({ classes, ...props }) => {
                 resetForm()
                 addToast("Submitted successfully", { appearance: 'success' })
             }
-            props.createProjectSet(values, onSuccess)
-            /*
+            //props.createProjectSet(values, onSuccess)
+            
             if (props.currentId == 0)
                 props.createProjectSet(values, onSuccess)
             else
-                props.updateProjectSet(props.currentId, values, onSuccess)*/
+                props.updateProjectSet(props.currentId, values, onSuccess)
         }
         console.log("SUBMITING DATA",values,props);
     }

@@ -1,3 +1,4 @@
+import { React, useState, useEffect } from 'react';
 import { Route } from 'react-router';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 
@@ -11,15 +12,24 @@ import ProjectSetListPage from '../../pages/ProjectSetList';
 
 import UserListPage from '../../pages/UserList';
 
-function Body() {
+//function Body() { <Route path='/projectset/:projectsetId([0-9]+)' component={ProjectSetPage} /> <Route path='/projectset' component={ProjectSetListPage} />
+    const Body = ({ classes, ...props }) => {
+        const [currentProjectId, setCurrentProjectId] = useState(0)
+
     return (
         <Container fluid="true">
-            omg its a body
             <Route exact path="/" component={HomePage} />
-            <Route path='/projectset' component={ProjectSetListPage} />
-            <Route path='/projectset/:projectsetId([0-9]+)' component={ProjectSetPage} />
+            
+            <Route path='/projectsets'>
+            <ProjectSetListPage {...({ currentProjectId, setCurrentProjectId})}/>
+            </Route>
+
+            <Route path='/projectset/:projectsetId([0-9]+)'>
+                <ProjectSetPage {...({ currentProjectId, setCurrentProjectId})}/>
+            </Route>
+
             <Route path='/projectdata' component={ProjectDataListPage} />
-            <Route path='/projectdata/:projectId([0-9]+)' component={ProjectDataPage} />
+            <Route path='/projectdata/:projectId([0-9]+)' component={ProjectDataPage}/>
             <Route path='/user' component={UserListPage} />
         </Container>
     );
