@@ -14,7 +14,7 @@ export const projectSet = (state = initialState, action) => {
                 list: [...action.payload]
             }
 
-            case ACTION_TYPES.FETCH_PROJECTSET:
+        case ACTION_TYPES.FETCH_PROJECTSET:
             return {
                 ...state,
                 selectedSet: action.payload
@@ -37,7 +37,7 @@ export const projectSet = (state = initialState, action) => {
                 ...state,
                 list: state.list.filter(x => x.id != action.payload)
             }
-            
+
         default:
             return state
     }

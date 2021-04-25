@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import * as actions from"../../actions/projectSet";
 import { useToasts } from "react-toast-notifications";
 import { projectSet } from './../../reducers/projectSet';
+import {Link, withRouter, useHistory, useParams } from 'react-router-dom';
 
 const styles = theme => ({
     root: {
@@ -30,9 +31,19 @@ const initialFieldValues = {
 }
 
 const ProjectSetForm = ({ classes, ...props }) => {
-    //const [currentId, setCurrentId] = useState(0)
+    const [currentId, setCurrentId] = useState(0)
     //toast msg.
     const { addToast } = useToasts()
+    const params = useParams();
+
+    useEffect(() => {
+        console.log(params)
+        console.log(props)
+        
+        if (params.projectsetId != 0) {
+            setCurrentId(params.projectsetId)
+        }
+    }, [params])
 
     //validate()
     //validate({fullName:'jenny'})
@@ -59,7 +70,7 @@ const ProjectSetForm = ({ classes, ...props }) => {
         setErrors,
         handleInputChange,
         resetForm
-    } = useProjectSetForm(initialFieldValues, validate, props.setCurrentId)
+    } = useProjectSetForm(initialFieldValues, validate, setCurrentId)
 
     //material-ui select
     const inputLabel = React.useRef(null);
@@ -69,31 +80,48 @@ const ProjectSetForm = ({ classes, ...props }) => {
         setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
+    const history = useHistory();
+    
+    const onSubmited = () => {
+            nextPath('/projectsets/');
+    }
+
+    const nextPath = (path) => {
+        history.push(path);
+    }
+
     const handleSubmit = e => {
         e.preventDefault()
         if (validate()) {
             const onSuccess = () => {
-                resetForm()
+                onSubmited()
                 addToast("Submitted successfully", { appearance: 'success' })
             }
             //props.createProjectSet(values, onSuccess)
             
-            if (props.currentId == 0)
+            if (currentId == 0){
                 props.createProjectSet(values, onSuccess)
+                console.log("SUBMITING DATA",values,props)
+            }
             else
-                props.updateProjectSet(props.currentId, values, onSuccess)
+                props.updateProjectSet(currentId, values, onSuccess)
         }
         console.log("SUBMITING DATA",values,props);
     }
 
     useEffect(() => {
-        if (props.currentId != 0) {
+        console.log(params)
+        console.log(props)
+        console.log(currentId)
+        if (currentId != 0) {
+            console.log("SETVALUES")
             setValues({
-                ...props.projectSetList.find(x => x.id == props.currentId)
+                ...props.projectSetList.find(x => x.id == currentId)
             })
             setErrors({})
         }
-    }, [props.currentId])
+        console.log(values);
+    }, [currentId])
 
 
     return (

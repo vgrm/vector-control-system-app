@@ -19,7 +19,7 @@ const useProjectSetForm = (initialFieldValues, validate, setCurrentId) => {
             ...initialFieldValues
         })
         setErrors({})
-        setCurrentId(0)
+        //setCurrentId(0)
     }
 
     return {

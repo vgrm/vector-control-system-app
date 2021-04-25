@@ -1,16 +1,19 @@
 import { React, useState, useEffect, Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/projectData';
-import {Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
+import { Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
 import { Input } from 'reactstrap';
+
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import RestorePageIcon from '@material-ui/icons/RestorePage';
+import NavigateNextIcon from "@material-ui/icons/NavigateNext"
 
 import { useToasts } from "react-toast-notifications";
 
-import {Link, withRouter, useHistory, useParams } from 'react-router-dom';
+import { Link, withRouter, useHistory, useParams } from 'react-router-dom';
 
 const styles = theme => ({
     root: {
@@ -22,8 +25,14 @@ const styles = theme => ({
         margin: theme.spacing(2),
         padding: theme.spacing(2)
     },
-    starIcon1:{color:'gold'},
-    starIcon2:{color:'gray'}
+    starIcon1: { color: 'gold' },
+    starIcon2: { color: 'gray' },
+    icon: {
+        color: "#607d8b"
+    },
+    iconRed: {
+        color: "#e53935"
+    }
 })
 
 const ProjectDataList = ({ classes, ...props }) => {
@@ -55,7 +64,7 @@ const ProjectDataList = ({ classes, ...props }) => {
     }
 
     const onUpdate = (record) => {
-        
+
         console.log(props);
         console.log(props.currentProjectId);
         //let formData = new FormData();
@@ -72,61 +81,74 @@ const ProjectDataList = ({ classes, ...props }) => {
         //setCurrentId(record.id);
         let formData = new FormData();
         formData.append('status', "Processing");
-        formData.append('command',"ChangeOriginal");
+        formData.append('command', "ChangeOriginal");
         if (window.confirm('Are you sure to update this record?')) {
             props.patchProjectData(record.id, formData, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
             props.setCurrentProjectId(0);
             //props.updateProjectData(record.id, formData, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
         }
         //if (window.confirm('Are you sure to set this project as ORIGINAL?')) {
-            //props.updateProjectData(record.id, record, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
+        //props.updateProjectData(record.id, record, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
         //}
+    }
+
+    const onSelect = (project) => {
+        if (project.id != 0)
+            nextPath('/projectdata/' + project.id);
+    }
+
+    const history = useHistory();
+
+    const nextPath = (path) => {
+        history.push(path);
     }
 
     return (
         <Container>
-                <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Owner</TableCell>
-                                <TableCell>Original</TableCell>
-                                <TableCell>Identity Score</TableCell>
-                                <TableCell>Date</TableCell>
-                                <TableCell>Status</TableCell>
-                                <TableCell>CorrectnessScore</TableCell>
-                                <TableCell>PROJECTSET</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {
-                                props.projectDataList.map((record, index) => {
-                                    return (<TableRow key={index} hover>
-                                        <TableCell>{record.name}</TableCell>
-                                        <TableCell>{record.ownerId}</TableCell>
-                                        <TableCell>{record.original}</TableCell>
-                                        <TableCell>{record.scoreIdentity}</TableCell>
-                                        <TableCell>{record.date}</TableCell>
-                                        <TableCell>{record.status}</TableCell>
-                                        <TableCell>{record.scoreCorrectness}</TableCell>
-                                        <TableCell>{record.projectSetId}</TableCell>
-                                        <TableCell>
-                                            <ButtonGroup variant="text">
-                                            <Button><StarIcon className={ record.original ? classes.starIcon1 : classes.starIcon2} color="primary"
-                                                    onClick={() => { onSetOriginal(record); props.setCurrentProjectId(record.id)}} /></Button>
-                                                <Button><EditIcon color="primary"
-                                                    onClick={() => { onUpdate(record); props.setCurrentProjectId(record.id)}} /></Button>
-                                                <Button><DeleteIcon color="secondary"
-                                                    onClick={() => onDelete(record.id)} /></Button>
-                                            </ButtonGroup>
-                                        </TableCell>
-                                    </TableRow>)
-                                })
-                            }
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+            <TableContainer>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Owner</TableCell>
+                            <TableCell>Original</TableCell>
+                            <TableCell>Identity Score</TableCell>
+                            <TableCell>Date</TableCell>
+                            <TableCell>Status</TableCell>
+                            <TableCell>CorrectnessScore</TableCell>
+                            <TableCell>PROJECTSET</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            props.projectDataList.map((project, index) => {
+                                return (<TableRow key={index} hover>
+                                    <TableCell>{project.name}</TableCell>
+                                    <TableCell>{project.ownerId}</TableCell>
+                                    <TableCell>{project.original}</TableCell>
+                                    <TableCell>{project.scoreIdentity}</TableCell>
+                                    <TableCell>{project.date}</TableCell>
+                                    <TableCell>{project.status}</TableCell>
+                                    <TableCell>{project.scoreCorrectness}</TableCell>
+                                    <TableCell>{project.projectSetId}</TableCell>
+                                    <TableCell>
+                                        <ButtonGroup variant="text">
+                                            <Button><StarIcon className={project.original ? classes.starIcon1 : classes.starIcon2} color="primary"
+                                                onClick={() => { onSetOriginal(project); props.setCurrentProjectId(project.id) }} /></Button>
+                                            <Button><RestorePageIcon className={classes.icon} color="primary"
+                                                onClick={() => { onUpdate(project); props.setCurrentProjectId(project.id) }} /></Button>
+                                            <Button><DeleteIcon className={classes.icon} color="secondary"
+                                                onClick={() => onDelete(project.id)} /></Button>
+                                            <Button><NavigateNextIcon className={classes.icon}
+                                                onClick={() => onSelect(project)} /></Button>
+                                        </ButtonGroup>
+                                    </TableCell>
+                                </TableRow>)
+                            })
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Container>
     );
 

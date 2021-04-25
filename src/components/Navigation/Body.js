@@ -8,6 +8,7 @@ import ProjectDataPage from '../../pages/ProjectData';
 import ProjectDataListPage from '../../pages/ProjectDataList';
 
 import ProjectSetPage from '../../pages/ProjectSet';
+import ProjectSetFormPage from '../../pages/ProjectSetForm';
 import ProjectSetListPage from '../../pages/ProjectSetList';
 
 import UserListPage from '../../pages/UserList';
@@ -28,7 +29,11 @@ import UserListPage from '../../pages/UserList';
                 <ProjectSetPage {...({ currentProjectId, setCurrentProjectId})}/>
             </Route>
 
-            <Route path='/projectdata' component={ProjectDataListPage} />
+            <Route path='/projectsetform/:projectsetId([0-9]+)'>
+                <ProjectSetFormPage/>
+            </Route>
+
+            <Route path='/projects' component={ProjectDataListPage} />
             <Route path='/projectdata/:projectId([0-9]+)' component={ProjectDataPage}/>
             <Route path='/user' component={UserListPage} />
         </Container>
