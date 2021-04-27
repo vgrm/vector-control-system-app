@@ -1,25 +1,20 @@
 import { Typography, Container, Box, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
-import VectorArt from '../resources/vectorArt.svg';
+import VectorArt from '../Constants/VectorArt.svg';
 const HomePage = (props) => {
     return (
         <Container>
-            <div>
-                <Typography variant="h3">
-                    VECTOR GRAPHICS IDENTITY AND CORRECTNESS CONTROL SYSTEM
-                    
-                    <img src={VectorArt} alt="Italian Trulli"></img>
-
-                </Typography>
-
-                <Typography variant="h6">
-                    Home page
+            <Grid container>
+                <Grid item className="grid-el" xs={12} md={5}>
+                    <Box p={10}>
+                        <Typography variant="h3">
+                            VECTOR GRAPHICS IDENTITY AND CORRECTNESS CONTROL SYSTEM
                     </Typography>
-                <h1>FeatherInk L3</h1>
-
-                    <Typography> where designers meet their clients </Typography>
-
-                <p>Welcome to graphics design solutions page</p>
-            </div>
+                    </Box>
+                </Grid>
+                <Grid item className="grid-el" xs={12} md={5}>
+                    <img src={VectorArt} alt="Logo" />
+                </Grid>
+            </Grid>
         </Container>
     );
 
