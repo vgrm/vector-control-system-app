@@ -6,10 +6,6 @@ const SignupPage = (props) => {
     return (
         <div>
             <Container>
-                <Typography variant="h3">
-                    AA SIGNUP
-                    </Typography>
-
                 <Paper>
                     <Signup/>
                 </Paper>

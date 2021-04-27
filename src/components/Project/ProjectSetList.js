@@ -125,7 +125,6 @@ const ProjectSetList = ({ classes, ...props }) => {
                                 <TableCell>Name</TableCell>
                                 <TableCell>Owner</TableCell>
                                 <TableCell>State</TableCell>
-                                <TableCell>Status</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -135,7 +134,6 @@ const ProjectSetList = ({ classes, ...props }) => {
                                         <TableCell>{set.name}</TableCell>
                                         <TableCell>{set.owner.username}</TableCell>
                                         <TableCell>{set.state.name}</TableCell>
-                                        <TableCell>{set.status}</TableCell>
                                         <TableCell>
                                             <ButtonGroup variant="text">
                                                 <Button><NavigateNextIcon className={classes.icon}
@@ -162,7 +160,7 @@ const ProjectSetList = ({ classes, ...props }) => {
                             <TableRow>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Owner</TableCell>
-                                <TableCell>Status</TableCell>
+                                <TableCell>State</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -171,7 +169,7 @@ const ProjectSetList = ({ classes, ...props }) => {
                                     return (<TableRow key={index} hover >
                                         <TableCell>{set.name}</TableCell>
                                         <TableCell>{set.owner.username}</TableCell>
-                                        <TableCell>{set.status}</TableCell>
+                                        <TableCell>{set.state.name}</TableCell>
                                         <TableCell>
                                             <ButtonGroup variant="text">
                                                 <Button><NavigateNextIcon className={classes.icon}

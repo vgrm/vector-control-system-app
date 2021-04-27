@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useToasts } from "react-toast-notifications";
-import useSignupForm from './useSignupForm';
+//import useSignupForm from './useSignupForm';
 import { connect } from "react-redux";
 import * as actions from "../../actions/user";
 import { withRouter, useHistory, useParams } from 'react-router-dom';
@@ -90,7 +90,8 @@ const useStyles = makeStyles(theme => ({
 
 const initialFieldValues = {
     username: '',
-    password: ''
+    password: '',
+    password2: ''
 }
 
 
@@ -108,11 +109,15 @@ const Signup = ({ ...props }) => {
     }
 
     const validate = (fieldValues = values) => {
+        console.log("VAKIDATE",fieldValues)
         let temp = { ...errors }
         if ('username' in fieldValues)
             temp.username = fieldValues.username ? "" : "This field is required."
         if ('password' in fieldValues)
             temp.password = fieldValues.password ? "" : "This field is required."
+        if ('password2' in fieldValues){
+            temp.password2 = fieldValues.password2 == fieldValues.password ? "" : "Passwords don't match."
+        }
         setErrors({
             ...temp
         })
@@ -120,15 +125,7 @@ const Signup = ({ ...props }) => {
         if (fieldValues == values)
             return Object.values(temp).every(x => x == "")
     }
-    /*
-        const {
-            values,
-            errors,
-            setErrors,
-            handleInputChange,
-            resetForm
-        } = useSignupForm(initialFieldValues, validate)
-    */
+
     const handleSubmit = e => {
         e.preventDefault()
         if (validate()) {
@@ -139,7 +136,7 @@ const Signup = ({ ...props }) => {
             //props.createProjectSet(values, onSuccess)
             //props.createProjectSet(values, onSuccess)
             props.signupUser(values, onSuccess);
-            nextPath('/signin');
+            nextPath('/');
             console.log("SUBMITING DATA", values, props);
         }
         console.log("SUBMITING DATA", values, props);
@@ -188,6 +185,7 @@ const Signup = ({ ...props }) => {
                                         label="Username"
                                         autoFocus
                                         onChange={handleInputChange}
+                                        {...(errors.username && { error: true, helperText: errors.username })}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -200,6 +198,21 @@ const Signup = ({ ...props }) => {
                                         type="password"
                                         id="password"
                                         onChange={handleInputChange}
+                                        {...(errors.password && { error: true, helperText: errors.password })}
+                                    //autoComplete="current-password"
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <CssTextField
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        name="password2"
+                                        label="Password Repeat"
+                                        type="password"
+                                        id="password2"
+                                        onChange={handleInputChange}
+                                        {...(errors.password2 && { error: true, helperText: errors.password2 })}
                                     //autoComplete="current-password"
                                     />
                                 </Grid>
@@ -212,15 +225,8 @@ const Signup = ({ ...props }) => {
                                 className={classes.submit}
                             >
                                 Signup
-                    </ColorButton>
-                            <ColorButton
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                            >
-                                Signup2
-                    </ColorButton>
+                            </ColorButton>
+
                             <Grid container justify="flex-end">
                                 <Grid item>
                                     <Typography component="h1" variant="h5">

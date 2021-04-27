@@ -43,16 +43,9 @@ const NavigationMenu = ({ classes, ...props }) => {
                                 <NavItem>
                                     <NavLink tag={Link} className="text-dark" to="/signup">Signup</NavLink>
                                 </NavItem>}
-                            <NavItem>
-                                <NavLink tag={Link} className="text-dark" to="/user">User</NavLink>
-                            </NavItem>
                             {props.user.isLoggedIn &&
                                 <NavItem>
                                     <NavLink tag={Link} className="text-dark" to="/projectsets">ProjectSetList</NavLink>
-                                </NavItem>}
-                            {props.user.isLoggedIn &&
-                                <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/projectdata">ProjectDataList</NavLink>
                                 </NavItem>}
                             {props.user.isLoggedIn &&
                                 <NavItem>

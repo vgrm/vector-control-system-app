@@ -82,16 +82,20 @@ const styles = theme => ({
     },
 })
 
-const UserProfile = ({ classes, ...props }) => {
-    const [currentUsername, setCurrentUsername] = useState(props.user.userCurrent.username)
+const User = ({ classes, ...props }) => {
     const history = useHistory();
     const params = useParams();
+    const [currentUsername, setCurrentUsername] = useState(params.username)
+
 
     const nextPath = (path) => {
         history.push(path);
     }
 
     useEffect(() => {
+        //console.log("USERPARMAMS:",params)
+        //console.log("USERPROPS:",props)
+        props.userSelect(params.username);
         //props.fetchAllProjectData()
     }, [])//componentDidMount
     //toast msg.
@@ -120,17 +124,18 @@ const UserProfile = ({ classes, ...props }) => {
     const onUpdate = () => {
 
         console.log(params)
-        console.log(props.user.userCurrent.username)
-        //console.log("propsuser", props.user)
-        //console.log(props.user.isLoggedIn)
+        console.log(props)
+        console.log("propsuser", props.user)
+        console.log(props.user.isLoggedIn)
 
-        nextPath('/userform/' + props.user.userCurrent.username);
+        //nextPath('/projectsetform/' + params.projectsetId);
         //else nextPath('/projectsetform/' + 0);
     }
 
 
     return (
         <Container>
+            USER PAGE
             {props.user.isLoggedIn &&
                 <Box p={5}>
                     <Paper>
@@ -139,46 +144,26 @@ const UserProfile = ({ classes, ...props }) => {
                                 User  Name
                         </Typography>
                             <Typography variant="h6">
-                                {props.user.userCurrent.username}
+                                {props.user.userSelected.username}
                             </Typography>
                             <Typography variant="caption">
                                 Email
                         </Typography>
                             <Typography variant="h6">
-                                {props.user.userCurrent.email}
-                            </Typography>
-                            <Typography variant="caption">
-                                Role
-                        </Typography>
-                            <Typography variant="h6">
-                                {props.user.userCurrent.role.name}
+                                {props.user.userSelected.email}
                             </Typography>
                             <Typography variant="caption">
                                 Firstname
                         </Typography>
                             <Typography variant="h6">
-                                {props.user.userCurrent.firstName}
+                                {props.user.userSelected.firstname}
                             </Typography>
                             <Typography variant="caption">
                                 Lastname
                         </Typography>
                             <Typography variant="h6">
-                                {props.user.userCurrent.lastName}
+                                {props.user.userSelected.lastname}
                             </Typography>
-                            
-                            <Box p={5}>
-                            <ColorButton variant="contained" onClick={() => onUpdate()}>
-                                edit profile
-                                <EditIcon/>
-                            </ColorButton>
-
-                            <ColorButton2 variant="contained" onClick={() => onSignout()}>
-                                signout
-                                <ExitToAppOutlinedIcon/>
-                            </ColorButton2>
-                            </Box>
-
-
                         </Container>
                     </Paper>
                 </Box>
@@ -194,7 +179,8 @@ const mapStateToProps = state => ({
 })
 
 const mapActionToProps = {
+    userSelect: actions.fetchByUsername,
     userSignout: actions.signout,
 }
 
-export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(UserProfile));
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(User));

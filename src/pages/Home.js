@@ -1,7 +1,15 @@
 import { Typography, Container, Box, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
 import VectorArt from '../Constants/VectorArt.svg';
+import { useToasts , ToastProvider } from "react-toast-notifications";
 const HomePage = (props) => {
+    const { addToast } = useToasts()
+    const handleAlert = e => {
+
+                addToast("Submitted successfully", { appearance: 'success', placement: 'bottom-center' })
+    }
+
     return (
+        
         <Container>
             <Grid container>
                 <Grid item className="grid-el" xs={12} md={5}>
@@ -15,6 +23,7 @@ const HomePage = (props) => {
                     <img src={VectorArt} alt="Logo" />
                 </Grid>
             </Grid>
+
         </Container>
     );
 

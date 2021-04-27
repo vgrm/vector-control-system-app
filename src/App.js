@@ -15,12 +15,14 @@ function App() {
     <Provider store={store}>
       <BrowserRouter>
 
-        <ToastProvider autoDismiss={true}>
+      <ToastProvider autoDismiss={true} placement='bottom-right'>
           <Container maxWidth="lg">
             <NavigationMenu />
+            
             <Body />
+
           </Container>
-        </ToastProvider>
+          </ToastProvider>
       </BrowserRouter>
     </Provider>
 

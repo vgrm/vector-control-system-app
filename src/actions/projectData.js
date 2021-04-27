@@ -7,6 +7,7 @@ export const ACTION_TYPES = {
     DELETE_PROJECTDATA: 'DELETE_PROJECTDATA',
     FETCH_ALL_PROJECTDATA: 'FETCH_ALL_PROJECTDATA',
     FETCH_PROJECTDATA: 'FETCH_PROJECTDATA',
+    FETCH_PROJECTDATA_USER: 'FETCH_PROJECTDATA_USER',
 }
 
 export const fetchAll = () => dispatch => {
@@ -39,6 +40,18 @@ export const fetchById = (id) => dispatch => {
         .then(response => {
             dispatch({
                 type: ACTION_TYPES.FETCH_PROJECTDATA,
+                payload: response.data
+            })
+        })
+        .catch(err => console.log(err))
+}
+
+export const fetchByUser = (id) => dispatch => {
+    console.log("trying to fetch data list of user:"+id);
+    createAPIEndpoint(ENDPIONTS.PROJECTDATA + "/user").fetchAllParams(id)
+        .then(response => {
+            dispatch({
+                type: ACTION_TYPES.FETCH_PROJECTDATA_USER,
                 payload: response.data
             })
         })

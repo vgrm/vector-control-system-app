@@ -155,7 +155,7 @@ const Signin = ({ ...props }) => {
         if (validate()) {
             const onSuccess = () => {
                 //onSubmited()
-                addToast("Submitted successfully", { appearance: 'success' })
+                addToast("Submitted successfully", { appearance: 'success', placement: 'bottom-left' })
             }
             //props.createProjectSet(values, onSuccess)
             //props.createProjectSet(values, onSuccess)
@@ -215,20 +215,12 @@ const Signin = ({ ...props }) => {
                                 className={classes.submit}
                             >
                                 Signin
-                    </ColorButton>
-                            <ColorButton
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                            >
-                                Signin2
-                    </ColorButton>
+                            </ColorButton>
                             <Grid container justify="flex-end">
                                 <Grid item>
                                     <Typography component="h1" variant="h5">
-                                        <Link href="/signin" variant="body2" color="inherit">
-                                            Already have an account? Signin
+                                        <Link href="/signup" variant="body2" color="inherit">
+                                            Don't have an account? Signup
                             </Link>
                                     </Typography>
                                 </Grid>

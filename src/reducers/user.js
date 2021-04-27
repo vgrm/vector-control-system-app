@@ -8,6 +8,7 @@ const userCurrent = JSON.parse(valueOrNull(Cookies.get('userCurrent')));
 
 const initialState = {
     list: [],
+    userSelected: {},
     userCurrent: userCurrent,
     isLoggedIn: userCurrent ? true : false
 }
@@ -39,6 +40,12 @@ export const user = (state = initialState, action) => {
                 ...state,
                 list: [...action.payload]
             }
+
+            case ACTION_TYPES.FETCH_USER:
+                return {
+                    ...state,
+                    userSelected: action.payload
+                }
 
         case ACTION_TYPES.SIGNUP_USER:
             return {

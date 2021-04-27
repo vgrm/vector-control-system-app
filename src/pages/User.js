@@ -1,4 +1,4 @@
-import User from '../components/User/UserProfile'
+import User from '../components/User/User'
 
 const UserPage = (props) => {
     return (

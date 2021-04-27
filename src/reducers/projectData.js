@@ -2,6 +2,7 @@ import { ACTION_TYPES } from "../actions/projectData";
 
 const initialState = {
     list: [],
+    listUser: [],
     selectedProject: {}
 }
 
@@ -13,6 +14,13 @@ export const projectData = (state = initialState, action) => {
                 ...state,
                 list: [...action.payload]
             }
+
+            case ACTION_TYPES.FETCH_PROJECTDATA_USER:
+                console.log("THIS")
+                return {
+                    ...state,
+                    listUser: [...action.payload]
+                }
 
             
         case ACTION_TYPES.FETCH_PROJECTDATA:

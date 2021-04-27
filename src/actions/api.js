@@ -25,6 +25,7 @@ export const createAPIEndpoint = endpoint => {
         fetchProjects: id => axios.get(url, { params: { id }, headers: authHeader() }),
         fetchAllParams: id => axios.get(url, { params: { id }, headers: authHeader() }),
         fetchById: id => axios.get(url + id, { headers: authHeader() }),
+        fetchByUsername: username => axios.get(url + username, { headers: authHeader() }),
         create: data => axios.post(url, data, { headers: authHeader() }),
         update: (id, data) => axios.put(url + id, data, { headers: authHeader() }),
         delete: id => axios.delete(url + id, { headers: authHeader() }),

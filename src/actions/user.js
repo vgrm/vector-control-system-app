@@ -6,6 +6,7 @@ export const ACTION_TYPES = {
     UPDATE_USER: 'UPDATE_USER',
     DELETE_USER: 'DELETE_USER',
     FETCH_ALL_USER: 'FETCH_ALL_USER',
+    FETCH_USER: 'FETCH_USER',
     SIGNIN_USER: 'SIGNIN_USER',
     SIGNUP_USER: 'SIGNUP_USER',
     SIGNOUT_USER: 'SIGNOUT_USER'
@@ -22,12 +23,12 @@ export const fetchAll = () => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const fetchById = (id) => dispatch => {
-    console.log("trying to fetch single project of id:"+id);
-    createAPIEndpoint(ENDPIONTS.PROJECTDATA).fetchById(id)
+export const fetchByUsername = (username) => dispatch => {
+    //console.log("trying to fetch single project of id:"+id);
+    createAPIEndpoint(ENDPIONTS.USER).fetchByUsername(username)
         .then(response => {
             dispatch({
-                type: ACTION_TYPES.FETCH_PROJECTDATA,
+                type: ACTION_TYPES.FETCH_USER,
                 payload: response.data
             })
         })

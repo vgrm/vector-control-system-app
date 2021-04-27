@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { CssBaseline, Avatar, Box, Typography, Container, Grid, TextField, FormControl, InputLabel, Select, MenuItem, Button, FormHelperText } from "@material-ui/core";
-import useProjectSetForm from "./useProjectSetForm";
+//import useProjectSetForm from "./useProjectSetForm";
 import { connect } from "react-redux";
-import * as actions from "../../actions/projectSet";
+import * as actions from "../../actions/user";
 import { useToasts } from "react-toast-notifications";
-import { projectSet } from './../../reducers/projectSet';
+//import { projectSet } from './../../reducers/projectSet';
 import { Link, withRouter, useHistory, useParams } from 'react-router-dom';
 import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
 import colors from "../../Constants/colors";
@@ -119,48 +119,40 @@ const styles = theme => ({
 })
 
 const initialFieldValues = {
-    name: '',
-    description: '',
-    status: '',
-    ownerId: 0
+    firstName: '',
+    lastName: '',
+    email: '',
+    roleId: -2
 }
 
-const ProjectSetForm = ({ ...props }) => {
+const UserForm = ({ ...props }) => {
     const classes = useStyles();
-    const [currentId, setCurrentId] = useState(0)
-    //toast msg.
-    const { addToast } = useToasts();
+    const { addToast } = useToasts()
+    const [values, setValues] = useState(initialFieldValues)
+    const [errors, setErrors] = useState({})
+    const inputLabel = React.useRef(null);
+    const [labelWidth, setLabelWidth] = React.useState(0);
+    const history = useHistory();
     const params = useParams();
 
-    //const currentSet =  props.projectSetList.find(x => x.id == params.projectsetId).ownerId;
-    const valueOrNull = (value = null) => value;
+    useEffect(() => {
+        props.userSelect(params.username);
+        setValues({
+            ...props.user.userSelected
+        })
+        setErrors({})
+    }, [])//componentDidMount
 
-    let currentSet = 0;
-    if (valueOrNull(props.projectSetList.find(x => x.id == params.projectsetId)) != null) {
-        currentSet = props.projectSetList.find(x => x.id == params.projectsetId);
+    const nextPath = (path) => {
+        history.push(path);
     }
 
-    useEffect(() => {
-        console.log(params)
-        console.log(props)
-
-        if (params.projectsetId != 0) {
-            setCurrentId(params.projectsetId)
-        }
-    }, [params])
-
-
-
-    //validate()
-    //validate({fullName:'jenny'})
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
-        if ('name' in fieldValues)
-            temp.name = fieldValues.name ? "" : "This field is required."
-        if ('description' in fieldValues)
-            temp.description = fieldValues.description ? "" : "This field is required."
-        if ('status' in fieldValues)
-            temp.status = fieldValues.status ? "" : "This field is required."
+        if ('username' in fieldValues)
+            temp.username = fieldValues.username ? "" : "This field is required."
+        if ('password' in fieldValues)
+            temp.password = fieldValues.password ? "" : "This field is required."
         setErrors({
             ...temp
         })
@@ -169,67 +161,37 @@ const ProjectSetForm = ({ ...props }) => {
             return Object.values(temp).every(x => x == "")
     }
 
-    const {
-        values,
-        setValues,
-        errors,
-        setErrors,
-        handleInputChange,
-        resetForm
-    } = useProjectSetForm(initialFieldValues, validate, setCurrentId)
 
-    //material-ui select
-    const inputLabel = React.useRef(null);
-    const [labelWidth, setLabelWidth] = React.useState(0);
-
-    React.useEffect(() => {
-        //setLabelWidth(inputLabel.current.offsetWidth);
-    }, []);
-
-    const history = useHistory();
-
-    const onSubmited = () => {
-        nextPath('/projectsets/');
+    const handleInputChange = e => {
+        const { name, value } = e.target
+        const fieldValue = { [name]: value }
+        setValues({
+            ...values,
+            ...fieldValue
+        })
+        validate(fieldValue)
     }
 
-    const nextPath = (path) => {
-        history.push(path);
+    const deleteUser = () => {
+        props.deleteUser(params.username);
     }
 
     const handleSubmit = e => {
         e.preventDefault()
         if (validate()) {
             const onSuccess = () => {
-                onSubmited()
-                addToast("Submitted successfully", { appearance: 'success', PlacementType: 'bottom-left'})
+                //onSubmited()
+                addToast("Submitted successfully", { appearance: 'success', placement: 'bottom-left' })
             }
+            props.updateUser(params.username, values, onSuccess);
             //props.createProjectSet(values, onSuccess)
-
-            if (currentId == 0) {
-                props.createProjectSet(values, onSuccess)
-                console.log("SUBMITING DATA", values, props)
-            }
-            else
-                props.updateProjectSet(currentId, values, onSuccess)
+            //props.createProjectSet(values, onSuccess)
+            //props.signinUser(values, onSuccess);
+            //console.log("SUBMITING DATA", values, props);
+            //nextPath('/');
         }
         console.log("SUBMITING DATA", values, props);
     }
-
-    useEffect(() => {
-        //onsole.log(params)
-        //console.log(props)
-        //console.log(currentId)
-        //console.log("OWNERIS", currentSet)
-        if (currentId != 0) {
-            //console.log("SETVALUES")
-            setValues({
-                ...props.projectSetList.find(x => x.id == currentId)
-            })
-            setErrors({})
-        }
-        //console.log(values);
-    }, [currentId])
-
 
     return (
             <Container>
@@ -241,61 +203,65 @@ const ProjectSetForm = ({ ...props }) => {
                             <ListAltOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Project Set Form
+                            User Form
                 </Typography>
-                        {(props.user.isLoggedIn) &&
-                            ((props.selectedSet.ownerId == props.user.userCurrent.id)
-                                ||
-                                (params.projectsetId == 0))
-                            &&
+                        {((props.user.isLoggedIn && props.user.userCurrent.username == params.username) 
+                        || (props.user.isLoggedIn && props.user.userCurrent.roleId == -1))
+                        &&
                             <form className={classes.form} autoComplete="off" noValidate onSubmit={handleSubmit}>
                                 <Grid container spacing={2}>
-                                    <Grid item xs={12}>
+                                <Grid item xs={12}>
                                         <CssTextField
-                                            //autoComplete="username"
-                                            name="description"
                                             variant="outlined"
-                                            required
                                             fullWidth
-                                            id="description"
-                                            label="Description"
-                                            value={values.description}
+                                            id="email"
+                                            name="email"
+                                            label="email"
+                                            value={values.email}
                                             onChange={handleInputChange}
-                                            {...(errors.description && { error: true, helperText: errors.description })}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <CssTextField
                                             variant="outlined"
-                                            required
                                             fullWidth
-                                            name="name"
-                                            label="Set Name"
-                                            id="name"
-                                            value={values.name}
+                                            id="firstName"
+                                            name="firstName"
+                                            label="firstName"
+                                            value={values.firstName}
                                             onChange={handleInputChange}
-                                            {...(errors.name && { error: true, helperText: errors.name })}
                                         />
                                     </Grid>
+                                    <Grid item xs={12}>
+                                        <CssTextField
+                                            variant="outlined"
+                                            fullWidth
+                                            id="lastName"
+                                            name="lastName"
+                                            label="lastName"
+                                            value={values.lastName}
+                                            onChange={handleInputChange}
+                                        />
+                                    </Grid>
+                                    {(props.user.isLoggedIn && props.user.userCurrent.roleId == -1) &&
                                     <Grid item xs={12}>
                                         <CssFormControl variant="outlined" fullWidth
-                                            {...(errors.status && { error: true })}
+                                            {...(errors.roleId && { error: true })}
                                         >
-                                            <InputLabel ref={inputLabel}>Status</InputLabel>
+                                            <InputLabel ref={inputLabel}>RoleId</InputLabel>
                                             <Select
-                                                name="status"
-                                                value={values.status}
+                                                name="roleId"
+                                                value={values.roleId}
                                                 onChange={handleInputChange}
                                                 labelWidth={labelWidth}
                                             >
-                                                <MenuItem value="">Select Status</MenuItem>
-                                                <MenuItem value="-3">Private</MenuItem>
-                                                <MenuItem value="-2">Closed</MenuItem>
-                                                <MenuItem value="-1">Open</MenuItem>
+                                                <MenuItem value="">Select Role</MenuItem>
+                                                <MenuItem value="-2">User</MenuItem>
+                                                <MenuItem value="-1">Admin</MenuItem>
                                             </Select>
-                                            {errors.status && <FormHelperText>{errors.status}</FormHelperText>}
+                                            {errors.roleId && <FormHelperText>{errors.roleId}</FormHelperText>}
                                         </CssFormControl>
-                                    </Grid>
+                                    </Grid>}
                                 </Grid>
                                 <ColorButton
                                     type="submit"
@@ -304,15 +270,15 @@ const ProjectSetForm = ({ ...props }) => {
                                     color="primary"
                                     className={classes.submit}
                                 >
-                                    Submit
+                                    save changes
                     </ColorButton>
                                 <ColorButton2
                                     fullWidth
                                     variant="contained"
                                     color="secondary"
-                                    onClick={resetForm}
+                                    onClick={deleteUser}
                                 >
-                                    Reset
+                                    Delete user
                     </ColorButton2>
                             </form>
                         }
@@ -326,13 +292,16 @@ const ProjectSetForm = ({ ...props }) => {
 
 const mapStateToProps = state => ({
     user: state.user,
-    projectSetList: state.projectSet.owned,
-    selectedSet: state.projectSet.selectedSet
+    //projectSetList: state.projectSet.owned,
+    //selectedSet: state.projectSet.selectedSet
 })
 
 const mapActionToProps = {
-    createProjectSet: actions.create,
-    updateProjectSet: actions.update
+    userSelect: actions.fetchByUsername,
+    updateUser: actions.update,
+    deleteUser: actions.Delete
+    //createProjectSet: actions.create,
+    //updateProjectSet: actions.update
 }
 
-export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(ProjectSetForm));
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(UserForm));
