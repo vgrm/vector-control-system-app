@@ -63,6 +63,14 @@ const ProjectData = ({ classes, ...props }) => {
         return () => { };
     }, [])//componentDidMount
 
+    /*
+    useEffect(() => {
+        console.log("EF SET",props.projectData.projectSetId);
+        if(props.projectData)
+        props.fetchProjectSet(props.projectData.projectSetId);
+        return () => { };
+    }, [])//componentDidMount
+*/
     useEffect(() => {
         //props.fetchAllProjectData()
     }, [])//componentDidMount
@@ -173,14 +181,17 @@ const ProjectData = ({ classes, ...props }) => {
                             {props.projectData.scoreIdentity}
                         </Typography>
 
-
-                        <Button><RestorePageIcon className={classes.icon} color="primary"
-                            onClick={() => { onUpdate() }} /></Button>
-                        <Button><EditIcon className={classes.icon} color="primary"
-                            onClick={() => { onUpdate() }} /></Button>
-                        <Button><DeleteIcon className={classes.icon} color="secondary"
-                            onClick={() => onDelete()} /></Button>
-
+                        {(props.user.isLoggedIn) &&
+                                            ((props.projectSet.ownerId == props.user.userCurrent.id))
+                                            &&
+                        <Container>
+                            <Button><RestorePageIcon className={classes.icon} color="primary"
+                                onClick={() => { onUpdate() }} /></Button>
+                            <Button><EditIcon className={classes.icon} color="primary"
+                                onClick={() => { onUpdate() }} /></Button>
+                            <Button><DeleteIcon className={classes.icon} color="secondary"
+                                onClick={() => onDelete()} /></Button>
+                        </Container>}
                     </Container>
                 </Paper>
             </Box>
@@ -188,17 +199,17 @@ const ProjectData = ({ classes, ...props }) => {
             <Box>
                 Analysis
 
-                <LineMatchList/>
-                <LineIncorrectList/>
-                <LineMissingList/>
-                
-                <ArcMatchList/>
-                <ArcIncorrectList/>
-                <ArcMissingList/>
+                <LineMatchList />
+                <LineIncorrectList />
+                <LineMissingList />
+
+                <ArcMatchList />
+                <ArcIncorrectList />
+                <ArcMissingList />
 
                 IDENTITY
-                <LineHandleList/>
-                <ArcHandleList/>
+                <LineHandleList />
+                <ArcHandleList />
             </Box>
         </Container>
     );
@@ -206,14 +217,17 @@ const ProjectData = ({ classes, ...props }) => {
 }
 
 const mapStateToProps = state => ({
-    projectData: state.projectData.selectedProject
+    projectData: state.projectData.selectedProject,
+    user: state.user,
+    projectSet: state.projectSet.selectedSet
 })
 
 const mapActionToProps = {
     fetchAllProjectData: actions.fetchAll,
     deleteProjectData: actions.Delete,
     updateProjectData: actions.update,
-    fetchProjectData: actions.fetchById
+    fetchProjectData: actions.fetchById,
+    //fetchProjectSet: actions.fetchById
 }
 
 export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(ProjectData));

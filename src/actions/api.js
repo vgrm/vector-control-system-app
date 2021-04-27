@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "./auth-header";
 
 //const BASE_URL = "http://localhost:44333/api/"
 const BASE_URL = "https://localhost:5001/api/"
@@ -16,17 +17,17 @@ export const ENDPIONTS = {
 export const createAPIEndpoint = endpoint => {
 
     let url = BASE_URL + endpoint + '/';
-    
+    console.log("header:", authHeader());
     //let headers = { "Content-type": "multipart/form-data"}
-    
+
     return {
-        fetchAll: () => axios.get(url),
-        fetchProjects: id => axios.get(url,{params: {id}}),
-        fetchAllParams: id => axios.get(url,{params: {id}}),
-        fetchById: id => axios.get(url + id),
-        create: newRecord => axios.post(url, newRecord),
-        update: (id, updatedRecord) => axios.put(url + id, updatedRecord),
-        delete: id => axios.delete(url + id),
-        patch: (id, updatedRecord) => axios.patch(url + id, updatedRecord),
+        fetchAll: () => axios.get(url, { headers: authHeader() }),
+        fetchProjects: id => axios.get(url, { params: { id }, headers: authHeader() }),
+        fetchAllParams: id => axios.get(url, { params: { id }, headers: authHeader() }),
+        fetchById: id => axios.get(url + id, { headers: authHeader() }),
+        create: data => axios.post(url, data, { headers: authHeader() }),
+        update: (id, data) => axios.put(url + id, data, { headers: authHeader() }),
+        delete: id => axios.delete(url + id, { headers: authHeader() }),
+        patch: (id, data) => axios.patch(url + id, data, { headers: authHeader() }),
     }
 }

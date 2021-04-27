@@ -5,7 +5,9 @@ export const ACTION_TYPES = {
     UPDATE_PROJECTSET: 'UPDATE_PROJECTSET',
     DELETE_PROJECTSET: 'DELETE_PROJECTSET',
     FETCH_ALL_PROJECTSET: 'FETCH_ALL_PROJECTSET',
-    FETCH_PROJECTSET: 'FETCH_PROJECTSET'
+    FETCH_PROJECTSET: 'FETCH_PROJECTSET',
+    FETCH_ALL_PROJECTSET_OWNED: 'FETCH_ALL_PROJECTSET_OWNED',
+    FETCH_ALL_PROJECTSET_OTHER: 'FETCH_ALL_PROJECTSET_OTHER',
 }
 
 export const fetchAll = () => dispatch => {
@@ -18,6 +20,29 @@ export const fetchAll = () => dispatch => {
         })
         .catch(err => console.log(err))
 }
+
+export const fetchAllOwned = () => dispatch => {
+    createAPIEndpoint(ENDPIONTS.PROJECTSET + "/owned").fetchAll()
+        .then(response => {
+            dispatch({
+                type: ACTION_TYPES.FETCH_ALL_PROJECTSET_OWNED,
+                payload: response.data
+            })
+        })
+        .catch(err => console.log(err))
+}
+
+export const fetchAllOther = () => dispatch => {
+    createAPIEndpoint(ENDPIONTS.PROJECTSET + "/other").fetchAll()
+        .then(response => {
+            dispatch({
+                type: ACTION_TYPES.FETCH_ALL_PROJECTSET_OTHER,
+                payload: response.data
+            })
+        })
+        .catch(err => console.log(err))
+}
+
 export const fetchById = (id) => dispatch => {
     console.log("trying to fetch single set");
     createAPIEndpoint(ENDPIONTS.PROJECTSET).fetchById(id)

@@ -2,6 +2,8 @@ import { ACTION_TYPES } from "../actions/projectSet";
 
 const initialState = {
     list: [],
+    owned: [],
+    other: [],
     selectedSet: {}
 }
 
@@ -14,6 +16,16 @@ export const projectSet = (state = initialState, action) => {
                 list: [...action.payload]
             }
 
+        case ACTION_TYPES.FETCH_ALL_PROJECTSET_OWNED:
+            return {
+                ...state,
+                owned: [...action.payload]
+            }
+        case ACTION_TYPES.FETCH_ALL_PROJECTSET_OTHER:
+            return {
+                ...state,
+                other: [...action.payload]
+            }
         case ACTION_TYPES.FETCH_PROJECTSET:
             return {
                 ...state,

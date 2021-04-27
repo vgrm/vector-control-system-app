@@ -28,11 +28,11 @@ const styles = theme => ({
         margin: theme.spacing(2),
         padding: theme.spacing(2)
     },
-    icon:{
-        color:"#607d8b"
+    icon: {
+        color: "#607d8b"
     },
-    iconRed:{
-        color:"#e53935"
+    iconRed: {
+        color: "#e53935"
     }
 })
 
@@ -48,7 +48,7 @@ const ProjectSet = ({ classes, ...props }) => {
     }, [])//componentDidMount
 
     useEffect(() => {
-        props.fetchAllProjectSet()
+        //props.fetchAllProjectSet()
     }, [])//componentDidMount
     //toast msg.
     const { addToast } = useToasts()
@@ -57,7 +57,7 @@ const ProjectSet = ({ classes, ...props }) => {
     //const currentSet = useSelector(state=>state.projectSetList[params.projectsetId]);
 
     const onDelete = () => {
-        if (window.confirm('Are you sure to delete this set?')){
+        if (window.confirm('Are you sure to delete this set?')) {
             props.deleteProjectSet(params.projectsetId, () => addToast("Deleted successfully", { appearance: 'success', placement: 'bottom-right' }))
             nextPath('/projectsets/');
         }
@@ -68,7 +68,7 @@ const ProjectSet = ({ classes, ...props }) => {
             nextPath('/projectsetform/' + params.projectsetId);
         else nextPath('/projectsetform/' + 0);
     }
-    
+
     const nextPath = (path) => {
         history.push(path);
     }
@@ -124,11 +124,15 @@ const ProjectSet = ({ classes, ...props }) => {
                             {props.projectSet.ownerId}
                         </Typography>
 
-                        <Button><EditIcon className={classes.icon} color="primary"
-                            onClick={() => { onUpdate() }} /></Button>
-                        <Button><DeleteIcon className={classes.icon} color="secondary"
-                            onClick={() => onDelete()} /></Button>
+                        {(props.user.isLoggedIn) &&
+                            ((props.projectSet.ownerId == props.user.userCurrent.id))
+                            && <Container>
+                                <Button><EditIcon className={classes.icon} color="primary"
+                                    onClick={() => { onUpdate() }} /></Button>
+                                <Button><DeleteIcon className={classes.icon} color="secondary"
+                                    onClick={() => onDelete()} /></Button>
 
+                            </Container>}
                     </Container>
                 </Paper>
             </Box>
@@ -142,7 +146,8 @@ const ProjectSet = ({ classes, ...props }) => {
 }
 
 const mapStateToProps = state => ({
-    projectSetList: state.projectSet.list,
+    //projectSetList: state.projectSet.list,
+    user: state.user,
     projectSet: state.projectSet.selectedSet
 })
 

@@ -1,21 +1,20 @@
 import { Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button, Typography } from "@material-ui/core";
+import UserList from '../components/Admin/UserList';
 
-import Signin from '../components/User/Signin';
-const SigninPage = (props) => {
-
+const AdminPage = (props) => {
     return (
         <div>
             <Container>
                 <Typography variant="h3">
-                    AA SIGNIN
+                    ADMIN PAGE
                     </Typography>
 
                 <Paper>
-                    <Signin/>
+                    <UserList/>
                 </Paper>
             </Container>
         </div>
     );
 }
 
-export default SigninPage;
+export default AdminPage;

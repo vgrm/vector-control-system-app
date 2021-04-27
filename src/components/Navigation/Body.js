@@ -13,6 +13,11 @@ import ProjectSetListPage from '../../pages/ProjectSetList';
 
 import UserListPage from '../../pages/UserList';
 
+import SignupPage from '../../pages/Signup';
+import SigninPage from '../../pages/Signin';
+import UserProfilePage from '../../pages/Profile';
+
+import AdminPage from '../../pages/Admin';
 //function Body() { <Route path='/projectset/:projectsetId([0-9]+)' component={ProjectSetPage} /> <Route path='/projectset' component={ProjectSetListPage} />
     const Body = ({ classes, ...props }) => {
         const [currentProjectId, setCurrentProjectId] = useState(0)
@@ -36,6 +41,14 @@ import UserListPage from '../../pages/UserList';
             <Route path='/projects' component={ProjectDataListPage} />
             <Route path='/projectdata/:projectId([0-9]+)' component={ProjectDataPage}/>
             <Route path='/user' component={UserListPage} />
+
+            <Route path='/signup' component={SignupPage} />
+            <Route path='/signin' component={SigninPage} />
+
+            <Route path='/profile' component={UserProfilePage} />
+
+            <Route path='/admin' component={AdminPage} />
+
         </Container>
     );
 }

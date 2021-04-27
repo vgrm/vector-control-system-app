@@ -132,13 +132,19 @@ const ProjectDataList = ({ classes, ...props }) => {
                                     <TableCell>{project.scoreCorrectness}</TableCell>
                                     <TableCell>{project.projectSetId}</TableCell>
                                     <TableCell>
+                                        {(props.user.isLoggedIn) &&
+                                            ((props.projectSet.ownerId == props.user.userCurrent.id))
+                                            &&
+                                            <ButtonGroup variant="text">
+                                                <Button><StarIcon className={project.original ? classes.starIcon1 : classes.starIcon2} color="primary"
+                                                    onClick={() => { onSetOriginal(project); props.setCurrentProjectId(project.id) }} /></Button>
+                                                <Button><RestorePageIcon className={classes.icon} color="primary"
+                                                    onClick={() => { onUpdate(project); props.setCurrentProjectId(project.id) }} /></Button>
+                                                <Button><DeleteIcon className={classes.icon} color="secondary"
+                                                    onClick={() => onDelete(project.id)} /></Button>
+
+                                            </ButtonGroup>}
                                         <ButtonGroup variant="text">
-                                            <Button><StarIcon className={project.original ? classes.starIcon1 : classes.starIcon2} color="primary"
-                                                onClick={() => { onSetOriginal(project); props.setCurrentProjectId(project.id) }} /></Button>
-                                            <Button><RestorePageIcon className={classes.icon} color="primary"
-                                                onClick={() => { onUpdate(project); props.setCurrentProjectId(project.id) }} /></Button>
-                                            <Button><DeleteIcon className={classes.icon} color="secondary"
-                                                onClick={() => onDelete(project.id)} /></Button>
                                             <Button><NavigateNextIcon className={classes.icon}
                                                 onClick={() => onSelect(project)} /></Button>
                                         </ButtonGroup>
@@ -155,7 +161,9 @@ const ProjectDataList = ({ classes, ...props }) => {
 }
 
 const mapStateToProps = state => ({
-    projectDataList: state.projectData.list
+    projectDataList: state.projectData.list,
+    user: state.user,
+    projectSet: state.projectSet.selectedSet
 })
 
 const mapActionToProps = {
