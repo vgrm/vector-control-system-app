@@ -80,7 +80,7 @@ const ProjectDataList = ({ classes, ...props }) => {
     const onSetOriginal = (record) => {
         //setCurrentId(record.id);
         let formData = new FormData();
-        formData.append('status', "Processing");
+        //formData.append('status', "Processing");
         formData.append('command', "ChangeOriginal");
         if (window.confirm('Are you sure to update this record?')) {
             props.patchProjectData(record.id, formData, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))

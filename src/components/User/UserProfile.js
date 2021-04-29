@@ -8,6 +8,7 @@ import { useToasts } from "react-toast-notifications";
 
 import { Link, withRouter, useHistory, useParams } from 'react-router-dom';
 import ProjectDataListUser from '../Project/ProjectDataListUser';
+import UserChart from './UserChart';
 
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -84,6 +85,9 @@ const styles = theme => ({
 
 const UserProfile = ({ classes, ...props }) => {
     const [currentUsername, setCurrentUsername] = useState(props.user.userCurrent.username)
+    const [scoreData,setScoreData] = useState([]);
+    const [identityData,setIdentityData] = useState([]);
+
     const history = useHistory();
     const params = useParams();
 
@@ -128,62 +132,75 @@ const UserProfile = ({ classes, ...props }) => {
         //else nextPath('/projectsetform/' + 0);
     }
 
+    const correctScoreData = () => {
+        console.log(scoreData)
+    }
 
     return (
         <Container>
             {props.user.isLoggedIn &&
                 <Box p={5}>
                     <Paper>
-                        <Container>
-                            <Typography variant="caption">
-                                User  Name
-                        </Typography>
-                            <Typography variant="h6">
-                                {props.user.userCurrent.username}
-                            </Typography>
-                            <Typography variant="caption">
-                                Email
-                        </Typography>
-                            <Typography variant="h6">
-                                {props.user.userCurrent.email}
-                            </Typography>
-                            <Typography variant="caption">
-                                Role
-                        </Typography>
-                            <Typography variant="h6">
-                                {props.user.userCurrent.role.name}
-                            </Typography>
-                            <Typography variant="caption">
-                                Firstname
-                        </Typography>
-                            <Typography variant="h6">
-                                {props.user.userCurrent.firstName}
-                            </Typography>
-                            <Typography variant="caption">
-                                Lastname
-                        </Typography>
-                            <Typography variant="h6">
-                                {props.user.userCurrent.lastName}
-                            </Typography>
-                            
-                            <Box p={5}>
-                            <ColorButton variant="contained" onClick={() => onUpdate()}>
-                                edit profile
-                                <EditIcon/>
-                            </ColorButton>
+                        <Grid container>
+                            <Grid item className="grid-el" xs={12} md={5}>
+                                <Container>
+                                    <Typography variant="caption">
+                                        User  Name
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        {props.user.userCurrent.username}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        Email
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        {props.user.userCurrent.email}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        Role
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        {props.user.userCurrent.role.name}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        Firstname
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        {props.user.userCurrent.firstName}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        Lastname
+                                    </Typography>
+                                    <Typography variant="h6">
+                                        {props.user.userCurrent.lastName}
+                                    </Typography>
 
-                            <ColorButton2 variant="contained" onClick={() => onSignout()}>
-                                signout
-                                <ExitToAppOutlinedIcon/>
-                            </ColorButton2>
-                            </Box>
+                                    <Box p={5}>
+                                        <ColorButton variant="contained" onClick={() => onUpdate()}>
+                                            edit profile
+                                        <EditIcon />
+                                        </ColorButton>
+
+                                        <ColorButton2 variant="contained" onClick={() => onSignout()}>
+                                            signout
+                                        <ExitToAppOutlinedIcon />
+                                        </ColorButton2>
+                                    </Box>
+                                </Container>
+                            </Grid>
+                            <Grid item className="grid-el" xs={12} md={5}>
+                            <Typography variant="h6">
+                                        User statistics
+                                    </Typography>
+                                {scoreData.length > 0 && identityData.length > 0 && <UserChart {...props} scoreData={scoreData} identityData={identityData}/>}
+                        </Grid>
+                        </Grid>
 
 
-                        </Container>
                     </Paper>
                 </Box>
             }
-            <ProjectDataListUser currentUsername={currentUsername}{...props}/>
+            <ProjectDataListUser currentUsername={currentUsername}{...props} setScoreData={setScoreData} setIdentityData={setIdentityData}/>
         </Container>
     );
 

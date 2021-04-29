@@ -44,6 +44,7 @@ const ProjectDataList = ({ classes, ...props }) => {
     useEffect(() => {
         console.log("PDUSER:",props)
         props.fetchProjectsUser(props.currentUsername)
+        correctScoreData()
         //props.setCurrentProjectId(0)
         //props.fetchProjects(params.projectsetId)
     }, [])//componentDidMount
@@ -69,6 +70,31 @@ const ProjectDataList = ({ classes, ...props }) => {
 
     const nextPath = (path) => {
         history.push(path);
+    }
+
+    const correctScoreData = () => {
+        //var scores= props.projectDataListUser.forEach(x=>x.scoreCorrectness);
+        var scores = []
+        props.projectDataListUser.forEach(x=>{
+            scores.push(x.scoreCorrectness)
+        });
+        var arr =[];
+        scores.forEach((x,index)=>{
+            arr.push([index,x])
+        });
+        //setDataArray(arr);
+
+        props.setScoreData(arr);
+
+        var identities = []
+        props.projectDataListUser.forEach((x,index) =>{
+            identities.push([index,x.scoreIdentity])
+        });
+        props.setIdentityData(identities);
+        
+        console.log("SCORES",scores)
+        console.log("IDENTS",identities)
+        console.log("Props",props)
     }
 
     return (
@@ -121,7 +147,8 @@ const mapStateToProps = state => ({
     projectDataList: state.projectData.list,
     projectDataListUser: state.projectData.listUser,
     user: state.user,
-    projectSet: state.projectSet.selectedSet
+    projectSet: state.projectSet.selectedSet,
+    
 })
 
 const mapActionToProps = {
