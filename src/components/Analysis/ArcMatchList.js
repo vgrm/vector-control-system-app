@@ -149,7 +149,7 @@ const ArcMatchList = ({ classes, ...props }) => {
         <Container>
             <Box pt={5}>
                 <Typography variant="h6">
-                Match arcs
+                Correct arcs
                 </Typography>
             </Box>
             <TableContainer component={Paper}>

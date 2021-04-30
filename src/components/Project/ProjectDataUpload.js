@@ -3,10 +3,50 @@ import { connect } from 'react-redux';
 //import UploadService from "../../actions/upload-files.service";
 import * as actions from '../../actions/projectData';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { Box, Typography, ListItem, Input, Button, FormGroup,CustomInput } from 'reactstrap';
-import { Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles } from "@material-ui/core";
+import { ListItem, FormGroup, CustomInput } from 'reactstrap';
+import { Typography, Input, Button, Box, Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles } from "@material-ui/core";
 import UploadFile from './UploadFile';
 import { useToasts } from "react-toast-notifications";
+import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
+import colors from '../../Constants/colors';
+
+const ColorButton = withStyles(theme => ({
+    root: {
+        color: colors.white,
+        backgroundColor: colors.primaryColor,
+        '&:hover': {
+            backgroundColor: colors.primaryColorDark,
+        },
+    },
+}))(Button);
+
+const ColorButton2 = withStyles(theme => ({
+    root: {
+        color: colors.white,
+        backgroundColor: colors.secondaryColor,
+        '&:hover': {
+            backgroundColor: colors.secondaryColorDark,
+        },
+    },
+}))(Button);
+
+const styles = theme => ({
+    root: {
+        "& .MuiTableCell-head": {
+            fontSize: "1.25rem"
+        }
+    },
+    paper: {
+        margin: theme.spacing(2),
+        padding: theme.spacing(2)
+    },
+    icon: {
+        color: "#607d8b"
+    },
+    iconRed: {
+        color: "#e53935"
+    }
+})
 
 const initialValues = {
     selectedFiles: undefined,
@@ -20,11 +60,12 @@ const initialValues = {
 const ProjectDataUpload = ({ classes, ...props }) => {
 
     const [values, setValues] = useState(initialValues)
-    const [file, setFile] = useState(undefined);
+    const [file, setFile] = useState('undefined');
     const { addToast } = useToasts()
 
     useEffect(() => {
-        console.log('USEEFEKT: ',file);
+        console.log('USEEFEKT: ', file);
+        console.log(file[0].name)
     }, [file])//componentDidMount
 
     const {
@@ -60,9 +101,9 @@ const ProjectDataUpload = ({ classes, ...props }) => {
         formData.append('projectsetId', props.projectSet.id);
         console.log(file);
         console.log(file[0].name);
-        
+
         console.log(formData);
-        console.log("FORMDATANAME",formData.name);
+        console.log("FORMDATANAME", formData.name);
         console.log(props);
 
         if (window.confirm('Are you sure you want to upload this project?')) {
@@ -71,15 +112,47 @@ const ProjectDataUpload = ({ classes, ...props }) => {
         }
 
         //props.createProjectData(formData);
-        
+
     }
 
     return (
         <Grid>
             <Container>
-            <Input type="file" name="file" id="exampleFile" onChange={fileChange} />
-                
-            <Button variant="contained" onClick={() => { handleUpload() }} >BUTTON TO SUBMIT FILE</Button>
+            <Box p={1}>
+            <Typography variant="h6">
+                                Add new project to set
+                            </Typography>
+                            </Box>
+                <Box p={1}>
+                    <Grid>
+                        <Grid item className="grid-el" xs={12} md={5}>
+                            <Box m={1}>
+                                <ColorButton
+                                    variant="contained"
+                                    component="label"
+                                >
+                                    Choose file
+                            <Input
+                                        type="file"
+                                        hidden
+                                        onChange={fileChange}
+                                    />
+                                </ColorButton>
+                            
+                            <ColorButton2 variant="contained" onClick={() => handleUpload()}>
+                                Upload <PublishOutlinedIcon />
+                            </ColorButton2>
+                            </Box>
+
+                        </Grid>
+                        <Grid item className="grid-el" xs={12} md={5}>
+                        <Typography variant="caption">
+                                {file[0].name ? file[0].name : '_'}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </Box>
+
             </Container>
         </Grid>
 
@@ -96,4 +169,4 @@ const mapActionToProps = {
     //deleteProjectSet: actions.Delete
 }
 
-export default connect(mapStateToProps, mapActionToProps)(ProjectDataUpload);
+export default connect(mapStateToProps, mapActionToProps)(withStyles(styles)(ProjectDataUpload));

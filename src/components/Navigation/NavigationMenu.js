@@ -45,11 +45,11 @@ const NavigationMenu = ({ classes, ...props }) => {
                                 </NavItem>}
                             {props.user.isLoggedIn &&
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/projectsets">ProjectSetList</NavLink>
+                                    <NavLink tag={Link} className="text-dark" to="/projectsets">Project Sets</NavLink>
                                 </NavItem>}
                             {props.user.isLoggedIn &&
                                 <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/profile">Profile</NavLink>
+                                    <NavLink tag={Link} className="text-dark" to="/profile">Profile of {props.user.userCurrent.username}</NavLink>
                                 </NavItem>}
                                 {props.user.isLoggedIn &&
                                 props.user.userCurrent.roleId == -1 &&

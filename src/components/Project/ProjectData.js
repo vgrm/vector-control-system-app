@@ -26,13 +26,10 @@ import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import RestorePageIcon from '@material-ui/icons/RestorePage';
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import RestorePageOutlinedIcon from '@material-ui/icons/RestorePageOutlined';
 
-const initialFieldValues = {
-    name: '',
-    description: '',
-    status: '',
-    ownerId: 0
-}
+
+import colors from '../../Constants/colors';
 
 const styles = theme => ({
     root: {
@@ -44,13 +41,42 @@ const styles = theme => ({
         margin: theme.spacing(2),
         padding: theme.spacing(2)
     },
+    starIcon1: { color: colors.ratingBadColor },
+    starIcon2: { color: colors.gray },
     icon: {
-        color: "#607d8b"
+        color: colors.primaryColor
     },
     iconRed: {
         color: "#e53935"
     }
 })
+
+const ColorButton = withStyles(theme => ({
+    root: {
+        color: colors.white,
+        backgroundColor: colors.primaryColor,
+        '&:hover': {
+            backgroundColor: colors.primaryColorDark,
+        },
+    },
+}))(Button);
+
+const ColorButton2 = withStyles(theme => ({
+    root: {
+        color: colors.white,
+        backgroundColor: colors.secondaryColor,
+        '&:hover': {
+            backgroundColor: colors.secondaryColorDark,
+        },
+    },
+}))(Button);
+
+const initialFieldValues = {
+    name: '',
+    description: '',
+    status: '',
+    ownerId: 0
+}
 
 const ProjectData = ({ classes, ...props }) => {
 
@@ -79,14 +105,20 @@ const ProjectData = ({ classes, ...props }) => {
 
     //const currentSet = props.projectSetList(x=> x.id == params.projectsetId);
     //const currentSet = useSelector(state=>state.projectSetList[params.projectsetId]);
-
+/*
     const onDelete = () => {
         if (window.confirm('Are you sure to delete this project?')) {
             props.deleteProjectData(params.projectId, () => addToast("Deleted successfully", { appearance: 'success', placement: 'bottom-right' }))
             //nextPath('/projectsets/');
         }
     }
+*/
+    const onDelete = (id) => {
+        if (window.confirm('Are you sure to delete this record?'))
+            props.deleteProjectData(id, () => addToast("Deleted successfully", { appearance: 'success', placement: 'bottom-right' }))
+    }
 
+/*
     const onUpdate = () => {
         if (params.projectId != 0) {
             console.log(params)
@@ -94,6 +126,20 @@ const ProjectData = ({ classes, ...props }) => {
         }
         //nextPath('/projectsetform/' + params.projectsetId);
         //else nextPath('/projectsetform/' + 0);
+    }
+*/
+    const onUpdate = (record) => {
+
+        //console.log(props);
+        //console.log(props.currentProjectId);
+        //let formData = new FormData();
+        //formData.append('status', "tesUPt");
+        if (window.confirm('Are you sure to update this record?')) {
+            //props.patchProjectData(record.id, formData, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
+            props.updateProjectData(record.id, record, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
+        }
+        props.setCurrentProjectId(record.id);
+        //props.setCurrentProjectId(0);
     }
 
     const nextPath = (path) => {
@@ -118,6 +164,7 @@ const ProjectData = ({ classes, ...props }) => {
         }
     }
 */
+if(props.projectData.owner){
     return (
         <Container>
             <Box p={5}>
@@ -130,10 +177,16 @@ const ProjectData = ({ classes, ...props }) => {
                             {props.projectData.name}
                         </Typography>
                         <Typography variant="caption">
+                            Project Set
+                        </Typography>
+                        <Typography variant="h6">
+                            {props.projectData.projectSet.name}
+                        </Typography>
+                        <Typography variant="caption">
                             Owner
                         </Typography>
                         <Typography variant="h6">
-                            {props.projectData.ownerId}
+                            {props.projectData.owner.username}
                         </Typography>
                         <Typography variant="caption">
                             Original
@@ -149,12 +202,6 @@ const ProjectData = ({ classes, ...props }) => {
                             {props.projectData.status}
                         </Typography>
 
-                        <Typography variant="caption">
-                            Date createed
-                        </Typography>
-                        <Typography variant="h6">
-                            {props.projectData.dateCreated}
-                        </Typography>
                         <Typography variant="caption">
                             Date uploaded
                         </Typography>
@@ -180,20 +227,24 @@ const ProjectData = ({ classes, ...props }) => {
                         <Typography variant="h6">
                             {props.projectData.scoreIdentity}
                         </Typography>
-
-                        {(props.user.isLoggedIn) &&
-                                            ((props.projectSet.ownerId == props.user.userCurrent.id))
-                                            &&
-                        <Container>
-                            <Button><RestorePageIcon className={classes.icon} color="primary"
-                                onClick={() => { onUpdate() }} /></Button>
-                            <Button><EditIcon className={classes.icon} color="primary"
-                                onClick={() => { onUpdate() }} /></Button>
-                            <Button><DeleteIcon className={classes.icon} color="secondary"
-                                onClick={() => onDelete()} /></Button>
-                        </Container>}
                     </Container>
                 </Paper>
+                <Box p={5}>
+                    {(props.user.isLoggedIn) &&
+                        ((props.projectSet.ownerId == props.user.userCurrent.id))
+                        &&
+                        <ButtonGroup variant="text">
+                            <ColorButton variant="contained" onClick={() => onUpdate(props.project)}>
+                                analyze project  <RestorePageOutlinedIcon />
+                            </ColorButton>
+
+                            <ColorButton2 variant="contained" onClick={() => onDelete(props.project.id)}>
+                                delete project <DeleteIcon />
+                            </ColorButton2>
+
+                        </ButtonGroup>
+                        }
+                </Box>
             </Box>
 
             <Box>
@@ -213,7 +264,8 @@ const ProjectData = ({ classes, ...props }) => {
             </Box>
         </Container>
     );
-
+}
+                    return(<div></div>);
 }
 
 const mapStateToProps = state => ({

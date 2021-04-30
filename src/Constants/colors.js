@@ -16,9 +16,13 @@ const colors = {
     primaryColorLight: "#6d636c",
     primaryColorDark: "#1b131b",
 
-    secondaryColor: "#847182",
-    secondaryColorLight: "#b49fb1",
-    secondaryColorDark: "#574655",
+    secondaryColor: "#847873",
+    secondaryColorLight: "#b4a7a2",
+    secondaryColorDark: "#574c48",
+
+    //secondaryColor: "#847182",
+    //secondaryColorLight: "#b49fb1",
+    //secondaryColorDark: "#574655",
 };
 
 export default colors;

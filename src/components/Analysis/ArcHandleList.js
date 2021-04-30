@@ -149,7 +149,7 @@ const ArcHandleList = ({ classes, ...props }) => {
         <Container>
             <Box pt={5}>
                 <Typography variant="h6">
-                    Handle arcs
+                    Arcs with identical handles
                 </Typography>
             </Box>
             <TableContainer component={Paper}>

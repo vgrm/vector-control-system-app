@@ -11,12 +11,34 @@ import ProjectDataUpload from './ProjectDataUpload';
 
 import { Link, withRouter, useHistory, useParams } from 'react-router-dom';
 
+import colors from '../../Constants/colors';
+
 const initialFieldValues = {
     name: '',
     description: '',
     status: '',
     ownerId: 0
 }
+
+const ColorButton = withStyles(theme => ({
+    root: {
+        color: colors.white,
+        backgroundColor: colors.primaryColor,
+        '&:hover': {
+            backgroundColor: colors.primaryColorDark,
+        },
+    },
+}))(Button);
+
+const ColorButton2 = withStyles(theme => ({
+    root: {
+        color: colors.white,
+        backgroundColor: colors.secondaryColor,
+        '&:hover': {
+            backgroundColor: colors.secondaryColorDark,
+        },
+    },
+}))(Button);
 
 const styles = theme => ({
     root: {
@@ -91,6 +113,7 @@ const ProjectSet = ({ classes, ...props }) => {
         }
     }
 */
+if(props.projectSet.state){
     return (
         <Container>
             <Box p={5}>
@@ -111,38 +134,43 @@ const ProjectSet = ({ classes, ...props }) => {
                         </Typography>
 
                         <Typography variant="caption">
-                            Status
+                            State
                     </Typography>
                         <Typography variant="h6">
-                            {props.projectSet.status}
+                            {props.projectSet.state.name}
                         </Typography>
 
                         <Typography variant="caption">
                             Owner
                     </Typography>
                         <Typography variant="h6">
-                            {props.projectSet.ownerId}
+                            {props.projectSet.owner.username}
                         </Typography>
-
-                        {(props.user.isLoggedIn) &&
-                            ((props.projectSet.ownerId == props.user.userCurrent.id))
-                            && <Container>
-                                <Button><EditIcon className={classes.icon} color="primary"
-                                    onClick={() => { onUpdate() }} /></Button>
-                                <Button><DeleteIcon className={classes.icon} color="secondary"
-                                    onClick={() => onDelete()} /></Button>
-
-                            </Container>}
                     </Container>
                 </Paper>
+                {(props.user.isLoggedIn) &&
+                            ((props.projectSet.ownerId == props.user.userCurrent.id))
+                            && 
+                <Box p={5}>
+                        <ColorButton variant="contained" onClick={() => onUpdate()}>
+                            edit Set <EditIcon />
+                        </ColorButton>
+
+                        <ColorButton2 variant="contained" onClick={() => onDelete()}>
+                            delete set <DeleteIcon />
+                        </ColorButton2>
+                    </Box>}
             </Box>
 
-            <Box p={5}><Container><ProjectDataUpload {...props} /></Container></Box>
+            <Box p={5}><Paper><Container><ProjectDataUpload {...props} /></Container></Paper></Box>
             <Container><ProjectDataList {...props} /></Container>
 
         </Container>
     );
-
+                }
+                return (
+                    <div></div>
+                );
 }
 
 const mapStateToProps = state => ({

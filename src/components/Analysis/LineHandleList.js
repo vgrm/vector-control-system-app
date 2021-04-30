@@ -149,7 +149,7 @@ const LineHandleList = ({ classes, ...props }) => {
         <Container>
             <Box pt={5}>
                 <Typography variant="h6">
-                    IDENTICAL HANDLES FOUND!
+                Lines with identical handles
                 </Typography>
             </Box>
             <TableContainer component={Paper}>

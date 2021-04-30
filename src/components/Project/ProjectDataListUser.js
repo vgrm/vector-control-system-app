@@ -1,7 +1,7 @@
 import { React, useState, useEffect, Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/projectData';
-import { Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
+import { Typography, Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
 import { Input } from 'reactstrap';
 
 import EditIcon from "@material-ui/icons/Edit";
@@ -99,33 +99,33 @@ const ProjectDataList = ({ classes, ...props }) => {
 
     return (
         <Container>
-            HUH
+                                    <Typography variant="h6">
+                            User projects
+                    </Typography>
             <TableContainer>
                 <Table>
                     <TableHead>
                         <TableRow>
+                            <TableCell>Project Set</TableCell>
                             <TableCell>Name</TableCell>
-                            <TableCell>Owner</TableCell>
-                            <TableCell>Original</TableCell>
-                            <TableCell>Identity Score</TableCell>
-                            <TableCell>Date</TableCell>
                             <TableCell>Status</TableCell>
-                            <TableCell>CorrectnessScore</TableCell>
-                            <TableCell>PROJECTSET</TableCell>
+                            <TableCell>Identity</TableCell>
+                            <TableCell>Correctness</TableCell>
+                            <TableCell>Date uploaded</TableCell>
+                            <TableCell>Date updated</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {
                             props.projectDataListUser.map((project, index) => {
                                 return (<TableRow key={index} hover>
+                                    <TableCell>{project.projectSet.name}</TableCell>
                                     <TableCell>{project.name}</TableCell>
-                                    <TableCell>{project.ownerId}</TableCell>
-                                    <TableCell>{project.original}</TableCell>
-                                    <TableCell>{project.scoreIdentity}</TableCell>
-                                    <TableCell>{project.date}</TableCell>
                                     <TableCell>{project.status}</TableCell>
+                                    <TableCell>{project.scoreIdentity}</TableCell>
                                     <TableCell>{project.scoreCorrectness}</TableCell>
-                                    <TableCell>{project.projectSetId}</TableCell>
+                                    <TableCell>{project.dateUploaded}</TableCell>
+                                    <TableCell>{project.dateUpdated}</TableCell>
                                     <TableCell>
                                         <ButtonGroup variant="text">
                                             <Button><NavigateNextIcon className={classes.icon}

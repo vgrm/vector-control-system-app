@@ -85,8 +85,8 @@ const styles = theme => ({
 
 const UserProfile = ({ classes, ...props }) => {
     const [currentUsername, setCurrentUsername] = useState(props.user.userCurrent.username)
-    const [scoreData,setScoreData] = useState([]);
-    const [identityData,setIdentityData] = useState([]);
+    const [scoreData, setScoreData] = useState([]);
+    const [identityData, setIdentityData] = useState([]);
 
     const history = useHistory();
     const params = useParams();
@@ -175,7 +175,21 @@ const UserProfile = ({ classes, ...props }) => {
                                         {props.user.userCurrent.lastName}
                                     </Typography>
 
-                                    <Box p={5}>
+
+                                </Container>
+                            </Grid>
+                            <Grid item className="grid-el" xs={12} md={5}>
+                                <Typography variant="h6">
+                                    User statistics
+                                    </Typography>
+                                {scoreData.length > 0 && identityData.length > 0 && <UserChart {...props} scoreData={scoreData} identityData={identityData} />}
+                            </Grid>
+                        </Grid>
+
+
+                    </Paper>
+
+                    <Box p={5}>
                                         <ColorButton variant="contained" onClick={() => onUpdate()}>
                                             edit profile
                                         <EditIcon />
@@ -186,21 +200,9 @@ const UserProfile = ({ classes, ...props }) => {
                                         <ExitToAppOutlinedIcon />
                                         </ColorButton2>
                                     </Box>
-                                </Container>
-                            </Grid>
-                            <Grid item className="grid-el" xs={12} md={5}>
-                            <Typography variant="h6">
-                                        User statistics
-                                    </Typography>
-                                {scoreData.length > 0 && identityData.length > 0 && <UserChart {...props} scoreData={scoreData} identityData={identityData}/>}
-                        </Grid>
-                        </Grid>
-
-
-                    </Paper>
                 </Box>
             }
-            <ProjectDataListUser currentUsername={currentUsername}{...props} setScoreData={setScoreData} setIdentityData={setIdentityData}/>
+            <ProjectDataListUser currentUsername={currentUsername}{...props} setScoreData={setScoreData} setIdentityData={setIdentityData} />
         </Container>
     );
 

@@ -35,10 +35,18 @@ const styles = theme => ({
         padding: theme.spacing(2)
     },
     icon: {
-        color: "#607d8b"
+        color: colors.primaryColor
     },
     iconRed: {
-        color: "#e53935"
+        color: colors.errorBorder,
+        fontWeight: 'bold'
+    },
+    iconGreen: {
+        color: colors.ratingGoodColor,
+        fontWeight: 'bold'
+    },
+    iconGray: {
+        color: colors.gray
     }
 })
 
@@ -132,8 +140,9 @@ const ProjectSetList = ({ classes, ...props }) => {
                                 props.projectSetOwnedList.map((set, index) => {
                                     return (<TableRow key={index} hover >
                                         <TableCell>{set.name}</TableCell>
-                                        <TableCell>{set.owner.username}</TableCell>
-                                        <TableCell>{set.state.name}</TableCell>
+                                        <TableCell >{set.owner.username}</TableCell>
+                                        <TableCell className={set.state.name =="Open" ? classes.iconGreen : 
+                                        set.state.name =="Closed" ? classes.iconRed : classes.iconGray }>{set.state.name}</TableCell>
                                         <TableCell>
                                             <ButtonGroup variant="text">
                                                 <Button><NavigateNextIcon className={classes.icon}
@@ -169,7 +178,8 @@ const ProjectSetList = ({ classes, ...props }) => {
                                     return (<TableRow key={index} hover >
                                         <TableCell>{set.name}</TableCell>
                                         <TableCell>{set.owner.username}</TableCell>
-                                        <TableCell>{set.state.name}</TableCell>
+                                        <TableCell className={set.state.name =="Open" ? classes.iconGreen : 
+                                        set.state.name =="Closed" ? classes.iconRed : classes.iconGray }>{set.state.name}</TableCell>
                                         <TableCell>
                                             <ButtonGroup variant="text">
                                                 <Button><NavigateNextIcon className={classes.icon}

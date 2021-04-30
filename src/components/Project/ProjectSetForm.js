@@ -250,6 +250,20 @@ const ProjectSetForm = ({ ...props }) => {
                             &&
                             <form className={classes.form} autoComplete="off" noValidate onSubmit={handleSubmit}>
                                 <Grid container spacing={2}>
+
+                                    <Grid item xs={12}>
+                                        <CssTextField
+                                            variant="outlined"
+                                            required
+                                            fullWidth
+                                            name="name"
+                                            label="Set Name"
+                                            id="name"
+                                            value={values.name}
+                                            onChange={handleInputChange}
+                                            {...(errors.name && { error: true, helperText: errors.name })}
+                                        />
+                                    </Grid>
                                     <Grid item xs={12}>
                                         <CssTextField
                                             //autoComplete="username"
@@ -262,19 +276,6 @@ const ProjectSetForm = ({ ...props }) => {
                                             value={values.description}
                                             onChange={handleInputChange}
                                             {...(errors.description && { error: true, helperText: errors.description })}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <CssTextField
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            name="name"
-                                            label="Set Name"
-                                            id="name"
-                                            value={values.name}
-                                            onChange={handleInputChange}
-                                            {...(errors.name && { error: true, helperText: errors.name })}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>

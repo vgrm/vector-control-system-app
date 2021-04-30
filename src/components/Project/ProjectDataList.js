@@ -11,6 +11,7 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 import RestorePageIcon from '@material-ui/icons/RestorePage';
 import NavigateNextIcon from "@material-ui/icons/NavigateNext"
 
+import colors from '../../Constants/colors';
 import { useToasts } from "react-toast-notifications";
 
 import { Link, withRouter, useHistory, useParams } from 'react-router-dom';
@@ -25,10 +26,10 @@ const styles = theme => ({
         margin: theme.spacing(2),
         padding: theme.spacing(2)
     },
-    starIcon1: { color: 'gold' },
-    starIcon2: { color: 'gray' },
+    starIcon1: { color: colors.ratingBadColor },
+    starIcon2: { color: colors.gray },
     icon: {
-        color: "#607d8b"
+        color: colors.primaryColor
     },
     iconRed: {
         color: "#e53935"
@@ -110,13 +111,11 @@ const ProjectDataList = ({ classes, ...props }) => {
                     <TableHead>
                         <TableRow>
                             <TableCell>Name</TableCell>
-                            <TableCell>Owner</TableCell>
-                            <TableCell>Original</TableCell>
-                            <TableCell>Identity Score</TableCell>
-                            <TableCell>Date</TableCell>
                             <TableCell>Status</TableCell>
-                            <TableCell>CorrectnessScore</TableCell>
-                            <TableCell>PROJECTSET</TableCell>
+                            <TableCell>Identity</TableCell>
+                            <TableCell>Correctness</TableCell>
+                            <TableCell>Date uploaded</TableCell>
+                            <TableCell>Date updated</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -124,13 +123,11 @@ const ProjectDataList = ({ classes, ...props }) => {
                             props.projectDataList.map((project, index) => {
                                 return (<TableRow key={index} hover>
                                     <TableCell>{project.name}</TableCell>
-                                    <TableCell>{project.ownerId}</TableCell>
-                                    <TableCell>{project.original}</TableCell>
-                                    <TableCell>{project.scoreIdentity}</TableCell>
-                                    <TableCell>{project.date}</TableCell>
                                     <TableCell>{project.status}</TableCell>
+                                    <TableCell>{project.scoreIdentity}</TableCell>
                                     <TableCell>{project.scoreCorrectness}</TableCell>
-                                    <TableCell>{project.projectSetId}</TableCell>
+                                    <TableCell>{project.dateUploaded}</TableCell>
+                                    <TableCell>{project.dateUpdated}</TableCell>
                                     <TableCell>
                                         {(props.user.isLoggedIn) &&
                                             ((props.projectSet.ownerId == props.user.userCurrent.id))
