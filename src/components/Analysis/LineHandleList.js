@@ -149,7 +149,7 @@ const LineHandleList = ({ classes, ...props }) => {
         <Container>
             <Box pt={5}>
                 <Typography variant="h6">
-                Lines with identical handles
+                    Lines with identical handles
                 </Typography>
             </Box>
             <TableContainer component={Paper}>
@@ -222,7 +222,7 @@ const LineHandleList = ({ classes, ...props }) => {
                     </TableFooter>
                 </Table>
             </TableContainer>
-            
+
             <Button><RestorePageIcon className={classes.icon} color="primary"
                 onClick={() => { onUpdate() }} /></Button>
 

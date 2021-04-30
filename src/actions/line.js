@@ -74,7 +74,7 @@ export const fetchLinesHandle = (id) => dispatch => {
 }
 
 export const fetchById = (id) => dispatch => {
-    console.log("trying to fetch single project of id:"+id);
+    console.log("trying to fetch single project of id:" + id);
     createAPIEndpoint(ENDPIONTS.LINE).fetchById(id)
         .then(response => {
             dispatch({

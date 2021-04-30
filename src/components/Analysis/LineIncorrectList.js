@@ -216,7 +216,7 @@ const LineIncorrectList = ({ classes, ...props }) => {
                     </TableFooter>
                 </Table>
             </TableContainer>
-            
+
             <Button><RestorePageIcon className={classes.icon} color="primary"
                 onClick={() => { onUpdate() }} /></Button>
 

@@ -22,7 +22,7 @@ export const fetchAll = () => dispatch => {
 }
 
 export const fetchProjects = (id) => dispatch => {
-    console.log("trying to fetch projects of set id:"+id);
+    console.log("trying to fetch projects of set id:" + id);
     createAPIEndpoint(ENDPIONTS.PROJECTDATA).fetchProjects(id)
         .then(response => {
             dispatch({
@@ -35,7 +35,7 @@ export const fetchProjects = (id) => dispatch => {
 
 
 export const fetchById = (id) => dispatch => {
-    console.log("trying to fetch single project of id:"+id);
+    console.log("trying to fetch single project of id:" + id);
     createAPIEndpoint(ENDPIONTS.PROJECTDATA).fetchById(id)
         .then(response => {
             dispatch({
@@ -47,7 +47,7 @@ export const fetchById = (id) => dispatch => {
 }
 
 export const fetchByUser = (id) => dispatch => {
-    console.log("trying to fetch data list of user:"+id);
+    console.log("trying to fetch data list of user:" + id);
     createAPIEndpoint(ENDPIONTS.PROJECTDATA + "/user").fetchAllParams(id)
         .then(response => {
             dispatch({

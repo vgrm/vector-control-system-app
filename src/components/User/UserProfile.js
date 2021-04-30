@@ -185,21 +185,17 @@ const UserProfile = ({ classes, ...props }) => {
                                 {scoreData.length > 0 && identityData.length > 0 && <UserChart {...props} scoreData={scoreData} identityData={identityData} />}
                             </Grid>
                         </Grid>
-
-
                     </Paper>
 
                     <Box p={5}>
-                                        <ColorButton variant="contained" onClick={() => onUpdate()}>
-                                            edit profile
-                                        <EditIcon />
-                                        </ColorButton>
+                        <ColorButton variant="contained" onClick={() => onUpdate()}>
+                            edit profile <EditIcon />
+                        </ColorButton>
 
-                                        <ColorButton2 variant="contained" onClick={() => onSignout()}>
-                                            signout
-                                        <ExitToAppOutlinedIcon />
-                                        </ColorButton2>
-                                    </Box>
+                        <ColorButton2 variant="contained" onClick={() => onSignout()}>
+                            signout <ExitToAppOutlinedIcon />
+                        </ColorButton2>
+                    </Box>
                 </Box>
             }
             <ProjectDataListUser currentUsername={currentUsername}{...props} setScoreData={setScoreData} setIdentityData={setIdentityData} />
