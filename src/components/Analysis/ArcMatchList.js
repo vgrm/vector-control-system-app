@@ -1,16 +1,9 @@
-import { React, useState, useEffect, Component } from 'react';
+import { React, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/arc';
-import { Container, Box, Typography, Grid, Paper, TableContainer, Table, TableHead, TableFooter, TablePagination, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
-import { Input } from 'reactstrap';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Container, Box, Typography, Paper, TableContainer, Table, TableHead, TableFooter, TablePagination, TableRow, TableCell, TableBody, withStyles } from "@material-ui/core";
 
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import StarIcon from '@material-ui/icons/Star';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import RestorePageIcon from '@material-ui/icons/RestorePage';
-import NavigateNextIcon from "@material-ui/icons/NavigateNext"
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
@@ -18,9 +11,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 
-import { useToasts } from "react-toast-notifications";
-
-import { Link, withRouter, useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const styles = theme => ({
     root: {
@@ -113,34 +104,17 @@ const ArcMatchList = ({ classes, ...props }) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-    //toast msg.
-    const { addToast } = useToasts();
 
-    const history = useHistory();
     const params = useParams();
 
-    const nextPath = (path) => {
-        history.push(path);
-    }
 
     useEffect(() => {
-        if (params.projectId != 0) {
-            console.log("USEEFEKT arcs");
-            console.log(params.projectId);
+        if (params.projectId !== 0) {
+
             props.fetchArcsMatch(params.projectId)
         }
-    }, [])//componentDidMount
+    })//componentDidMount
 
-
-    const onUpdate = (record) => {
-
-        console.log(props);
-        console.log(params);
-        //let formData = new FormData();
-        //formData.append('status', "tesUPt");
-        //props.setCurrentProjectId(record.id);
-        //props.setCurrentProjectId(0);
-    }
 
 
 
@@ -149,14 +123,14 @@ const ArcMatchList = ({ classes, ...props }) => {
         <Container>
             <Box pt={5}>
                 <Typography variant="h6">
-                Correct arcs
+                    Correct arcs
                 </Typography>
             </Box>
             <TableContainer component={Paper}>
                 <Table size="small" aria-label="a dense table">
                     <TableHead>
                         <TableRow>
-                        <TableCell>Handle</TableCell>
+                            <TableCell>Handle</TableCell>
                             <TableCell>Layer</TableCell>
                             <TableCell>X</TableCell>
                             <TableCell>Y</TableCell>
@@ -214,10 +188,6 @@ const ArcMatchList = ({ classes, ...props }) => {
                     </TableFooter>
                 </Table>
             </TableContainer>
-            
-            <Button><RestorePageIcon className={classes.icon} color="primary"
-                onClick={() => { onUpdate() }} /></Button>
-
 
         </Container>
     );

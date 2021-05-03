@@ -41,13 +41,13 @@ export const projectSet = (state = initialState, action) => {
         case ACTION_TYPES.UPDATE_PROJECTSET:
             return {
                 ...state,
-                list: state.list.map(x => x.id == action.payload.id ? action.payload : x)
+                list: state.list.map(x => x.id === action.payload.id ? action.payload : x)
             }
 
         case ACTION_TYPES.DELETE_PROJECTSET:
             return {
                 ...state,
-                list: state.list.filter(x => x.id != action.payload)
+                list: state.list.filter(x => x.id !== action.payload)
             }
 
         default:

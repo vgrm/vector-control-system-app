@@ -5,7 +5,6 @@ const UserListPage = (props) => {
     return (
         <div>
             <UserList />
-        USER PAGE
         </div>
     );
 

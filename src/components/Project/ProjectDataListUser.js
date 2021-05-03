@@ -1,19 +1,11 @@
-import { React, useState, useEffect, Component } from 'react';
+import { React, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/projectData';
-import { Typography, Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
-import { Input } from 'reactstrap';
+import { Typography, Container, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
 
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
-import StarIcon from '@material-ui/icons/Star';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
-import RestorePageIcon from '@material-ui/icons/RestorePage';
 import NavigateNextIcon from "@material-ui/icons/NavigateNext"
 
-import { useToasts } from "react-toast-notifications";
-
-import { Link, withRouter, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 const styles = theme => ({
     root: {
@@ -36,33 +28,23 @@ const styles = theme => ({
 })
 
 const ProjectDataList = ({ classes, ...props }) => {
-    const [currentId, setCurrentId] = useState(0)
-
-    //const history = useHistory();
     const params = useParams();
 
     useEffect(() => {
-        console.log("PDUSER:",props)
         props.fetchProjectsUser(props.currentUsername)
         correctScoreData()
-        //props.setCurrentProjectId(0)
-        //props.fetchProjects(params.projectsetId)
-    }, [])//componentDidMount
+    })//componentDidMount
 
     useEffect(() => {
-        if (props.currentProjectId != 0) {
-            console.log("YES");
+        if (props.currentProjectId !== 0) {
+
             props.fetchProjects(params.projectsetId)
-            //props.projectDataList.find(x => x.id == props.currentProjectId)
+
         }
-    }, [props.currentProjectId])
-
-
-    //toast msg.
-    const { addToast } = useToasts()
+    })
 
     const onSelect = (project) => {
-        if (project.id != 0)
+        if (project.id !== 0)
             nextPath('/projectdata/' + project.id);
     }
 
@@ -73,34 +55,29 @@ const ProjectDataList = ({ classes, ...props }) => {
     }
 
     const correctScoreData = () => {
-        //var scores= props.projectDataListUser.forEach(x=>x.scoreCorrectness);
         var scores = []
-        props.projectDataListUser.forEach(x=>{
+        props.projectDataListUser.forEach(x => {
             scores.push(x.scoreCorrectness)
         });
-        var arr =[];
-        scores.forEach((x,index)=>{
-            arr.push([index,x])
+        var arr = [];
+        scores.forEach((x, index) => {
+            arr.push([index, x])
         });
-        //setDataArray(arr);
 
         props.setScoreData(arr);
 
         var identities = []
-        props.projectDataListUser.forEach((x,index) =>{
-            identities.push([index,x.scoreIdentity])
+        props.projectDataListUser.forEach((x, index) => {
+            identities.push([index, x.scoreIdentity])
         });
         props.setIdentityData(identities);
-        
-        console.log("SCORES",scores)
-        console.log("IDENTS",identities)
-        console.log("Props",props)
+
     }
 
     return (
         <Container>
-                                    <Typography variant="h6">
-                            User projects
+            <Typography variant="h6">
+                User projects
                     </Typography>
             <TableContainer>
                 <Table>
@@ -148,7 +125,7 @@ const mapStateToProps = state => ({
     projectDataListUser: state.projectData.listUser,
     user: state.user,
     projectSet: state.projectSet.selectedSet,
-    
+
 })
 
 const mapActionToProps = {

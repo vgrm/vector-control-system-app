@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 
 const useProjectSetForm = (initialFieldValues, validate, setCurrentId) => {
     const [values, setValues] = useState(initialFieldValues)
@@ -19,7 +19,6 @@ const useProjectSetForm = (initialFieldValues, validate, setCurrentId) => {
             ...initialFieldValues
         })
         setErrors({})
-        //setCurrentId(0)
     }
 
     return {

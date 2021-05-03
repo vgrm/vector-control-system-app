@@ -1,17 +1,11 @@
-import { React, useState, useEffect } from 'react';
+import { React, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/projectSet';
-import { Typography, Container, Box, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
+import { Typography, Container, Box, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
 
-//import { Button , Alert} from 'reactstrap';
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext"
 
-import { useToasts } from "react-toast-notifications";
-import ProjectSetForm from './ProjectSetForm';
-
-import { Link, withRouter, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import colors from "../../Constants/colors";
 
 const ColorButton = withStyles(theme => ({
@@ -51,50 +45,18 @@ const styles = theme => ({
 })
 
 const ProjectSetList = ({ classes, ...props }) => {
-    const [currentId, setCurrentId] = useState(0)
-    const [currentSetId, setCurrentSetId] = useState(0)
 
     useEffect(() => {
-        //props.fetchAllProjectSet()
         props.fetchAllOtherProjectSet()
         props.fetchAllOwnedProjectSet()
-    }, [])//componentDidMount
-
-
-    //toast msg.
-    const { addToast } = useToasts()
-
-    const onDelete = (id) => {
-        if (window.confirm('Are you sure to delete this record?'))
-            props.deleteProjectSet(id, () => addToast("Deleted successfully", { appearance: 'success', placement: 'bottom-right' }))
-    }
-
-    const onUpdate = (set) => {
-        setCurrentId(set.id);
-        if (set.id != 0)
-            nextPath('/projectsetform/' + set.id);
-        else nextPath('/projectsetform/' + 0);
-        //if (window.confirm('Are you sure to update this set?')) {
-
-        //props.updateProjectData(set.id, set, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
-        //console.log("PROPS IN SET LIST", props);
-        //<ProjectSetForm {...({ currentId, setCurrentId,currentSetId,setCurrentSetId})}/>
-        //}
-    }
+    })//componentDidMount
 
     const onCreate = () => {
-        setCurrentId(0);
         nextPath('/projectsetform/' + 0);
-        //if (window.confirm('Are you sure to update this set?')) {
-
-        //props.updateProjectData(set.id, set, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
-        //console.log("PROPS IN SET LIST", props);
-        //<ProjectSetForm {...({ currentId, setCurrentId,currentSetId,setCurrentSetId})}/>
-        //}
     }
 
     const onSelect = (set) => {
-        if (set.id != 0)
+        if (set.id !== 0)
             nextPath('/projectset/' + set.id);
     }
 
@@ -141,8 +103,8 @@ const ProjectSetList = ({ classes, ...props }) => {
                                     return (<TableRow key={index} hover >
                                         <TableCell>{set.name}</TableCell>
                                         <TableCell >{set.owner.username}</TableCell>
-                                        <TableCell className={set.state.name =="Open" ? classes.iconGreen : 
-                                        set.state.name =="Closed" ? classes.iconRed : classes.iconGray }>{set.state.name}</TableCell>
+                                        <TableCell className={set.state.name === "Open" ? classes.iconGreen :
+                                            set.state.name === "Closed" ? classes.iconRed : classes.iconGray}>{set.state.name}</TableCell>
                                         <TableCell>
                                             <ButtonGroup variant="text">
                                                 <Button><NavigateNextIcon className={classes.icon}
@@ -178,8 +140,8 @@ const ProjectSetList = ({ classes, ...props }) => {
                                     return (<TableRow key={index} hover >
                                         <TableCell>{set.name}</TableCell>
                                         <TableCell>{set.owner.username}</TableCell>
-                                        <TableCell className={set.state.name =="Open" ? classes.iconGreen : 
-                                        set.state.name =="Closed" ? classes.iconRed : classes.iconGray }>{set.state.name}</TableCell>
+                                        <TableCell className={set.state.name === "Open" ? classes.iconGreen :
+                                            set.state.name === "Closed" ? classes.iconRed : classes.iconGray}>{set.state.name}</TableCell>
                                         <TableCell>
                                             <ButtonGroup variant="text">
                                                 <Button><NavigateNextIcon className={classes.icon}

@@ -1,7 +1,6 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-//const BASE_URL = "http://localhost:44333/api/"
 const BASE_URL = "https://localhost:5001/api/"
 
 export const ENDPIONTS = {
@@ -13,12 +12,9 @@ export const ENDPIONTS = {
     USER: 'User'
 }
 
-//let headers = { "Content-type": "application/json"}
 export const createAPIEndpoint = endpoint => {
 
     let url = BASE_URL + endpoint + '/';
-    console.log("header:", authHeader());
-    //let headers = { "Content-type": "multipart/form-data"}
 
     return {
         fetchAll: () => axios.get(url, { headers: authHeader() }),

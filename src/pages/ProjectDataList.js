@@ -5,11 +5,8 @@ const ProjectDataListPage = (props) => {
 
     return (
         <div>
-            <ProjectDataUpload/>
+            <ProjectDataUpload />
             <ProjectDataList />
-        h ProjectPage LIST
-
-
         </div>
     );
 

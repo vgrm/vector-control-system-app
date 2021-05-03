@@ -24,7 +24,6 @@ export const fetchAll = () => dispatch => {
 }
 
 export const fetchByUsername = (username) => dispatch => {
-    //console.log("trying to fetch single project of id:"+id);
     createAPIEndpoint(ENDPIONTS.USER).fetchByUsername(username)
         .then(response => {
             dispatch({
@@ -36,50 +35,39 @@ export const fetchByUsername = (username) => dispatch => {
 }
 
 export const signup = (data, onSuccess) => dispatch => {
-    //data = formateData(data)
     createAPIEndpoint(ENDPIONTS.USER + "/signup").create(data)
         .then(res => {
-            //console.log("resdata",res.data);
-            //console.log(data);
             dispatch({
                 type: ACTION_TYPES.SIGNUP_USER,
                 payload: res.data
             })
             onSuccess();
-            //localStorage.setItem('myData', res.data.token);
-            //Cookies.set('token',res.data.token);
-            Cookies.set('userCurrent',res.data);
+            Cookies.set('userCurrent', res.data);
         })
         .catch(err => console.log(err))
 }
 
 export const signin = (data, onSuccess) => dispatch => {
-    //data = formateData(data)
     createAPIEndpoint(ENDPIONTS.USER + '/signin').create(data)
         .then(res => {
-            console.log(res.data);
-            //console.log(data);
             dispatch({
                 type: ACTION_TYPES.SIGNIN_USER,
                 payload: res.data
             })
             onSuccess()
-            //Cookies.set('token',res.data.token);
-            Cookies.set('userCurrent',res.data);
+            Cookies.set('userCurrent', res.data);
         })
         .catch(err => console.log(err))
 }
 
 export const signout = () => dispatch => {
-    //Cookies.set('userCurrent',res.data);
     Cookies.remove('userCurrent');
     dispatch({
         type: ACTION_TYPES.SIGNOUT_USER
-      });
+    });
 }
 
 export const update = (id, data, onSuccess) => dispatch => {
-    //data = formateData(data)
     createAPIEndpoint(ENDPIONTS.USER).update(id, data)
         .then(res => {
             dispatch({

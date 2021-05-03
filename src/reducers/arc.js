@@ -36,7 +36,7 @@ export const arc = (state = initialState, action) => {
         case ACTION_TYPES.FETCH_ARC:
             return {
                 ...state,
-                list: state.list.map(x => x.id == action.payload.id ? action.payload : x)
+                list: state.list.map(x => x.id === action.payload.id ? action.payload : x)
             }
 
         default:

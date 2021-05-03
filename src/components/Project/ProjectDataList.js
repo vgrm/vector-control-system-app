@@ -1,20 +1,17 @@
-import { React, useState, useEffect, Component } from 'react';
+import { React, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/projectData';
-import { Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
-import { Input } from 'reactstrap';
+import { Container, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
 
-import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import StarIcon from '@material-ui/icons/Star';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
 import RestorePageIcon from '@material-ui/icons/RestorePage';
 import NavigateNextIcon from "@material-ui/icons/NavigateNext"
 
 import colors from '../../Constants/colors';
 import { useToasts } from "react-toast-notifications";
 
-import { Link, withRouter, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 const styles = theme => ({
     root: {
@@ -37,7 +34,6 @@ const styles = theme => ({
 })
 
 const ProjectDataList = ({ classes, ...props }) => {
-    const [currentId, setCurrentId] = useState(0)
 
     //const history = useHistory();
     const params = useParams();
@@ -45,15 +41,13 @@ const ProjectDataList = ({ classes, ...props }) => {
     useEffect(() => {
         props.setCurrentProjectId(0)
         props.fetchProjects(params.projectsetId)
-    }, [props.currentProjectId])//componentDidMount
+    })//componentDidMount
 
     useEffect(() => {
-        if (props.currentProjectId != 0) {
-            console.log("YES");
+        if (props.currentProjectId !== 0) {
             props.fetchProjects(params.projectsetId)
-            //props.projectDataList.find(x => x.id == props.currentProjectId)
         }
-    }, [props.currentProjectId])
+    })
 
 
     //toast msg.
@@ -65,36 +59,24 @@ const ProjectDataList = ({ classes, ...props }) => {
     }
 
     const onUpdate = (record) => {
-
-        console.log(props);
-        console.log(props.currentProjectId);
-        //let formData = new FormData();
-        //formData.append('status', "tesUPt");
         if (window.confirm('Are you sure to update this record?')) {
-            //props.patchProjectData(record.id, formData, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
             props.updateProjectData(record.id, record, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
         }
         props.setCurrentProjectId(record.id);
-        //props.setCurrentProjectId(0);
     }
 
     const onSetOriginal = (record) => {
-        //setCurrentId(record.id);
         let formData = new FormData();
-        //formData.append('status', "Processing");
         formData.append('command', "ChangeOriginal");
         if (window.confirm('Are you sure to update this record?')) {
             props.patchProjectData(record.id, formData, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
             props.setCurrentProjectId(0);
-            //props.updateProjectData(record.id, formData, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
         }
-        //if (window.confirm('Are you sure to set this project as ORIGINAL?')) {
-        //props.updateProjectData(record.id, record, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
-        //}
+
     }
 
     const onSelect = (project) => {
-        if (project.id != 0)
+        if (project.id !== 0)
             nextPath('/projectdata/' + project.id);
     }
 
@@ -130,7 +112,7 @@ const ProjectDataList = ({ classes, ...props }) => {
                                     <TableCell>{project.dateUpdated}</TableCell>
                                     <TableCell>
                                         {(props.user.isLoggedIn) &&
-                                            ((props.projectSet.ownerId == props.user.userCurrent.id))
+                                            ((props.projectSet.ownerId === props.user.userCurrent.id))
                                             &&
                                             <ButtonGroup variant="text">
                                                 <Button><StarIcon className={project.original ? classes.starIcon1 : classes.starIcon2} color="primary"

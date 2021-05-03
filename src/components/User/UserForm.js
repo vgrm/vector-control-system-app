@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { CssBaseline, Avatar, Box, Typography, Container, Grid, TextField, FormControl, InputLabel, Select, MenuItem, Button, FormHelperText } from "@material-ui/core";
-//import useProjectSetForm from "./useProjectSetForm";
+import { CssBaseline, Avatar, Typography, Container, Grid, TextField, FormControl, InputLabel, Select, MenuItem, Button, FormHelperText } from "@material-ui/core";
 import { connect } from "react-redux";
 import * as actions from "../../actions/user";
 import { useToasts } from "react-toast-notifications";
-//import { projectSet } from './../../reducers/projectSet';
-import { Link, withRouter, useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
 import colors from "../../Constants/colors";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -131,8 +129,7 @@ const UserForm = ({ ...props }) => {
     const [values, setValues] = useState(initialFieldValues)
     const [errors, setErrors] = useState({})
     const inputLabel = React.useRef(null);
-    const [labelWidth, setLabelWidth] = React.useState(0);
-    const history = useHistory();
+    const labelWidth = React.useState(0);
     const params = useParams();
 
     useEffect(() => {
@@ -141,11 +138,7 @@ const UserForm = ({ ...props }) => {
             ...props.user.userSelected
         })
         setErrors({})
-    }, [])//componentDidMount
-
-    const nextPath = (path) => {
-        history.push(path);
-    }
+    }, [props, params.username])//componentDidMount
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -157,8 +150,8 @@ const UserForm = ({ ...props }) => {
             ...temp
         })
 
-        if (fieldValues == values)
-            return Object.values(temp).every(x => x == "")
+        if (fieldValues === values)
+            return Object.values(temp).every(x => x === "")
     }
 
 
@@ -194,56 +187,56 @@ const UserForm = ({ ...props }) => {
     }
 
     return (
-            <Container>
+        <Container>
 
-                <Container component="main" maxWidth="xs">
-                    <CssBaseline />
-                    <div className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <ListAltOutlinedIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            User Form
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                        <ListAltOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        User Form
                 </Typography>
-                        {((props.user.isLoggedIn && props.user.userCurrent.username == params.username) 
-                        || (props.user.isLoggedIn && props.user.userCurrent.roleId == -1))
+                    {((props.user.isLoggedIn && props.user.userCurrent.username === params.username)
+                        || (props.user.isLoggedIn && props.user.userCurrent.roleId === -1))
                         &&
-                            <form className={classes.form} autoComplete="off" noValidate onSubmit={handleSubmit}>
-                                <Grid container spacing={2}>
+                        <form className={classes.form} autoComplete="off" noValidate onSubmit={handleSubmit}>
+                            <Grid container spacing={2}>
                                 <Grid item xs={12}>
-                                        <CssTextField
-                                            variant="outlined"
-                                            fullWidth
-                                            id="email"
-                                            name="email"
-                                            label="email"
-                                            value={values.email}
-                                            onChange={handleInputChange}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <CssTextField
-                                            variant="outlined"
-                                            fullWidth
-                                            id="firstName"
-                                            name="firstName"
-                                            label="firstName"
-                                            value={values.firstName}
-                                            onChange={handleInputChange}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <CssTextField
-                                            variant="outlined"
-                                            fullWidth
-                                            id="lastName"
-                                            name="lastName"
-                                            label="lastName"
-                                            value={values.lastName}
-                                            onChange={handleInputChange}
-                                        />
-                                    </Grid>
-                                    {(props.user.isLoggedIn && props.user.userCurrent.roleId == -1) &&
+                                    <CssTextField
+                                        variant="outlined"
+                                        fullWidth
+                                        id="email"
+                                        name="email"
+                                        label="email"
+                                        value={values.email}
+                                        onChange={handleInputChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <CssTextField
+                                        variant="outlined"
+                                        fullWidth
+                                        id="firstName"
+                                        name="firstName"
+                                        label="firstName"
+                                        value={values.firstName}
+                                        onChange={handleInputChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <CssTextField
+                                        variant="outlined"
+                                        fullWidth
+                                        id="lastName"
+                                        name="lastName"
+                                        label="lastName"
+                                        value={values.lastName}
+                                        onChange={handleInputChange}
+                                    />
+                                </Grid>
+                                {(props.user.isLoggedIn && props.user.userCurrent.roleId === -1) &&
                                     <Grid item xs={12}>
                                         <CssFormControl variant="outlined" fullWidth
                                             {...(errors.roleId && { error: true })}
@@ -262,30 +255,30 @@ const UserForm = ({ ...props }) => {
                                             {errors.roleId && <FormHelperText>{errors.roleId}</FormHelperText>}
                                         </CssFormControl>
                                     </Grid>}
-                                </Grid>
-                                <ColorButton
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.submit}
-                                >
-                                    save changes
+                            </Grid>
+                            <ColorButton
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                            >
+                                save changes
                     </ColorButton>
-                                <ColorButton2
-                                    fullWidth
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={deleteUser}
-                                >
-                                    Delete user
+                            <ColorButton2
+                                fullWidth
+                                variant="contained"
+                                color="secondary"
+                                onClick={deleteUser}
+                            >
+                                Delete user
                     </ColorButton2>
-                            </form>
-                        }
-                    </div>
-                </Container>
-
+                        </form>
+                    }
+                </div>
             </Container>
+
+        </Container>
 
     );
 }

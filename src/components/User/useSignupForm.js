@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 
 const useSignupForm = (initialFieldValues, validate) => {
     const [values, setValues] = useState(initialFieldValues)

@@ -1,18 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useToasts } from "react-toast-notifications";
-//import useSigninForm from './useSigninForm';
+
 import { connect } from "react-redux";
 import * as actions from "../../actions/user";
-import { withRouter, useHistory, useParams } from 'react-router-dom';
-//import { Card, Row, Col, Form, Button } from "react-bootstrap";
+import { useHistory } from 'react-router-dom';
 
-//import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -102,7 +98,6 @@ const Signin = ({ ...props }) => {
     const [errors, setErrors] = useState({})
 
     const history = useHistory();
-    const params = useParams();
 
     const nextPath = (path) => {
         history.push(path);
@@ -118,8 +113,8 @@ const Signin = ({ ...props }) => {
             ...temp
         })
 
-        if (fieldValues == values)
-            return Object.values(temp).every(x => x == "")
+        if (fieldValues === values)
+            return Object.values(temp).every(x => x === "")
     }
 
 
@@ -133,37 +128,17 @@ const Signin = ({ ...props }) => {
         validate(fieldValue)
     }
 
-    const resetForm = () => {
-        setValues({
-            ...initialFieldValues
-        })
-        setErrors({})
-        //setCurrentId(0)
-    }
-
-    /*
-    const {
-        values,
-        errors,
-        setErrors,
-        handleInputChange,
-        resetForm
-    } = useSigninForm(initialFieldValues, validate)
-*/
     const handleSubmit = e => {
         e.preventDefault()
         if (validate()) {
             const onSuccess = () => {
-                //onSubmited()
+
                 addToast("Submitted successfully", { appearance: 'success', placement: 'bottom-left' })
             }
-            //props.createProjectSet(values, onSuccess)
-            //props.createProjectSet(values, onSuccess)
+
             props.signinUser(values, onSuccess);
-            console.log("SUBMITING DATA", values, props);
             nextPath('/');
         }
-        console.log("SUBMITING DATA", values, props);
     }
 
     return (

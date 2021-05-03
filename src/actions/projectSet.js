@@ -44,7 +44,6 @@ export const fetchAllOther = () => dispatch => {
 }
 
 export const fetchById = (id) => dispatch => {
-    console.log("trying to fetch single set");
     createAPIEndpoint(ENDPIONTS.PROJECTSET).fetchById(id)
         .then(response => {
             dispatch({
@@ -55,8 +54,6 @@ export const fetchById = (id) => dispatch => {
         .catch(err => console.log(err))
 }
 export const create = (data, onSuccess) => dispatch => {
-    //data = formateData(data)
-    console.log("create set");
     createAPIEndpoint(ENDPIONTS.PROJECTSET).create(data)
         .then(res => {
             console.log(res.data);
@@ -71,7 +68,6 @@ export const create = (data, onSuccess) => dispatch => {
 }
 
 export const update = (id, data, onSuccess) => dispatch => {
-    //data = formateData(data)
     createAPIEndpoint(ENDPIONTS.PROJECTSET).update(id, data)
         .then(res => {
             dispatch({

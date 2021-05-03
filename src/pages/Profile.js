@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button, Typography } from "@material-ui/core";
+import { Box, Container, Paper, Typography } from "@material-ui/core";
 import Profile from '../components/User/UserProfile'
 
 const ProfilePage = (props) => {

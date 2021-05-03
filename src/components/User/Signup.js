@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useToasts } from "react-toast-notifications";
 //import useSignupForm from './useSignupForm';
 import { connect } from "react-redux";
 import * as actions from "../../actions/user";
-import { withRouter, useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 //import { Card, Row, Col, Form, Button } from "react-bootstrap";
 
 //import React from 'react';
@@ -11,8 +11,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -102,44 +100,38 @@ const Signup = ({ ...props }) => {
     const [errors, setErrors] = useState({})
 
     const history = useHistory();
-    const params = useParams();
 
     const nextPath = (path) => {
         history.push(path);
     }
 
     const validate = (fieldValues = values) => {
-        console.log("VAKIDATE",fieldValues)
         let temp = { ...errors }
         if ('username' in fieldValues)
             temp.username = fieldValues.username ? "" : "This field is required."
         if ('password' in fieldValues)
             temp.password = fieldValues.password ? "" : "This field is required."
-        if ('password2' in fieldValues){
-            temp.password2 = fieldValues.password2 == fieldValues.password ? "" : "Passwords don't match."
+        if ('password2' in fieldValues) {
+            temp.password2 = fieldValues.password2 === fieldValues.password ? "" : "Passwords don't match."
         }
         setErrors({
             ...temp
         })
 
-        if (fieldValues == values)
-            return Object.values(temp).every(x => x == "")
+        if (fieldValues === values)
+            return Object.values(temp).every(x => x === "")
     }
 
     const handleSubmit = e => {
         e.preventDefault()
         if (validate()) {
             const onSuccess = () => {
-                //onSubmited()
                 addToast("Submitted successfully", { appearance: 'success' })
             }
-            //props.createProjectSet(values, onSuccess)
-            //props.createProjectSet(values, onSuccess)
+
             props.signupUser(values, onSuccess);
             nextPath('/');
-            console.log("SUBMITING DATA", values, props);
         }
-        console.log("SUBMITING DATA", values, props);
     }
 
     const handleInputChange = e => {
@@ -150,14 +142,6 @@ const Signup = ({ ...props }) => {
             ...fieldValue
         })
         validate(fieldValue)
-    }
-
-    const resetForm = () => {
-        setValues({
-            ...initialFieldValues
-        })
-        setErrors({})
-        //setCurrentId(0)
     }
 
     return (

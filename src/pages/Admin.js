@@ -1,4 +1,4 @@
-import { Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button, Typography } from "@material-ui/core";
+import { Container, Paper, Typography } from "@material-ui/core";
 import UserList from '../components/Admin/UserList';
 
 const AdminPage = (props) => {
@@ -10,7 +10,7 @@ const AdminPage = (props) => {
                     </Typography>
 
                 <Paper>
-                    <UserList/>
+                    <UserList />
                 </Paper>
             </Container>
         </div>

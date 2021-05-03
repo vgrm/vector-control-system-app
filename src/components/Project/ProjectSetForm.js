@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { CssBaseline, Avatar, Box, Typography, Container, Grid, TextField, FormControl, InputLabel, Select, MenuItem, Button, FormHelperText } from "@material-ui/core";
+import React, { useState, useEffect, useRef } from "react";
+import { CssBaseline, Avatar, Typography, Container, Grid, TextField, FormControl, InputLabel, Select, MenuItem, Button, FormHelperText } from "@material-ui/core";
 import useProjectSetForm from "./useProjectSetForm";
 import { connect } from "react-redux";
 import * as actions from "../../actions/projectSet";
 import { useToasts } from "react-toast-notifications";
-import { projectSet } from './../../reducers/projectSet';
-import { Link, withRouter, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
 import colors from "../../Constants/colors";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -131,28 +130,19 @@ const ProjectSetForm = ({ ...props }) => {
     //toast msg.
     const { addToast } = useToasts();
     const params = useParams();
-
-    //const currentSet =  props.projectSetList.find(x => x.id == params.projectsetId).ownerId;
     const valueOrNull = (value = null) => value;
 
-    let currentSet = 0;
-    if (valueOrNull(props.projectSetList.find(x => x.id == params.projectsetId)) != null) {
-        currentSet = props.projectSetList.find(x => x.id == params.projectsetId);
+    //let currentSet = 0;
+    if (valueOrNull(props.projectSetList.find(x => x.id === params.projectsetId)) != null) {
+        //currentSet = props.projectSetList.find(x => x.id === params.projectsetId);
     }
 
     useEffect(() => {
-        console.log(params)
-        console.log(props)
-
-        if (params.projectsetId != 0) {
+        if (params.projectsetId !== 0) {
             setCurrentId(params.projectsetId)
         }
-    }, [params])
+    }, [params.projectsetId])
 
-
-
-    //validate()
-    //validate({fullName:'jenny'})
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
         if ('name' in fieldValues)
@@ -165,8 +155,8 @@ const ProjectSetForm = ({ ...props }) => {
             ...temp
         })
 
-        if (fieldValues == values)
-            return Object.values(temp).every(x => x == "")
+        if (fieldValues === values)
+            return Object.values(temp).every(x => x === "")
     }
 
     const {
@@ -179,11 +169,11 @@ const ProjectSetForm = ({ ...props }) => {
     } = useProjectSetForm(initialFieldValues, validate, setCurrentId)
 
     //material-ui select
-    const inputLabel = React.useRef(null);
-    const [labelWidth, setLabelWidth] = React.useState(0);
+    const inputLabel = useRef(null);
+    const [labelWidth, setLabelWidth] = useState(0);
 
-    React.useEffect(() => {
-        //setLabelWidth(inputLabel.current.offsetWidth);
+    useEffect(() => {
+        setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
 
     const history = useHistory();
@@ -201,126 +191,123 @@ const ProjectSetForm = ({ ...props }) => {
         if (validate()) {
             const onSuccess = () => {
                 onSubmited()
-                addToast("Submitted successfully", { appearance: 'success', PlacementType: 'bottom-left'})
+                addToast("Submitted successfully", { appearance: 'success', PlacementType: 'bottom-left' })
             }
             //props.createProjectSet(values, onSuccess)
 
-            if (currentId == 0) {
+            if (currentId === 0) {
                 props.createProjectSet(values, onSuccess)
-                console.log("SUBMITING DATA", values, props)
+
             }
             else
                 props.updateProjectSet(currentId, values, onSuccess)
         }
-        console.log("SUBMITING DATA", values, props);
+
     }
 
     useEffect(() => {
-        //onsole.log(params)
-        //console.log(props)
-        //console.log(currentId)
-        //console.log("OWNERIS", currentSet)
-        if (currentId != 0) {
-            //console.log("SETVALUES")
+
+        if (currentId !== 0) {
+
             setValues({
-                ...props.projectSetList.find(x => x.id == currentId)
+                ...props.projectSetList.find(x => x.id === currentId)
             })
             setErrors({})
         }
         //console.log(values);
-    }, [currentId])
+    })
 
 
     return (
-            <Container>
+        <Container>
 
-                <Container component="main" maxWidth="xs">
-                    <CssBaseline />
-                    <div className={classes.paper}>
-                        <Avatar className={classes.avatar}>
-                            <ListAltOutlinedIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Project Set Form
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                        <ListAltOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Project Set Form
                 </Typography>
-                        {(props.user.isLoggedIn) &&
-                            ((props.selectedSet.ownerId == props.user.userCurrent.id)
-                                ||
-                                (params.projectsetId == 0))
-                            &&
-                            <form className={classes.form} autoComplete="off" noValidate onSubmit={handleSubmit}>
-                                <Grid container spacing={2}>
+                    {(props.user.isLoggedIn) &&
+                        ((props.selectedSet.ownerId === props.user.userCurrent.id)
+                            ||
+                            (params.projectsetId === 0))
+                        &&
+                        <form className={classes.form} autoComplete="off" noValidate onSubmit={handleSubmit}>
+                            <Grid container spacing={2}>
 
-                                    <Grid item xs={12}>
-                                        <CssTextField
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            name="name"
-                                            label="Set Name"
-                                            id="name"
-                                            value={values.name}
-                                            onChange={handleInputChange}
-                                            {...(errors.name && { error: true, helperText: errors.name })}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <CssTextField
-                                            //autoComplete="username"
-                                            name="description"
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            id="description"
-                                            label="Description"
-                                            value={values.description}
-                                            onChange={handleInputChange}
-                                            {...(errors.description && { error: true, helperText: errors.description })}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <CssFormControl variant="outlined" fullWidth
-                                            {...(errors.status && { error: true })}
-                                        >
-                                            <InputLabel ref={inputLabel}>Status</InputLabel>
-                                            <Select
-                                                name="status"
-                                                value={values.status}
-                                                onChange={handleInputChange}
-                                                labelWidth={labelWidth}
-                                            >
-                                                <MenuItem value="">Select Status</MenuItem>
-                                                <MenuItem value="-3">Private</MenuItem>
-                                                <MenuItem value="-2">Closed</MenuItem>
-                                                <MenuItem value="-1">Open</MenuItem>
-                                            </Select>
-                                            {errors.status && <FormHelperText>{errors.status}</FormHelperText>}
-                                        </CssFormControl>
-                                    </Grid>
+                                <Grid item xs={12}>
+                                    <CssTextField
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        name="name"
+                                        label="Set Name"
+                                        id="name"
+                                        value={values.name}
+                                        onChange={handleInputChange}
+                                        {...(errors.name && { error: true, helperText: errors.name })}
+                                    />
                                 </Grid>
-                                <ColorButton
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.submit}
-                                >
-                                    Submit
+                                <Grid item xs={12}>
+                                    <CssTextField
+                                        //autoComplete="username"
+                                        name="description"
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        id="description"
+                                        label="Description"
+                                        value={values.description}
+                                        onChange={handleInputChange}
+                                        {...(errors.description && { error: true, helperText: errors.description })}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <CssFormControl variant="outlined" fullWidth
+                                        {...(errors.status && { error: true })}
+                                    >
+                                        <InputLabel ref={inputLabel}>Status</InputLabel>
+                                        <Select
+                                            name="status"
+                                            value={values.status}
+                                            onChange={handleInputChange}
+                                            labelWidth={labelWidth}
+                                        >
+                                            <MenuItem value="">Select Status</MenuItem>
+                                            <MenuItem value="-3">Private</MenuItem>
+                                            <MenuItem value="-2">Closed</MenuItem>
+                                            <MenuItem value="-1">Open</MenuItem>
+                                        </Select>
+                                        {errors.status && <FormHelperText>{errors.status}</FormHelperText>}
+                                    </CssFormControl>
+                                </Grid>
+                            </Grid>
+                            <ColorButton
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                            >
+                                Submit
                     </ColorButton>
-                                <ColorButton2
-                                    fullWidth
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={resetForm}
-                                >
-                                    Reset
+                            <ColorButton2
+                                fullWidth
+                                variant="contained"
+                                color="secondary"
+                                onClick={resetForm}
+                            >
+                                Reset
                     </ColorButton2>
-                            </form>
-                        }
-                    </div>
-                </Container>
-
+                        </form>
+                    }
+                </div>
             </Container>
+
+        </Container>
 
     );
 }

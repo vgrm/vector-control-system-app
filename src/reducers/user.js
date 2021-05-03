@@ -1,7 +1,6 @@
 import { ACTION_TYPES } from "../actions/user";
 import Cookies from 'js-cookie';
 
-const tokenCookie = Cookies.get('token');
 const valueOrNull = (value = null) => value;
 const userCurrent = JSON.parse(valueOrNull(Cookies.get('userCurrent')));
 
@@ -13,25 +12,6 @@ const initialState = {
     isLoggedIn: userCurrent ? true : false
 }
 
-//console.log("CURRENT USER:",userCurrent);
-/*
-const initialState = {
-    list: [],
-    userCurrent: userCurrent
-        ? { isLoggedIn: true, userCurrent }
-        : { isLoggedIn: false, userCurrent: null }
-}
-*/
-/*
-const initialState = {
-  list: [],
-  cookie: tokenCookie,
-  userCurrent: {},
-  isLoggedIn: false
-  //auth: tokenCookie ? { isLoggedIn: true, userCurrent } : { isLoggedIn: false, userCurrent: null }
-}
-*/
-
 export const user = (state = initialState, action) => {
 
     switch (action.type) {
@@ -41,11 +21,11 @@ export const user = (state = initialState, action) => {
                 list: [...action.payload]
             }
 
-            case ACTION_TYPES.FETCH_USER:
-                return {
-                    ...state,
-                    userSelected: action.payload
-                }
+        case ACTION_TYPES.FETCH_USER:
+            return {
+                ...state,
+                userSelected: action.payload
+            }
 
         case ACTION_TYPES.SIGNUP_USER:
             return {
@@ -77,13 +57,13 @@ export const user = (state = initialState, action) => {
         case ACTION_TYPES.UPDATE_USER:
             return {
                 ...state,
-                list: state.list.map(x => x.id == action.payload.id ? action.payload : x)
+                list: state.list.map(x => x.id === action.payload.id ? action.payload : x)
             }
 
         case ACTION_TYPES.DELETE_USER:
             return {
                 ...state,
-                list: state.list.filter(x => x.username != action.payload)
+                list: state.list.filter(x => x.username !== action.payload)
             }
 
         default:

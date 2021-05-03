@@ -1,6 +1,6 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState } from 'react';
 import { Route } from 'react-router';
-import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import { Container } from 'reactstrap';
 
 import HomePage from '../../pages/Home';
 
@@ -11,8 +11,6 @@ import ProjectSetPage from '../../pages/ProjectSet';
 import ProjectSetFormPage from '../../pages/ProjectSetForm';
 import ProjectSetListPage from '../../pages/ProjectSetList';
 
-import UserListPage from '../../pages/UserList';
-
 import SignupPage from '../../pages/Signup';
 import SigninPage from '../../pages/Signin';
 import UserProfilePage from '../../pages/Profile';
@@ -20,28 +18,27 @@ import UserPage from '../../pages/User';
 import UserFormPage from '../../pages/UserForm';
 
 import AdminPage from '../../pages/Admin';
-//function Body() { <Route path='/projectset/:projectsetId([0-9]+)' component={ProjectSetPage} /> <Route path='/projectset' component={ProjectSetListPage} />
-    const Body = ({ classes, ...props }) => {
-        const [currentProjectId, setCurrentProjectId] = useState(0)
+const Body = ({ classes, ...props }) => {
+    const [currentProjectId, setCurrentProjectId] = useState(0)
 
     return (
         <Container fluid="true">
             <Route exact path="/" component={HomePage} />
-            
+
             <Route path='/projectsets'>
-            <ProjectSetListPage {...({ currentProjectId, setCurrentProjectId})}/>
+                <ProjectSetListPage {...({ currentProjectId, setCurrentProjectId })} />
             </Route>
 
             <Route path='/projectset/:projectsetId([0-9]+)'>
-                <ProjectSetPage {...({ currentProjectId, setCurrentProjectId})}/>
+                <ProjectSetPage {...({ currentProjectId, setCurrentProjectId })} />
             </Route>
 
             <Route path='/projectsetform/:projectsetId([0-9]+)'>
-                <ProjectSetFormPage/>
+                <ProjectSetFormPage />
             </Route>
 
             <Route path='/projects' component={ProjectDataListPage} />
-            <Route path='/projectdata/:projectId([0-9]+)' component={ProjectDataPage}/>
+            <Route path='/projectdata/:projectId([0-9]+)' component={ProjectDataPage} />
 
             <Route path='/signup' component={SignupPage} />
             <Route path='/signin' component={SigninPage} />

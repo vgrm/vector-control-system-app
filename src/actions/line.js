@@ -25,7 +25,6 @@ export const fetchAll = () => dispatch => {
 }
 
 export const fetchLinesMatch = (id) => dispatch => {
-    console.log("trying to fetch matching lines project id " + id);
     createAPIEndpoint(ENDPIONTS.LINE + "/LinesMatch").fetchAllParams(id)
         .then(response => {
             dispatch({
@@ -37,7 +36,6 @@ export const fetchLinesMatch = (id) => dispatch => {
 }
 
 export const fetchLinesIncorrect = (id) => dispatch => {
-    console.log("trying to fetch incorrect lines project id " + id);
     createAPIEndpoint(ENDPIONTS.LINE + "/LinesIncorrect").fetchAllParams(id)
         .then(response => {
             dispatch({
@@ -49,7 +47,6 @@ export const fetchLinesIncorrect = (id) => dispatch => {
 }
 
 export const fetchLinesMissing = (id) => dispatch => {
-    console.log("trying to fetch missing lines project id " + id);
     createAPIEndpoint(ENDPIONTS.LINE + "/LinesMissing").fetchAllParams(id)
         .then(response => {
             dispatch({
@@ -61,7 +58,6 @@ export const fetchLinesMissing = (id) => dispatch => {
 }
 
 export const fetchLinesHandle = (id) => dispatch => {
-    console.log("trying to fetch Handle lines project id " + id);
     createAPIEndpoint(ENDPIONTS.LINE + "/LinesHandle").fetchAllParams(id)
         .then(response => {
             console.log(response);
@@ -74,7 +70,6 @@ export const fetchLinesHandle = (id) => dispatch => {
 }
 
 export const fetchById = (id) => dispatch => {
-    console.log("trying to fetch single project of id:" + id);
     createAPIEndpoint(ENDPIONTS.LINE).fetchById(id)
         .then(response => {
             dispatch({
@@ -86,7 +81,6 @@ export const fetchById = (id) => dispatch => {
 }
 
 export const create = (data, onSuccess) => dispatch => {
-    //data = formateData(data)
     createAPIEndpoint(ENDPIONTS.LINE).create(data)
         .then(res => {
             console.log(res.data);
@@ -101,7 +95,6 @@ export const create = (data, onSuccess) => dispatch => {
 }
 
 export const update = (id, data, onSuccess) => dispatch => {
-    console.log(data);
     createAPIEndpoint(ENDPIONTS.LINE).update(id, data)
         .then(res => {
             dispatch({
@@ -114,8 +107,6 @@ export const update = (id, data, onSuccess) => dispatch => {
 }
 
 export const patch = (id, data, onSuccess) => dispatch => {
-    console.log("trying to patch data");
-    console.log(data);
     createAPIEndpoint(ENDPIONTS.LINE).patch(id, data)
         .then(res => {
             dispatch({

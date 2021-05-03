@@ -1,14 +1,13 @@
-import { React, useState, useEffect } from 'react';
+import { React, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/user';
-import { Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles } from "@material-ui/core";
-import { Button , Alert} from 'reactstrap';
+import { Grid } from "@material-ui/core";
 
 const UserList = (props) => {
 
     useEffect(() => {
         props.fetchAllUser()
-    }, [])//componentDidMount
+    })//componentDidMount
 
     return (
         <Grid container>
@@ -34,7 +33,6 @@ const mapStateToProps = state => ({
 
 const mapActionToProps = {
     fetchAllUser: actions.fetchAll,
-    //deleteProjectSet: actions.Delete
 }
 
 export default connect(mapStateToProps, mapActionToProps)(UserList);

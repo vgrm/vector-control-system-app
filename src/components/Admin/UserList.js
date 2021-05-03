@@ -1,27 +1,15 @@
-import { React, useState, useEffect } from 'react';
+import { React, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/user';
-import { Typography, Container, Box, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
+import { Typography, Container, Box, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
 
-//import { Button , Alert} from 'reactstrap';
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext"
 
 import { useToasts } from "react-toast-notifications";
 
-import { Link, withRouter, useHistory, useParams } from 'react-router-dom';
-import colors from "../../Constants/colors";
-
-const ColorButton = withStyles(theme => ({
-    root: {
-        color: colors.white,
-        backgroundColor: colors.primaryColor,
-        '&:hover': {
-            backgroundColor: colors.primaryColorDark,
-        },
-    },
-}))(Button);
+import { useHistory, useParams } from 'react-router-dom';
 
 const styles = theme => ({
     root: {
@@ -42,9 +30,6 @@ const styles = theme => ({
 })
 
 const UserList = ({ classes, ...props }) => {
-    const [currentId, setCurrentId] = useState(0)
-    const [currentSetId, setCurrentSetId] = useState(0)
-
     const params = useParams();
     const history = useHistory();
     const nextPath = (path) => {
@@ -53,25 +38,24 @@ const UserList = ({ classes, ...props }) => {
 
     useEffect(() => {
         props.fetchAllUsers()
-    }, [])//componentDidMount
+    })//componentDidMount
 
 
     //toast msg.
     const { addToast } = useToasts()
 
     const onDelete = (user) => {
-        if (window.confirm('Are you sure to delete this user?')){
+        if (window.confirm('Are you sure to delete this user?')) {
             props.deleteUser(user.username, () => addToast("Deleted successfully", { appearance: 'success', placement: 'bottom-right' }))
         }
     }
 
     const onSelect = (user) => {
-        console.log(user)
-            nextPath('/user/' + user.username);
+        nextPath('/user/' + user.username);
     }
 
     const onUpdate = () => {
-        if (params.projectsetId != 0)
+        if (params.projectsetId !== 0)
             nextPath('/projectsetform/' + params.projectsetId);
         else nextPath('/projectsetform/' + 0);
     }
@@ -111,12 +95,12 @@ const UserList = ({ classes, ...props }) => {
                                             <ButtonGroup variant="text">
                                                 <Button><EditIcon className={classes.icon}
                                                     onClick={() => onUpdate(set)} /></Button>
-                                                    <Button><DeleteIcon className={classes.icon}
+                                                <Button><DeleteIcon className={classes.icon}
                                                     onClick={() => onDelete(set)} /></Button>
-                                                    <Button><NavigateNextIcon className={classes.icon}
+                                                <Button><NavigateNextIcon className={classes.icon}
                                                     onClick={() => onSelect(set)} /></Button>
                                             </ButtonGroup>
-                                            
+
                                         </TableCell>
                                     </TableRow>)
                                 })

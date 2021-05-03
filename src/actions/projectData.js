@@ -22,7 +22,6 @@ export const fetchAll = () => dispatch => {
 }
 
 export const fetchProjects = (id) => dispatch => {
-    console.log("trying to fetch projects of set id:" + id);
     createAPIEndpoint(ENDPIONTS.PROJECTDATA).fetchProjects(id)
         .then(response => {
             dispatch({
@@ -35,7 +34,6 @@ export const fetchProjects = (id) => dispatch => {
 
 
 export const fetchById = (id) => dispatch => {
-    console.log("trying to fetch single project of id:" + id);
     createAPIEndpoint(ENDPIONTS.PROJECTDATA).fetchById(id)
         .then(response => {
             dispatch({
@@ -47,7 +45,6 @@ export const fetchById = (id) => dispatch => {
 }
 
 export const fetchByUser = (id) => dispatch => {
-    console.log("trying to fetch data list of user:" + id);
     createAPIEndpoint(ENDPIONTS.PROJECTDATA + "/user").fetchAllParams(id)
         .then(response => {
             dispatch({
@@ -59,11 +56,8 @@ export const fetchByUser = (id) => dispatch => {
 }
 
 export const create = (data, onSuccess) => dispatch => {
-    //data = formateData(data)
     createAPIEndpoint(ENDPIONTS.PROJECTDATA).create(data)
         .then(res => {
-            console.log(res.data);
-            console.log(data);
             dispatch({
                 type: ACTION_TYPES.CREATE_PROJECTDATA,
                 payload: res.data
@@ -74,7 +68,6 @@ export const create = (data, onSuccess) => dispatch => {
 }
 
 export const update = (id, data, onSuccess) => dispatch => {
-    console.log(data);
     createAPIEndpoint(ENDPIONTS.PROJECTDATA).update(id, data)
         .then(res => {
             dispatch({
@@ -87,8 +80,6 @@ export const update = (id, data, onSuccess) => dispatch => {
 }
 
 export const patch = (id, data, onSuccess) => dispatch => {
-    console.log("trying to patch data");
-    console.log(data);
     createAPIEndpoint(ENDPIONTS.PROJECTDATA).patch(id, data)
         .then(res => {
             dispatch({

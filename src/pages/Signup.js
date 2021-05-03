@@ -1,4 +1,4 @@
-import { Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button, Typography } from "@material-ui/core";
+import { Container, Paper } from "@material-ui/core";
 
 import Signup from '../components/User/Signup';
 const SignupPage = (props) => {
@@ -7,7 +7,7 @@ const SignupPage = (props) => {
         <div>
             <Container>
                 <Paper>
-                    <Signup/>
+                    <Signup />
                 </Paper>
             </Container>
         </div>

@@ -1,10 +1,7 @@
-import { React, useState, useEffect, Component } from 'react';
+import { React, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-//import UploadService from "../../actions/upload-files.service";
 import * as actions from '../../actions/projectData';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { ListItem, FormGroup, CustomInput } from 'reactstrap';
-import { Typography, Input, Button, Box, Container, Grid, Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles } from "@material-ui/core";
+import { Typography, Input, Button, Box, Container, Grid, withStyles } from "@material-ui/core";
 import UploadFile from './UploadFile';
 import { useToasts } from "react-toast-notifications";
 import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
@@ -59,39 +56,17 @@ const initialValues = {
 
 const ProjectDataUpload = ({ classes, ...props }) => {
 
-    const [values, setValues] = useState(initialValues)
     const [file, setFile] = useState('undefined');
     const { addToast } = useToasts()
 
     useEffect(() => {
-        console.log('USEEFEKT: ', file);
-        console.log(file[0].name)
     }, [file])//componentDidMount
 
-    const {
-        selectedFiles,
-        currentFile,
-        progress,
-        message,
-        fileInfos,
-        isError
-    } = UploadFile(initialValues, props.setCurrentId)
-    //= this.state;
+    UploadFile(initialValues, props.setCurrentId)
 
     const fileChange = (e) => {
-        //setValues.selectedFiles();
         setFile(e.target.files);
         e.preventDefault();
-
-        //console.log(file);
-        //console.log(file[0]);
-        //console.log(file[0].name);
-        //console.log("FILE ",file[0]);
-        //console.log(file[0]);
-        //console.log("FILE CHANGED: ",file[0].name);
-        //let formData = new FormData();
-        //formData.append('name', file[0].name)
-        //formData.append('fileData', file[0])
     }
 
     const handleUpload = () => {
@@ -99,30 +74,23 @@ const ProjectDataUpload = ({ classes, ...props }) => {
         formData.append('name', file[0].name);
         formData.append('file', file[0]);
         formData.append('projectsetId', props.projectSet.id);
-        console.log(file);
-        console.log(file[0].name);
-
-        console.log(formData);
-        console.log("FORMDATANAME", formData.name);
-        console.log(props);
 
         if (window.confirm('Are you sure you want to upload this project?')) {
 
             props.createProjectData(formData, () => addToast("Submitted successfully", { appearance: 'success', placement: 'bottom-right' }))
         }
 
-        //props.createProjectData(formData);
 
     }
 
     return (
         <Grid>
             <Container>
-            <Box p={1}>
-            <Typography variant="h6">
-                                Add new project to set
+                <Box p={1}>
+                    <Typography variant="h6">
+                        Add new project to set
                             </Typography>
-                            </Box>
+                </Box>
                 <Box p={1}>
                     <Grid>
                         <Grid item className="grid-el" xs={12} md={5}>
@@ -138,15 +106,15 @@ const ProjectDataUpload = ({ classes, ...props }) => {
                                         onChange={fileChange}
                                     />
                                 </ColorButton>
-                            
-                            <ColorButton2 variant="contained" onClick={() => handleUpload()}>
-                                Upload <PublishOutlinedIcon />
-                            </ColorButton2>
+
+                                <ColorButton2 variant="contained" onClick={() => handleUpload()}>
+                                    Upload <PublishOutlinedIcon />
+                                </ColorButton2>
                             </Box>
 
                         </Grid>
                         <Grid item className="grid-el" xs={12} md={5}>
-                        <Typography variant="caption">
+                            <Typography variant="caption">
                                 {file[0].name ? file[0].name : '_'}
                             </Typography>
                         </Grid>
