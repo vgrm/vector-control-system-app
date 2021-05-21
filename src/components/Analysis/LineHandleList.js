@@ -111,7 +111,7 @@ const LineHandleList = ({ classes, ...props }) => {
 
             props.fetchLinesHandle(params.projectId)
         }
-    })//componentDidMount
+    }, [])//componentDidMount
 
 
     return (

@@ -110,7 +110,7 @@ const ArcIncorrectList = ({ classes, ...props }) => {
         if (params.projectId !== 0) {
             props.fetchArcsIncorrect(params.projectId)
         }
-    })//componentDidMount
+    }, [])//componentDidMount
 
     return (
         <Container>

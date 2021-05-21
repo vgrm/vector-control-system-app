@@ -111,7 +111,7 @@ const ArcHandleList = ({ classes, ...props }) => {
         if (params.projectId !== 0) {
             props.fetchArcsHandle(params.projectId)
         }
-    })//componentDidMount
+    }, [])//componentDidMount
 
     return (
         <Container>

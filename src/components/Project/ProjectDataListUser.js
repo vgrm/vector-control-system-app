@@ -31,17 +31,18 @@ const ProjectDataList = ({ classes, ...props }) => {
     const params = useParams();
 
     useEffect(() => {
-        props.fetchProjectsUser(props.currentUsername)
+        console.log(props)
+        props.fetchProjectsUser(props.currentUsername[0])
         correctScoreData()
-    })//componentDidMount
+    }, [])//componentDidMount
 
     useEffect(() => {
-        if (props.currentProjectId !== 0) {
+        if (props.currentProjectId != 0) {
 
             props.fetchProjects(params.projectsetId)
 
         }
-    })
+    }, [props.currentProjectId])
 
     const onSelect = (project) => {
         if (project.id !== 0)

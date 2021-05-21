@@ -7,7 +7,7 @@ const UserList = (props) => {
 
     useEffect(() => {
         props.fetchAllUser()
-    })//componentDidMount
+    }, [props])//componentDidMount
 
     return (
         <Grid container>

@@ -111,7 +111,7 @@ const LineMissingList = ({ classes, ...props }) => {
 
             props.fetchLinesMissing(params.projectId)
         }
-    })//componentDidMount
+    }, [])//componentDidMount
 
     return (
         <Container>

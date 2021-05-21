@@ -110,7 +110,7 @@ const LineIncorrectList = ({ classes, ...props }) => {
         if (params.projectId !== 0) {
             props.fetchLinesIncorrect(params.projectId)
         }
-    })//componentDidMount
+    }, [])//componentDidMount
 
     return (
         <Container>

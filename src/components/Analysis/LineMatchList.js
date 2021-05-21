@@ -110,7 +110,7 @@ const LineMatchList = ({ classes, ...props }) => {
         if (params.projectId !== 0) {
             props.fetchLinesMatch(params.projectId)
         }
-    })//componentDidMount
+    }, [])//componentDidMount
 
     return (
         <Container>

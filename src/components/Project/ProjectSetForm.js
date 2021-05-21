@@ -133,14 +133,14 @@ const ProjectSetForm = ({ ...props }) => {
     const valueOrNull = (value = null) => value;
 
     //let currentSet = 0;
-    if (valueOrNull(props.projectSetList.find(x => x.id === params.projectsetId)) != null) {
+    if (valueOrNull(props.projectSetList.find(x => x.id == params.projectsetId)) != null) {
         //currentSet = props.projectSetList.find(x => x.id === params.projectsetId);
     }
 
     useEffect(() => {
-        if (params.projectsetId !== 0) {
-            setCurrentId(params.projectsetId)
-        }
+        console.log('1 ' + params.projectsetId)
+        setCurrentId(params.projectsetId)
+        console.log(currentId)
     }, [params.projectsetId])
 
     const validate = (fieldValues = values) => {
@@ -156,7 +156,7 @@ const ProjectSetForm = ({ ...props }) => {
         })
 
         if (fieldValues === values)
-            return Object.values(temp).every(x => x === "")
+            return Object.values(temp).every(x => x == "")
     }
 
     const {
@@ -171,11 +171,11 @@ const ProjectSetForm = ({ ...props }) => {
     //material-ui select
     const inputLabel = useRef(null);
     const [labelWidth, setLabelWidth] = useState(0);
-
-    useEffect(() => {
-        setLabelWidth(inputLabel.current.offsetWidth);
-    }, []);
-
+    /*
+        useEffect(() => {
+            //setLabelWidth(inputLabel.current.offsetWidth);
+        }, []);
+    */
     const history = useHistory();
 
     const onSubmited = () => {
@@ -187,15 +187,18 @@ const ProjectSetForm = ({ ...props }) => {
     }
 
     const handleSubmit = e => {
+        //console.log('save set')
+        //console.log(currentId)
         e.preventDefault()
         if (validate()) {
             const onSuccess = () => {
+
+                addToast("Set created successfully", { appearance: 'success', PlacementType: 'bottom-left' })
                 onSubmited()
-                addToast("Submitted successfully", { appearance: 'success', PlacementType: 'bottom-left' })
             }
             //props.createProjectSet(values, onSuccess)
 
-            if (currentId === 0) {
+            if (currentId == 0) {
                 props.createProjectSet(values, onSuccess)
 
             }
@@ -204,18 +207,29 @@ const ProjectSetForm = ({ ...props }) => {
         }
 
     }
-
+    /*
+        useEffect(() => {
+            console.log('2' + params.projectsetId)
+            if (params.projectsetId != 0) {
+                console.log('if')
+                setValues({
+                    ...props.projectSetList.find(x => x.id === params.projectsetId)
+    
+                })
+                //console.log(props.projectSetList.find(x => x.id === params.projectsetId))
+                setErrors({})
+            }
+            console.log(values);
+        }, [])
+    */
     useEffect(() => {
-
-        if (currentId !== 0) {
-
+        if (currentId != 0) {
             setValues({
-                ...props.projectSetList.find(x => x.id === currentId)
+                ...props.projectSetList.find(x => x.id == currentId)
             })
             setErrors({})
         }
-        //console.log(values);
-    })
+    }, [currentId])
 
 
     return (
@@ -231,9 +245,9 @@ const ProjectSetForm = ({ ...props }) => {
                         Project Set Form
                 </Typography>
                     {(props.user.isLoggedIn) &&
-                        ((props.selectedSet.ownerId === props.user.userCurrent.id)
+                        ((props.selectedSet.ownerId == props.user.userCurrent.id)
                             ||
-                            (params.projectsetId === 0))
+                            (params.projectsetId == 0))
                         &&
                         <form className={classes.form} autoComplete="off" noValidate onSubmit={handleSubmit}>
                             <Grid container spacing={2}>
@@ -274,7 +288,7 @@ const ProjectSetForm = ({ ...props }) => {
                                             name="status"
                                             value={values.status}
                                             onChange={handleInputChange}
-                                            labelWidth={labelWidth}
+                                            labelWidth={100}
                                         >
                                             <MenuItem value="">Select Status</MenuItem>
                                             <MenuItem value="-3">Private</MenuItem>

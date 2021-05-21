@@ -41,13 +41,13 @@ const ProjectDataList = ({ classes, ...props }) => {
     useEffect(() => {
         props.setCurrentProjectId(0)
         props.fetchProjects(params.projectsetId)
-    })//componentDidMount
+    }, [])//componentDidMount
 
     useEffect(() => {
         if (props.currentProjectId !== 0) {
             props.fetchProjects(params.projectsetId)
         }
-    })
+    }, [])
 
 
     //toast msg.

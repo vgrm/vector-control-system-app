@@ -113,7 +113,7 @@ const ArcMatchList = ({ classes, ...props }) => {
 
             props.fetchArcsMatch(params.projectId)
         }
-    })//componentDidMount
+    }, [])//componentDidMount
 
 
 

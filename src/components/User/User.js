@@ -47,7 +47,7 @@ const User = ({ classes, ...props }) => {
 
     useEffect(() => {
         props.userSelect(params.username);
-    })//componentDidMount
+    }, [])//componentDidMount
 
 
 

@@ -111,7 +111,7 @@ const ArcMissingList = ({ classes, ...props }) => {
         if (params.projectId !== 0) {
             props.fetchArcsMissing(params.projectId)
         }
-    })//componentDidMount
+    }, [])//componentDidMount
 
 
 

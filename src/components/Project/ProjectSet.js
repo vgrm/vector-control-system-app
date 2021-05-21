@@ -61,7 +61,7 @@ const ProjectSet = ({ classes, ...props }) => {
     useEffect(() => {
         props.fetchProjectSet(params.projectsetId);
         return () => { };
-    })//componentDidMount
+    }, [])//componentDidMount
 
 
     //toast msg.

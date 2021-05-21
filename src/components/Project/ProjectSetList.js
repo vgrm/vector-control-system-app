@@ -49,7 +49,7 @@ const ProjectSetList = ({ classes, ...props }) => {
     useEffect(() => {
         props.fetchAllOtherProjectSet()
         props.fetchAllOwnedProjectSet()
-    })//componentDidMount
+    }, [])//componentDidMount
 
     const onCreate = () => {
         nextPath('/projectsetform/' + 0);

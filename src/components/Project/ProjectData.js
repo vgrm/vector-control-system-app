@@ -74,7 +74,7 @@ const ProjectData = ({ classes, ...props }) => {
     useEffect(() => {
         props.fetchProjectData(params.projectId);
         return () => { };
-    })//componentDidMount
+    }, [])//componentDidMount
 
 
     //toast msg.
