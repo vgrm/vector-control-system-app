@@ -107,12 +107,40 @@ const Signup = ({ ...props }) => {
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
+        console.log(temp)
+        console.log(fieldValues)
+        console.log(values)
         if ('username' in fieldValues)
             temp.username = fieldValues.username ? "" : "This field is required."
         if ('password' in fieldValues)
             temp.password = fieldValues.password ? "" : "This field is required."
         if ('password2' in fieldValues) {
-            temp.password2 = fieldValues.password2 === fieldValues.password ? "" : "Passwords don't match."
+            //temp.password2 = fieldValues.password2 == fieldValues.password ? "" : "Passwords don't match."
+            temp.password2 = fieldValues.password2 ? "" : "This field is required."
+        }
+        setErrors({
+            ...temp
+        })
+
+        if (fieldValues === values)
+            return Object.values(temp).every(x => x === "")
+    }
+
+    const validateSubmit = (fieldValues = values) => {
+        let temp = { ...errors }
+        console.log(temp)
+        console.log(fieldValues)
+        console.log(values)
+        if ('username' in fieldValues)
+            temp.username = fieldValues.username ? "" : "This field is required."
+        if ('password' in fieldValues)
+            temp.password = fieldValues.password ? "" : "This field is required."
+        if ('password2' in fieldValues) {
+            //temp.password2 = fieldValues.password2 == fieldValues.password ? "" : "Passwords don't match."
+            temp.password2 = fieldValues.password2 ? "" : "This field is required."
+        }
+        if (values.password2 !== values.password) {
+            temp.password2 = "Passwords do not match"
         }
         setErrors({
             ...temp
@@ -124,13 +152,19 @@ const Signup = ({ ...props }) => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        if (validate()) {
+        if (validateSubmit()) {
             const onSuccess = () => {
-                addToast("Submitted successfully", { appearance: 'success' })
+
+                addToast("Signed up successfully", { appearance: 'success', placement: 'bottom-left' })
+                nextPath('/');
+            }
+            const onError = () => {
+
+                addToast("Invalid username", { appearance: 'warning', placement: 'bottom-left' })
             }
 
-            props.signupUser(values, onSuccess);
-            nextPath('/');
+            props.signupUser(values, onSuccess, onError);
+            //nextPath('/');
         }
     }
 

@@ -134,11 +134,21 @@ const UserForm = ({ ...props }) => {
 
     useEffect(() => {
         props.userSelect(params.username);
+        /*
         setValues({
             ...props.user.userSelected
         })
         setErrors({})
-    }, [props, params.username])//componentDidMount
+        */
+    }, [])//componentDidMount
+
+    useEffect(() => {
+        //props.userSelect(params.username);
+        setValues({
+            ...props.user.userSelected
+        })
+        setErrors({})
+    }, [props.user.userSelected])//componentDidMount
 
     const validate = (fieldValues = values) => {
         let temp = { ...errors }
@@ -236,7 +246,7 @@ const UserForm = ({ ...props }) => {
                                         onChange={handleInputChange}
                                     />
                                 </Grid>
-                                {(props.user.isLoggedIn && props.user.userCurrent.roleId === -1) &&
+                                {(props.user.isLoggedIn && props.user.userCurrent.roleId === -1 && props.user.userCurrent.username !== params.username) &&
                                     <Grid item xs={12}>
                                         <CssFormControl variant="outlined" fullWidth
                                             {...(errors.roleId && { error: true })}

@@ -34,7 +34,7 @@ export const fetchByUsername = (username) => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const signup = (data, onSuccess) => dispatch => {
+export const signup = (data, onSuccess, onError) => dispatch => {
     createAPIEndpoint(ENDPIONTS.USER + "/signup").create(data)
         .then(res => {
             dispatch({
@@ -44,10 +44,11 @@ export const signup = (data, onSuccess) => dispatch => {
             onSuccess();
             Cookies.set('userCurrent', res.data);
         })
-        .catch(err => console.log(err))
+        .catch(err => onError())
+    //.catch(err => console.log(err))
 }
 
-export const signin = (data, onSuccess) => dispatch => {
+export const signin = (data, onSuccess, onError) => dispatch => {
     createAPIEndpoint(ENDPIONTS.USER + '/signin').create(data)
         .then(res => {
             dispatch({
@@ -57,7 +58,8 @@ export const signin = (data, onSuccess) => dispatch => {
             onSuccess()
             Cookies.set('userCurrent', res.data);
         })
-        .catch(err => console.log(err))
+        .catch(err => onError())
+    //.catch(err => console.log(err))
 }
 
 export const signout = () => dispatch => {

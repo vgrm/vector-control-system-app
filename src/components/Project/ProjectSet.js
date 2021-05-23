@@ -68,9 +68,13 @@ const ProjectSet = ({ classes, ...props }) => {
     const { addToast } = useToasts()
 
     const onDelete = () => {
-        if (window.confirm('Are you sure to delete this set?')) {
-            props.deleteProjectSet(params.projectsetId, () => addToast("Deleted successfully", { appearance: 'success', placement: 'bottom-right' }))
+        const onSuccess = () => {
+            //onSubmited()
+            addToast("Deleted!", { appearance: 'error', placement: 'bottom-right' })
             nextPath('/projectsets/');
+        }
+        if (window.confirm('Are you sure to delete this set?')) {
+            props.deleteProjectSet(params.projectsetId, onSuccess)
         }
     }
 
@@ -122,18 +126,22 @@ const ProjectSet = ({ classes, ...props }) => {
                     {(props.user.isLoggedIn) &&
                         ((props.projectSet.ownerId === props.user.userCurrent.id))
                         &&
-                        <Box p={5}>
-                            <ColorButton variant="contained" onClick={() => onUpdate()}>
-                                edit Set <EditIcon />
-                            </ColorButton>
+                        <Paper>
+                            <Box p={5}>
 
-                            <ColorButton2 variant="contained" onClick={() => onDelete()}>
-                                delete set <DeleteIcon />
-                            </ColorButton2>
-                        </Box>}
+                                <ColorButton variant="contained" onClick={() => onUpdate()}>
+                                    edit Set <EditIcon />
+                                </ColorButton>
+
+                                <ColorButton2 variant="contained" onClick={() => onDelete()}>
+                                    delete set <DeleteIcon />
+                                </ColorButton2>
+
+                            </Box>
+                        </Paper>}
                 </Box>
-
-                <Box p={5}><Paper><Container><ProjectDataUpload {...props} /></Container></Paper></Box>
+                {props.projectSet.state.id === -1 &&
+                    <Box p={5}><Paper><Container><ProjectDataUpload {...props} /></Container></Paper></Box>}
                 <Container><ProjectDataList {...props} /></Container>
 
             </Container>

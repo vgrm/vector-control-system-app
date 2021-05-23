@@ -39,7 +39,9 @@ const UserChart = ({ classes, ...props }) => {
     const [dataScore, setDataScore] = useState([]);
     const [dataIden, setDataIden] = useState([]);
 
+    //console.log('loaded')
     useEffect(() => {
+        //console.log(props)
         if (props.scoreData) {
             setDataScore(props.scoreData)
         }
@@ -98,7 +100,7 @@ const UserChart = ({ classes, ...props }) => {
                     </Typography>
                     <div
                         style={{
-                            width: '400px',
+                            width: '500px',
                             height: '150px'
                         }}
                     >
@@ -109,7 +111,7 @@ const UserChart = ({ classes, ...props }) => {
                     </Typography>
                     <div
                         style={{
-                            width: '400px',
+                            width: '500px',
                             height: '150px'
                         }}
                     >

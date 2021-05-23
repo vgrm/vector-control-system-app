@@ -1,8 +1,8 @@
-import { React, useEffect } from 'react';
+import { React, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/projectData';
-import { Container, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
-
+import { Toolbar, Container, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
+import TextField from '@material-ui/core/TextField';
 import DeleteIcon from "@material-ui/icons/Delete";
 import StarIcon from '@material-ui/icons/Star';
 import RestorePageIcon from '@material-ui/icons/RestorePage';
@@ -12,6 +12,7 @@ import colors from '../../Constants/colors';
 import { useToasts } from "react-toast-notifications";
 
 import { useHistory, useParams } from 'react-router-dom';
+import { user } from '../../reducers/user';
 
 const styles = theme => ({
     root: {
@@ -33,7 +34,31 @@ const styles = theme => ({
     }
 })
 
+const CssTextField = withStyles({
+    root: {
+        '& label.Mui-focused': {
+            color: colors.secondaryColorLight,
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: colors.primaryColorLight,
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: colors.secondaryColorLight,
+            },
+            '&:hover fieldset': {
+                borderColor: colors.primaryColorDark,
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: colors.primaryColorLight,
+            },
+        },
+    },
+})(TextField);
+
 const ProjectDataList = ({ classes, ...props }) => {
+    const [searchValue, setSearchValue] = useState('');
+    const [filteredValues, setFilteredValues] = useState([]);
 
     //const history = useHistory();
     const params = useParams();
@@ -41,14 +66,32 @@ const ProjectDataList = ({ classes, ...props }) => {
     useEffect(() => {
         props.setCurrentProjectId(0)
         props.fetchProjects(params.projectsetId)
-    }, [])//componentDidMount
+    }, [props.currentProjectId])//componentDidMount
 
     useEffect(() => {
-        if (props.currentProjectId !== 0) {
+        if (props.currentProjectId != 0) {
             props.fetchProjects(params.projectsetId)
         }
-    }, [])
+    }, [props.currentProjectId])
 
+
+    //search
+    useEffect(() => {
+        var items = props.projectDataList.filter(function (item) {
+
+            return item.name.toLowerCase().includes(searchValue) ||
+                item.status.toLowerCase().includes(searchValue) ||
+                item.owner.username.toLowerCase().includes(searchValue)
+
+        });
+        setFilteredValues(items)
+    }, [props.projectDataList, searchValue])//componentDidMount
+
+    const handleInputChange = e => {
+        const { name, value } = e.target
+        const fieldValue = value
+        setSearchValue(fieldValue)
+    }
 
     //toast msg.
     const { addToast } = useToasts()
@@ -59,20 +102,38 @@ const ProjectDataList = ({ classes, ...props }) => {
     }
 
     const onUpdate = (record) => {
-        if (window.confirm('Are you sure to update this record?')) {
-            props.updateProjectData(record.id, record, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
+
+        const onSuccess = () => {
+            addToast("Project analysis started", { appearance: 'success', placement: 'bottom-left' })
+        }
+        const onError = () => {
+            addToast("Make sure to set original project first", { appearance: 'warning', placement: 'bottom-left' })
+        }
+
+        if (window.confirm('Are you sure to analyze this project?')) {
+            props.updateProjectData(record.id, record, onSuccess, onError)
         }
         props.setCurrentProjectId(record.id);
+
     }
 
     const onSetOriginal = (record) => {
         let formData = new FormData();
         formData.append('command', "ChangeOriginal");
-        if (window.confirm('Are you sure to update this record?')) {
-            props.patchProjectData(record.id, formData, () => addToast("Updated successfully", { appearance: 'success', placement: 'bottom-right' }))
+        if (window.confirm('Are you sure to set project as original?')) {
+            props.patchProjectData(record.id, formData, () => addToast("Project set as original", { appearance: 'success', placement: 'bottom-right' }))
             props.setCurrentProjectId(0);
         }
 
+    }
+
+    const onSelectOwner = (username) => {
+        if (props.user.userCurrent.username !== username) {
+            nextPath('/user/' + username);
+        }
+        else {
+            nextPath('/profile/');
+        }
     }
 
     const onSelect = (project) => {
@@ -88,10 +149,20 @@ const ProjectDataList = ({ classes, ...props }) => {
 
     return (
         <Container>
+            <Toolbar>
+                <CssTextField
+                    variant="outlined"
+                    fullWidth
+                    name="search"
+                    label="search"
+                    onChange={handleInputChange}
+                />
+            </Toolbar>
             <TableContainer>
                 <Table>
                     <TableHead>
                         <TableRow>
+                            <TableCell>Owner</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Status</TableCell>
                             <TableCell>Identity</TableCell>
@@ -102,8 +173,9 @@ const ProjectDataList = ({ classes, ...props }) => {
                     </TableHead>
                     <TableBody>
                         {
-                            props.projectDataList.map((project, index) => {
+                            filteredValues.map((project, index) => {
                                 return (<TableRow key={index} hover>
+                                    <TableCell> <Button onClick={() => onSelectOwner(project.owner.username)}>{project.owner.username}</Button></TableCell>
                                     <TableCell>{project.name}</TableCell>
                                     <TableCell>{project.status}</TableCell>
                                     <TableCell>{project.scoreIdentity}</TableCell>

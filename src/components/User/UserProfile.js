@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useReducer, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/user';
 import { Box, Container, Grid, Paper, withStyles, Button, Typography } from "@material-ui/core";
@@ -130,7 +130,8 @@ const UserProfile = ({ classes, ...props }) => {
                                 <Typography variant="h6">
                                     User statistics
                                     </Typography>
-                                {scoreData.length > 0 && identityData.length > 0 && <UserChart {...props} scoreData={scoreData} identityData={identityData} />}
+                                {scoreData.length > 0 && identityData.length > 0 &&
+                                    <UserChart {...props} scoreData={scoreData} identityData={identityData} />}
                             </Grid>
                         </Grid>
                     </Paper>

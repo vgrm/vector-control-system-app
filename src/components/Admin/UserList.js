@@ -38,7 +38,7 @@ const UserList = ({ classes, ...props }) => {
 
     useEffect(() => {
         props.fetchAllUsers()
-    })//componentDidMount
+    }, [])//componentDidMount
 
 
     //toast msg.
@@ -54,10 +54,9 @@ const UserList = ({ classes, ...props }) => {
         nextPath('/user/' + user.username);
     }
 
-    const onUpdate = () => {
-        if (params.projectsetId !== 0)
-            nextPath('/projectsetform/' + params.projectsetId);
-        else nextPath('/projectsetform/' + 0);
+    const onUpdate = (user) => {
+
+        nextPath('/userform/' + user.username);
     }
 
 
@@ -84,21 +83,21 @@ const UserList = ({ classes, ...props }) => {
                         </TableHead>
                         <TableBody>
                             {
-                                props.userList.map((set, index) => {
+                                props.userList.map((user, index) => {
                                     return (<TableRow key={index} hover >
-                                        <TableCell>{set.username}</TableCell>
-                                        <TableCell>{set.email}</TableCell>
-                                        <TableCell>{set.roleId}</TableCell>
-                                        <TableCell>{set.firstname}</TableCell>
-                                        <TableCell>{set.lastname}</TableCell>
+                                        <TableCell>{user.username}</TableCell>
+                                        <TableCell>{user.email}</TableCell>
+                                        <TableCell>{user.roleId}</TableCell>
+                                        <TableCell>{user.firstName}</TableCell>
+                                        <TableCell>{user.lastName}</TableCell>
                                         <TableCell>
                                             <ButtonGroup variant="text">
                                                 <Button><EditIcon className={classes.icon}
-                                                    onClick={() => onUpdate(set)} /></Button>
+                                                    onClick={() => onUpdate(user)} /></Button>
                                                 <Button><DeleteIcon className={classes.icon}
-                                                    onClick={() => onDelete(set)} /></Button>
+                                                    onClick={() => onDelete(user)} /></Button>
                                                 <Button><NavigateNextIcon className={classes.icon}
-                                                    onClick={() => onSelect(set)} /></Button>
+                                                    onClick={() => onSelect(user)} /></Button>
                                             </ButtonGroup>
 
                                         </TableCell>

@@ -1,11 +1,11 @@
 import { React, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/user';
-import { Box, Container, Paper, withStyles, Typography } from "@material-ui/core";
+import { Grid, Box, Container, Paper, withStyles, Typography } from "@material-ui/core";
 
 import { useParams } from 'react-router-dom';
 import ProjectDataListUser from '../Project/ProjectDataListUser';
-
+import UserChart from './UserChart';
 
 import colors from "../../Constants/colors";
 
@@ -42,6 +42,8 @@ const styles = theme => ({
 const User = ({ classes, ...props }) => {
     const params = useParams();
     const currentUsername = useState(params.username);
+    const [scoreData, setScoreData] = useState([]);
+    const [identityData, setIdentityData] = useState([]);
     //const [currentUsername, setCurrentUsername] = useState(params.username)
 
 
@@ -53,40 +55,49 @@ const User = ({ classes, ...props }) => {
 
     return (
         <Container>
-            USER PAGE
             {props.user.isLoggedIn &&
                 <Box p={5}>
                     <Paper>
-                        <Container>
-                            <Typography variant="caption">
-                                User  Name
+                        <Grid container>
+                            <Grid item className="grid-el" xs={12} md={5}>
+                                <Container>
+                                    <Typography variant="caption">
+                                        User  Name
                         </Typography>
-                            <Typography variant="h6">
-                                {props.user.userSelected.username}
-                            </Typography>
-                            <Typography variant="caption">
-                                Email
+                                    <Typography variant="h6">
+                                        {props.user.userSelected.username}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        Email
                         </Typography>
-                            <Typography variant="h6">
-                                {props.user.userSelected.email}
-                            </Typography>
-                            <Typography variant="caption">
-                                Firstname
+                                    <Typography variant="h6">
+                                        {props.user.userSelected.email}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        Firstname
                         </Typography>
-                            <Typography variant="h6">
-                                {props.user.userSelected.firstname}
-                            </Typography>
-                            <Typography variant="caption">
-                                Lastname
+                                    <Typography variant="h6">
+                                        {props.user.userSelected.firstName}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                        Lastname
                         </Typography>
-                            <Typography variant="h6">
-                                {props.user.userSelected.lastname}
-                            </Typography>
-                        </Container>
+                                    <Typography variant="h6">
+                                        {props.user.userSelected.lastName}
+                                    </Typography>
+                                </Container>
+                            </Grid>
+                            <Grid item className="grid-el" xs={12} md={5}>
+                                <Typography variant="h6">
+                                    User statistics
+                                    </Typography>
+                                {scoreData.length > 0 && identityData.length > 0 && <UserChart {...props} scoreData={scoreData} identityData={identityData} />}
+                            </Grid>
+                        </Grid>
                     </Paper>
                 </Box>
             }
-            <ProjectDataListUser currentUsername={currentUsername}{...props} />
+            <ProjectDataListUser currentUsername={currentUsername}{...props} setScoreData={setScoreData} setIdentityData={setIdentityData} />
         </Container>
     );
 

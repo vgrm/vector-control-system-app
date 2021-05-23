@@ -133,11 +133,17 @@ const Signin = ({ ...props }) => {
         if (validate()) {
             const onSuccess = () => {
 
-                addToast("Submitted successfully", { appearance: 'success', placement: 'bottom-left' })
-            }
+                addToast("Signed in successfully", { appearance: 'success', placement: 'bottom-left' })
 
-            props.signinUser(values, onSuccess);
-            nextPath('/');
+                nextPath('/');
+            }
+            const onError = () => {
+
+                addToast("Incorrect username or password", { appearance: 'warning', placement: 'bottom-left' })
+            }
+            props.signinUser(values, onSuccess, onError);
+            //props.signinUser(values, onSuccess);
+            //nextPath('/');
         }
     }
 

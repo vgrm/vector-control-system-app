@@ -31,10 +31,16 @@ const ProjectDataList = ({ classes, ...props }) => {
     const params = useParams();
 
     useEffect(() => {
-        console.log(props)
+        //console.log(props)
         props.fetchProjectsUser(props.currentUsername[0])
-        correctScoreData()
+        //correctScoreData()
     }, [])//componentDidMount
+
+    useEffect(() => {
+        //console.log(props)
+        //props.fetchProjectsUser(props.currentUsername[0])
+        correctScoreData()
+    }, [props.projectDataListUser])//componentDidMount
 
     useEffect(() => {
         if (props.currentProjectId != 0) {
@@ -47,6 +53,10 @@ const ProjectDataList = ({ classes, ...props }) => {
     const onSelect = (project) => {
         if (project.id !== 0)
             nextPath('/projectdata/' + project.id);
+    }
+
+    const onSelectSet = (setId) => {
+        nextPath('/projectset/' + setId);
     }
 
     const history = useHistory();
@@ -72,7 +82,7 @@ const ProjectDataList = ({ classes, ...props }) => {
             identities.push([index, x.scoreIdentity])
         });
         props.setIdentityData(identities);
-
+        //console.log('arr', arr);
     }
 
     return (
@@ -97,7 +107,7 @@ const ProjectDataList = ({ classes, ...props }) => {
                         {
                             props.projectDataListUser.map((project, index) => {
                                 return (<TableRow key={index} hover>
-                                    <TableCell>{project.projectSet.name}</TableCell>
+                                    <TableCell><Button onClick={() => onSelectSet(project.projectSetId)}>{project.projectSet.name}</Button></TableCell>
                                     <TableCell>{project.name}</TableCell>
                                     <TableCell>{project.status}</TableCell>
                                     <TableCell>{project.scoreIdentity}</TableCell>

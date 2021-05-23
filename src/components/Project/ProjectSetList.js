@@ -1,8 +1,8 @@
-import { React, useEffect } from 'react';
+import { React, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/projectSet';
-import { Typography, Container, Box, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
-
+import { Input, Toolbar, Typography, Container, Box, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, withStyles, ButtonGroup, Button } from "@material-ui/core";
+import TextField from '@material-ui/core/TextField';
 import NavigateNextIcon from "@material-ui/icons/NavigateNext"
 
 import { useHistory } from 'react-router-dom';
@@ -17,6 +17,28 @@ const ColorButton = withStyles(theme => ({
         },
     },
 }))(Button);
+
+const CssTextField = withStyles({
+    root: {
+        '& label.Mui-focused': {
+            color: colors.secondaryColorLight,
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: colors.primaryColorLight,
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: colors.secondaryColorLight,
+            },
+            '&:hover fieldset': {
+                borderColor: colors.primaryColorDark,
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: colors.primaryColorLight,
+            },
+        },
+    },
+})(TextField);
 
 const styles = theme => ({
     root: {
@@ -46,10 +68,50 @@ const styles = theme => ({
 
 const ProjectSetList = ({ classes, ...props }) => {
 
+    const [searchValueOther, setSearchValueOther] = useState('');
+    const [filteredValuesOther, setFilteredValuesOther] = useState([]);
+    const [searchValueOwned, setSearchValueOwned] = useState('');
+    const [filteredValuesOwned, setFilteredValuesOwned] = useState([]);
+
     useEffect(() => {
         props.fetchAllOtherProjectSet()
         props.fetchAllOwnedProjectSet()
     }, [])//componentDidMount
+
+    useEffect(() => {
+        var items = props.projectSetOwnedList.filter(function (item) {
+
+            return item.name.toLowerCase().includes(searchValueOwned) ||
+                item.state.name.toLowerCase().includes(searchValueOwned) ||
+                item.owner.username.toLowerCase().includes(searchValueOwned)
+
+        });
+        setFilteredValuesOwned(items)
+    }, [props.projectSetOwnedList, searchValueOwned])//componentDidMount
+
+    useEffect(() => {
+        var items = props.projectSetOtherList.filter(function (item) {
+
+            return item.name.toLowerCase().includes(searchValueOther) ||
+                item.state.name.toLowerCase().includes(searchValueOther) ||
+                item.owner.username.toLowerCase().includes(searchValueOther)
+
+        });
+        setFilteredValuesOther(items)
+    }, [props.projectSetOtherList, searchValueOther])//componentDidMount
+
+    const handleInputChangeOwned = e => {
+        const { name, value } = e.target
+        const fieldValue = value
+        setSearchValueOwned(fieldValue)
+    }
+
+    const handleInputChangeOther = e => {
+        const { name, value } = e.target
+        const fieldValue = value
+        setSearchValueOther(fieldValue)
+    }
+
 
     const onCreate = () => {
         nextPath('/projectsetform/' + 0);
@@ -88,6 +150,15 @@ const ProjectSetList = ({ classes, ...props }) => {
                         My sets
                 </Typography>
                 </Box>
+                <Toolbar>
+                    <CssTextField
+                        variant="outlined"
+                        fullWidth
+                        name="search"
+                        label="search"
+                        onChange={handleInputChangeOwned}
+                    />
+                </Toolbar>
                 <TableContainer>
                     <Table>
                         <TableHead>
@@ -99,7 +170,7 @@ const ProjectSetList = ({ classes, ...props }) => {
                         </TableHead>
                         <TableBody>
                             {
-                                props.projectSetOwnedList.map((set, index) => {
+                                filteredValuesOwned.map((set, index) => {
                                     return (<TableRow key={index} hover >
                                         <TableCell>{set.name}</TableCell>
                                         <TableCell >{set.owner.username}</TableCell>
@@ -125,6 +196,16 @@ const ProjectSetList = ({ classes, ...props }) => {
                         Other sets
                 </Typography>
                 </Box>
+                <Toolbar>
+                    <CssTextField
+                        variant="outlined"
+                        fullWidth
+                        name="search"
+                        label="search"
+                        onChange={handleInputChangeOther}
+                    />
+                </Toolbar>
+
                 <TableContainer>
                     <Table>
                         <TableHead>
@@ -136,7 +217,7 @@ const ProjectSetList = ({ classes, ...props }) => {
                         </TableHead>
                         <TableBody>
                             {
-                                props.projectSetOtherList.map((set, index) => {
+                                filteredValuesOther.map((set, index) => {
                                     return (<TableRow key={index} hover >
                                         <TableCell>{set.name}</TableCell>
                                         <TableCell>{set.owner.username}</TableCell>

@@ -1,7 +1,10 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const BASE_URL = "https://localhost:5001/api/"
+//const BASE_URL = "https://localhost:5001/api/"
+//const BASE_URL = "https://localhost:44333/api/"
+//const BASE_URL = "http://localhost/vector_control_system_api/api/"
+const BASE_URL = "http://192.168.0.104:880/vector_control_system_api/api/"
 
 export const ENDPIONTS = {
     ARC: 'Arc',

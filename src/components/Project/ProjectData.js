@@ -26,6 +26,9 @@ import RestorePageOutlinedIcon from '@material-ui/icons/RestorePageOutlined';
 
 import colors from '../../Constants/colors';
 
+import * as THREE from 'three'
+import { DXFLoader } from 'three-dxf-loader'
+
 const styles = theme => ({
     root: {
         "& .MuiTableCell-head": {
@@ -92,6 +95,23 @@ const ProjectData = ({ classes, ...props }) => {
         props.setCurrentProjectId(record.id);
     }
 
+
+    const loader = new DXFLoader();
+    // loader.setFont(font); // set fonts
+    const scene = new THREE.Scene();
+    const onLoad = (data) => {
+        if (data && data.entities) {
+            data.entities.forEach(ent => scene.add(ent))
+        }
+    }
+
+    const onError = (error) => {
+        console.log(error);
+    }
+    const onProgress = (xhr) => {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    }
+    //loader.load(url, onLoad, onProgress, onError);
 
     if (props.projectData.owner) {
         return (
@@ -177,9 +197,13 @@ const ProjectData = ({ classes, ...props }) => {
                 </Box>
 
                 <Box>
-                    Analysis
+                    <Box p={5}>
+                        <Typography variant="h5">
+                            Analysis
+                    </Typography>
+                    </Box>
 
-                <LineMatchList />
+                    <LineMatchList />
                     <LineIncorrectList />
                     <LineMissingList />
 
@@ -187,8 +211,12 @@ const ProjectData = ({ classes, ...props }) => {
                     <ArcIncorrectList />
                     <ArcMissingList />
 
-                IDENTITY
-                <LineHandleList />
+                    <Box p={5}>
+                        <Typography variant="h5">
+                            Identity
+                    </Typography>
+                    </Box>
+                    <LineHandleList />
                     <ArcHandleList />
                 </Box>
             </Container>

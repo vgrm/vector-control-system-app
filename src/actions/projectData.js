@@ -67,7 +67,7 @@ export const create = (data, onSuccess) => dispatch => {
         .catch(err => console.log(err))
 }
 
-export const update = (id, data, onSuccess) => dispatch => {
+export const update = (id, data, onSuccess, onError) => dispatch => {
     createAPIEndpoint(ENDPIONTS.PROJECTDATA).update(id, data)
         .then(res => {
             dispatch({
@@ -76,7 +76,8 @@ export const update = (id, data, onSuccess) => dispatch => {
             })
             onSuccess()
         })
-        .catch(err => console.log(err))
+        .catch(err => onError())
+    //.catch(err => console.log(err))
 }
 
 export const patch = (id, data, onSuccess) => dispatch => {

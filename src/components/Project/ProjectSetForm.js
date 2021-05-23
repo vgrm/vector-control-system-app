@@ -193,7 +193,7 @@ const ProjectSetForm = ({ ...props }) => {
         if (validate()) {
             const onSuccess = () => {
 
-                addToast("Set created successfully", { appearance: 'success', PlacementType: 'bottom-left' })
+                addToast("Set information saved successfully", { appearance: 'success', PlacementType: 'bottom-left' })
                 onSubmited()
             }
             //props.createProjectSet(values, onSuccess)

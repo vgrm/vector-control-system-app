@@ -70,16 +70,22 @@ const ProjectDataUpload = ({ classes, ...props }) => {
     }
 
     const handleUpload = () => {
-        let formData = new FormData();
-        formData.append('name', file[0].name);
-        formData.append('file', file[0]);
-        formData.append('projectsetId', props.projectSet.id);
 
-        if (window.confirm('Are you sure you want to upload this project?')) {
-
-            props.createProjectData(formData, () => addToast("Submitted successfully", { appearance: 'success', placement: 'bottom-right' }))
+        console.log(file)
+        if (file === 'undefined') {
+            addToast("File not selected", { appearance: 'warning', placement: 'bottom-right' });
         }
+        else {
+            let formData = new FormData();
+            formData.append('name', file[0].name);
+            formData.append('file', file[0]);
+            formData.append('projectsetId', props.projectSet.id);
 
+            if (window.confirm('Are you sure you want to upload this project?')) {
+
+                props.createProjectData(formData, () => addToast("Submitted successfully", { appearance: 'success', placement: 'bottom-right' }))
+            }
+        }
 
     }
 
